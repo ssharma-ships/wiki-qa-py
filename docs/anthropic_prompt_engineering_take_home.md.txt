@@ -1,0 +1,160 @@
+# Anthropic Prompt Engineering Take-Home Assignment
+
+---
+
+## Context
+
+As AI capabilities advance rapidly, engineers at Anthropic face a unique challenge:
+building tools and experiences that are genuinely useful, trustworthy, and delightful.
+
+The best products:
+- Demonstrate taste
+- Handle complexity gracefully
+- Solve real problems in non-obvious ways
+
+This assignment evaluates your prompt engineering and evaluation skills through a focused, practical task.
+
+---
+
+## Time Expectation
+
+- **Target:** 1–2 hours  
+- **Hard limit:** 8 hours  
+
+Guidelines:
+- Insight and depth > breadth  
+- Many strong submissions are completed in under 2 hours  
+- If you exceed 8 hours, stop and submit  
+
+**Requirement:**  
+Include time spent in your written rationale.
+
+---
+
+## The Task
+
+Build a system that uses **Claude + Wikipedia** to answer questions and evaluate its performance.
+
+### Requirements
+
+1. **System Prompt + Tool Design**
+   - Design a system prompt for an LLM with access to:
+     ```
+     search_wikipedia(query: str)
+     ```
+   - The prompt should guide effective use of Wikipedia for high-quality answers
+
+2. **Wikipedia Retrieval Integration**
+   - Implement a working end-to-end system
+   - Allowed approaches:
+     - MediaWiki API
+     - Wikipedia dump
+     - Local search index
+     - Any custom method
+
+3. **Evaluation Suite**
+   - Build a system to evaluate performance across test cases
+
+---
+
+## Deliverables
+
+### 1. Runnable Prototype
+- Must be executable by reviewers
+- Accepts a question → returns an answer
+- Should indicate whether search was used
+
+**Acceptable formats:**
+- CLI
+- Script
+- Notebook
+
+**Must include:**
+- Setup instructions (dependencies, API keys)
+- Sample queries or demo mode
+
+---
+
+### 2. Code
+- Submit via GitHub repository
+- Code quality matters, but is **not the primary evaluation criteria**
+- Use any language/stack
+
+---
+
+### 3. Design Rationale
+
+Provide both:
+
+#### Video (~5 minutes)
+#### Written Document
+
+### Must cover:
+
+- Prompt engineering approach and rationale
+- Evaluation design:
+  - What dimensions you measure
+  - Why those dimensions
+- System performance:
+  - Where it works
+  - Where it fails
+- Iterations:
+  - Changes based on evaluation results
+- Extensions:
+  - What you would do with more time
+- Time spent
+
+---
+
+## Constraints
+
+- Must use **Anthropic API**
+  - Specify model used (e.g., Claude Sonnet, Haiku)
+
+- Must NOT use:
+  - Hosted search tools
+  - Built-in RAG systems
+  - Web browsing APIs
+
+- Wikipedia source is flexible:
+  - API
+  - Dump
+  - Local index
+
+**Important:**
+Focus on:
+- Prompt quality
+- Evaluation design
+
+Not on:
+- Production-grade retrieval
+
+---
+
+## Use of AI During Development
+
+You are expected to use AI tools (Claude, ChatGPT, etc.)
+
+### Requirement:
+Submit transcripts of your interactions.
+
+### Evaluation focus:
+- How you guide the AI
+- How you evaluate outputs
+- Your judgment and tradeoffs
+
+**Warning:**
+Purely AI-generated work without human judgment will not pass.
+
+---
+
+## Submission Requirements
+
+Submit via Greenhouse:
+
+- GitHub repository link
+- Instructions to run the system
+- AI transcripts (Claude / ChatGPT / etc.)
+- Design rationale:
+  - Video
+  - Written document
