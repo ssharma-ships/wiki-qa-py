@@ -7,6 +7,7 @@ Usage:
 
 Matches each eval case to a trace by question string (exact match).
 Writes: observations/{log_stem}_judge.md
+        observations/{log_stem}_judge.jsonl
 """
 import argparse
 import json
@@ -54,6 +55,12 @@ def load_traces(log_path: Path) -> dict[str, dict]:
     return {t["question"]: t for t in traces}
 
 
+def get_prompt_version(traces_by_question: dict[str, dict]) -> str:
+    for trace in traces_by_question.values():
+        return trace.get("prompt_version", "unknown")
+    return "unknown"
+
+
 # ---------------------------------------------------------------------------
 # Judge call
 # ---------------------------------------------------------------------------
@@ -85,17 +92,64 @@ def compose_user_message(scoring_guide: str, case: dict, trace: dict) -> str:
     )
 
 
-def call_judge(judge_prompt: str, user_message: str, model: str) -> dict:
-    resp = _client.messages.create(
-        model=model,
-        max_tokens=JUDGE_MAX_TOKENS,
-        system=judge_prompt,
-        messages=[{"role": "user", "content": user_message}],
-    )
-    raw = resp.content[0].text.strip()
-    raw = re.sub(r"^```(?:json)?\s*", "", raw)
-    raw = re.sub(r"\s*```$", "", raw)
-    return json.loads(raw)
+def validate_verdict(verdict: dict) -> list[str]:
+    """Return a list of structural error strings. Empty list means valid."""
+    errors = []
+    for key in ("case_id", "scores", "abstention_appropriate", "failure_tags", "rationales"):
+        if key not in verdict:
+            errors.append(f"missing key: {key!r}")
+    if "scores" in verdict:
+        if not isinstance(verdict["scores"], dict):
+            errors.append("'scores' is not a dict")
+        else:
+            for k in DIM_KEYS:
+                if k not in verdict["scores"]:
+                    errors.append(f"scores missing key: {k!r}")
+                elif verdict["scores"][k] not in (1, 2, 3):
+                    errors.append(f"scores[{k!r}]={verdict['scores'][k]!r} not in {{1,2,3}}")
+    if "abstention_appropriate" in verdict and not isinstance(verdict["abstention_appropriate"], bool):
+        errors.append("'abstention_appropriate' is not a bool")
+    if "failure_tags" in verdict and not isinstance(verdict["failure_tags"], list):
+        errors.append("'failure_tags' is not a list")
+    if "rationales" in verdict:
+        if not isinstance(verdict["rationales"], dict):
+            errors.append("'rationales' is not a dict")
+        else:
+            for k in DIM_KEYS:
+                if k not in verdict["rationales"]:
+                    errors.append(f"rationales missing key: {k!r}")
+    return errors
+
+
+def fetch_raw_judge_response(judge_prompt: str, user_message: str, model: str) -> str:
+    """
+    Call the judge model and return the raw text response.
+    Retries once on APIError (transient failures only).
+    Does not retry on JSON parse or validation errors — at temperature=0 the
+    output is deterministic, so a retry would return the same bad response.
+    """
+    def _call() -> str:
+        resp = _client.messages.create(
+            model=model,
+            max_tokens=JUDGE_MAX_TOKENS,
+            temperature=0,
+            system=judge_prompt,
+            messages=[{"role": "user", "content": user_message}],
+        )
+        raw = resp.content[0].text.strip()
+        # Strip code fences if present
+        raw = re.sub(r"^```(?:json)?\s*", "", raw)
+        raw = re.sub(r"\s*```$", "", raw)
+        # If the model added prose before/after the JSON, extract the object
+        match = re.search(r"\{[\s\S]*\}", raw)
+        if match:
+            raw = match.group(0)
+        return raw
+
+    try:
+        return _call()
+    except anthropic.APIError:
+        return _call()  # one retry for transient API errors; if this also fails, propagate
 
 
 # ---------------------------------------------------------------------------
@@ -103,12 +157,16 @@ def call_judge(judge_prompt: str, user_message: str, model: str) -> dict:
 # ---------------------------------------------------------------------------
 
 def build_judge_md(log_path: Path, results: list[dict], model: str) -> str:
+    n_scored = sum(1 for r in results if "verdict" in r)
+    n_failed = sum(1 for r in results if "error" in r)
+
     lines = [
         f"# Judge Results — {log_path.stem}",
         "",
         f"**Log:** `{log_path}`  ",
         f"**Judge model:** {model}  ",
-        f"**Cases scored:** {len(results)}",
+        f"**Cases scored:** {n_scored}  ",
+        f"**Cases failed:** {n_failed}",
         "",
         "---",
         "",
@@ -119,19 +177,38 @@ def build_judge_md(log_path: Path, results: list[dict], model: str) -> str:
     ]
 
     for r in results:
-        v = r["verdict"]
-        s = v["scores"]
-        scores_cols = " | ".join(str(s[k]) for k in DIM_KEYS)
-        abst = "true" if v["abstention_appropriate"] else "false"
-        tags = ", ".join(v["failure_tags"]) if v["failure_tags"] else "—"
-        lines.append(f"| {v['case_id']} | {scores_cols} | {abst} | {tags} |")
+        if "error" in r:
+            case_id = r["case"]["case_id"]
+            lines.append(f"| {case_id} | — | — | — | — | — | — | FAILED |")
+        else:
+            v = r["verdict"]
+            s = v["scores"]
+            scores_cols = " | ".join(str(s[k]) for k in DIM_KEYS)
+            abst = "true" if v["abstention_appropriate"] else "false"
+            tags = ", ".join(v["failure_tags"]) if v["failure_tags"] else "—"
+            lines.append(f"| {v['case_id']} | {scores_cols} | {abst} | {tags} |")
 
     lines += ["", "---", ""]
 
     for r in results:
         case = r["case"]
-        v = r["verdict"]
 
+        if "error" in r:
+            lines += [
+                f"## {case['case_id']} — FAILED",
+                "",
+                f"**Question:** {case['question']}  ",
+                f"**Error:** `{r['error']}`",
+                "",
+            ]
+            raw = r.get("raw_response")
+            if raw:
+                preview = raw[:500] + ("..." if len(raw) > 500 else "")
+                lines += ["**Raw response (truncated):**", "```", preview, "```", ""]
+            lines += ["---", ""]
+            continue
+
+        v = r["verdict"]
         lines += [
             f"## {v['case_id']}",
             "",
@@ -169,6 +246,37 @@ def build_judge_md(log_path: Path, results: list[dict], model: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# JSONL output
+# ---------------------------------------------------------------------------
+
+def build_jsonl(log_stem: str, prompt_version: str, results: list[dict]) -> str:
+    lines = []
+    for r in results:
+        case_id = r["case"]["case_id"]
+        if "error" in r:
+            entry = {
+                "log_stem": log_stem,
+                "prompt_version": prompt_version,
+                "case_id": case_id,
+                "error": r["error"],
+                "raw_response": r.get("raw_response"),
+            }
+        else:
+            v = r["verdict"]
+            entry = {
+                "log_stem": log_stem,
+                "prompt_version": prompt_version,
+                "case_id": case_id,
+                "scores": v["scores"],
+                "abstention_appropriate": v["abstention_appropriate"],
+                "failure_tags": v["failure_tags"],
+                "rationales": v["rationales"],
+            }
+        lines.append(json.dumps(entry, ensure_ascii=False))
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -186,6 +294,7 @@ def main():
     scoring_guide = SCORING_GUIDE_PATH.read_text(encoding="utf-8")
     eval_cases = load_eval_cases()
     traces_by_question = load_traces(log_path)
+    prompt_version = get_prompt_version(traces_by_question)
 
     matched, skipped = [], []
     for case_id, case in eval_cases.items():
@@ -205,21 +314,41 @@ def main():
         case_id = case["case_id"]
         print(f"Judging {case_id}...", end=" ", flush=True)
         user_message = compose_user_message(scoring_guide, case, trace)
+        raw_response = None
         try:
-            verdict = call_judge(judge_prompt, user_message, args.model)
-        except (json.JSONDecodeError, KeyError) as e:
-            print(f"FAILED ({e})")
+            raw_response = fetch_raw_judge_response(judge_prompt, user_message, args.model)
+            verdict = json.loads(raw_response)
+            errors = validate_verdict(verdict)
+            if errors:
+                raise ValueError("; ".join(errors))
+        except json.JSONDecodeError as e:
+            print(f"PARSE_ERROR ({e})")
+            print(f"  raw: {raw_response[:200]!r}")
+            results.append({"case": case, "error": f"JSONDecodeError: {e}", "raw_response": raw_response})
             continue
+        except ValueError as e:
+            print(f"VALIDATION_ERROR ({e})")
+            print(f"  raw: {raw_response[:200]!r}")
+            results.append({"case": case, "error": f"ValidationError: {e}", "raw_response": raw_response})
+            continue
+        except anthropic.APIError as e:
+            print(f"API_ERROR ({e})")
+            results.append({"case": case, "error": f"APIError: {e}", "raw_response": None})
+            continue
+
         results.append({"case": case, "verdict": verdict})
         scores = verdict["scores"]
         score_str = "/".join(str(scores[k]) for k in DIM_KEYS)
-        tags = verdict["failure_tags"]
-        print(f"[{score_str}] tags={tags}")
+        print(f"[{score_str}] tags={verdict['failure_tags']}")
 
     OBS_DIR.mkdir(exist_ok=True)
-    out_path = OBS_DIR / f"{log_path.stem}_judge.md"
-    out_path.write_text(build_judge_md(log_path, results, args.model), encoding="utf-8")
-    print(f"\nJudge report written to: {out_path}")
+    md_path = OBS_DIR / f"{log_path.stem}_judge.md"
+    md_path.write_text(build_judge_md(log_path, results, args.model), encoding="utf-8")
+    print(f"\nJudge report written to: {md_path}")
+
+    jsonl_path = OBS_DIR / f"{log_path.stem}_judge.jsonl"
+    jsonl_path.write_text(build_jsonl(log_path.stem, prompt_version, results), encoding="utf-8")
+    print(f"JSONL written to:         {jsonl_path}")
 
 
 if __name__ == "__main__":

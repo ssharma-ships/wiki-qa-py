@@ -59,7 +59,6 @@ cases:
   - case_id: ambig-2
     question: "When was Mercury discovered?"
     case_requirements:
-          case_requirements:
       - "Either asks for clarification OR answers for a clearly identified referent"
     evidence_condition: ambiguous
     gold_facts:
