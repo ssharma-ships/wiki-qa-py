@@ -189,10 +189,11 @@ Actively flag when I:
 | Version | Target behavior |
 |---------|----------------|
 | V0 | Baseline — intentionally minimal, exposes H1/H2/H3 failures |
-| V1 | Force evidence-backed answering (address H1) |
-| V2 | Explicit uncertainty + abstention (address H3) |
-| V3 | Ambiguity decomposition and multi-hop (address H2) |
-| V4 | Answer quality / clarity (optional) |
+| V1 | Answer focus — direct and concise, no unrequested context (observed verbosity failure across all v0 cases) |
+| V2 | Force evidence-backed answering (address H1) |
+| V3 | Explicit uncertainty + abstention (address H3) |
+| V4 | Ambiguity decomposition and multi-hop (address H2) |
+| V5 | Answer quality / further clarity (optional) |
 
 ## Eval Dimensions
 Evidence Support · Honesty · Task Effectiveness · Correctness · Answer Quality

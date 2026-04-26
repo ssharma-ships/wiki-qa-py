@@ -70,6 +70,18 @@ def main():
 
     log_path.write_text(json.dumps(traces, indent=2, default=str), encoding="utf-8")
     print(f"\nLog written to: {log_path}")
+
+    human_path = LOG_DIR / f"{prompt_version}_eval_run{run_num}_forhuman.json"
+    human_records = [
+        {
+            "prompt_version": t.get("prompt_version", prompt_version),
+            "question": t["question"],
+            "answer": t.get("final_answer"),
+        }
+        for t in traces
+    ]
+    human_path.write_text(json.dumps(human_records, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"Human review file: {human_path}")
     print(f"Run judge with: python judge.py --log {log_path}")
 
 

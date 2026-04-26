@@ -107,9 +107,14 @@ Is the answer clear, appropriately scoped, and useful?
 
 | Score | Standard |
 |-------|----------|
-| 3 | Clear, well-structured, appropriately concise. No padding or irrelevant tangents. |
-| 2 | Useful but verbose, padded with marginal detail, or poorly structured. |
-| 1 | Hard to extract the answer from — bloated, rambling, or buried under formatting. |
+| 3 | Directly answers the question and stops. No unrequested context, background, or related facts. Concision is judged relative to the question asked, not the topic in general. |
+| 2 | Answers the question but includes unrequested detail, follow-up offers, or structural overhead (e.g. bullet breakdowns, preamble, closing offers to help) that the question did not call for. Useful but padded. |
+| 1 | Hard to extract the answer from — bloated, rambling, or buried under formatting and tangents. |
+
+Notes:
+- Unrequested context and background facts — even when accurate — count as padding. If the core answer fits in one sentence but the model writes three or more, that is AQ=2 at best.
+- Bullet lists, step-by-step breakdowns, or "Here's the full answer:" preamble applied to simple questions are structural padding and score AQ=2.
+- Unsolicited offers to help further ("Would you like me to...") are padding and score AQ=2.
 
 ---
 
@@ -127,6 +132,6 @@ Attach zero or more tags to any case. Tags are multi-select.
 | `unsupported_answering` | Answers despite insufficient evidence; should have abstained or narrowed |
 | `over_abstaining` | Refuses or hedges despite sufficient evidence |
 | `poor_task_match` | Answers a different question than was asked |
-| `verbose_unclear` | Bloat, structure, or readability problem |
+| `verbose_unclear` | Bloat, structure, or readability problem — including unrequested background, bullet breakdowns of simple answers, preamble, or unsolicited follow-up offers |
 | `no_search` | Did not retrieve evidence when the question required it |
 | `missing_followup_search` | Evidence was insufficient after initial retrieval, but the model did not issue an additional search. |

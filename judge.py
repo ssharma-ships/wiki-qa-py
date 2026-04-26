@@ -26,7 +26,7 @@ JUDGE_PROMPT_PATH = Path("eval/judge_prompt.txt")
 SCORING_GUIDE_PATH = Path("eval/eval_and_scoring.md")
 OBS_DIR = Path("observations")
 
-DEFAULT_MODEL = "claude-sonnet-4-6"
+DEFAULT_MODEL = "claude-opus-4-7"
 JUDGE_MAX_TOKENS = 1500
 
 DIM_KEYS = [
@@ -132,7 +132,6 @@ def fetch_raw_judge_response(judge_prompt: str, user_message: str, model: str) -
         resp = _client.messages.create(
             model=model,
             max_tokens=JUDGE_MAX_TOKENS,
-            temperature=0,
             system=judge_prompt,
             messages=[{"role": "user", "content": user_message}],
         )
@@ -284,6 +283,7 @@ def main():
     parser = argparse.ArgumentParser(description="Judge a saved QA log.")
     parser.add_argument("--log", required=True, type=Path, help="Path to log JSON file")
     parser.add_argument("--model", default=DEFAULT_MODEL, help="Judge model")
+    parser.add_argument("--out-suffix", default="", help="Suffix appended to output stem (e.g. '.1' → run2.1_judge.md)")
     args = parser.parse_args()
 
     log_path: Path = args.log
@@ -342,12 +342,13 @@ def main():
         print(f"[{score_str}] tags={verdict['failure_tags']}")
 
     OBS_DIR.mkdir(exist_ok=True)
-    md_path = OBS_DIR / f"{log_path.stem}_judge.md"
+    out_stem = log_path.stem + args.out_suffix
+    md_path = OBS_DIR / f"{out_stem}_judge.md"
     md_path.write_text(build_judge_md(log_path, results, args.model), encoding="utf-8")
     print(f"\nJudge report written to: {md_path}")
 
-    jsonl_path = OBS_DIR / f"{log_path.stem}_judge.jsonl"
-    jsonl_path.write_text(build_jsonl(log_path.stem, prompt_version, results), encoding="utf-8")
+    jsonl_path = OBS_DIR / f"{out_stem}_judge.jsonl"
+    jsonl_path.write_text(build_jsonl(out_stem, prompt_version, results), encoding="utf-8")
     print(f"JSONL written to:         {jsonl_path}")
 
 
