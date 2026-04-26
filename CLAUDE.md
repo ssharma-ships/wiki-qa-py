@@ -178,6 +178,36 @@ Actively flag when I:
 
 ---
 
+# PROJECT STATE
+
+## Hypotheses
+- **H1 — Evidence grounding:** Baseline will either (H1a) bypass search entirely for familiar questions, or (H1b) search but fail to ground the final answer in retrieved evidence — synthesizing from latent knowledge instead.
+- **H2 — Complex questions:** Ambiguous and multi-hop questions will fail more than simple factual ones.
+- **H3 — Honesty under thin evidence:** Baseline will answer rather than abstain when evidence is insufficient.
+
+## Prompt Iteration Plan
+| Version | Target behavior |
+|---------|----------------|
+| V0 | Baseline — intentionally minimal, exposes H1/H2/H3 failures |
+| V1 | Force evidence-backed answering (address H1) |
+| V2 | Explicit uncertainty + abstention (address H3) |
+| V3 | Ambiguity decomposition and multi-hop (address H2) |
+| V4 | Answer quality / clarity (optional) |
+
+## Eval Dimensions
+Evidence Support · Honesty · Task Effectiveness · Correctness · Answer Quality
+
+## Eval Set Target
+~25 cases across: simple factual, ambiguous, multi-hop, insufficient evidence, noisy retrieval, instruction-pressure.
+
+## Files (frozen contracts — do not change across prompt versions)
+- `tools.py` — SEARCH_WIKIPEDIA_TOOL schema
+- `wikipedia_client.py` — search_wikipedia() implementation
+- `agent.py` — run_agent() orchestrator
+- `prompts.py` — PROMPTS dict (versioned system prompts)
+
+---
+
 # DEFAULT BEHAVIOR
 
 If my request is underspecified:
