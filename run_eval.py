@@ -21,7 +21,7 @@ from prompts import PROMPTS
 load_dotenv()
 
 EVAL_CASES_PATH = Path("eval_cases.yaml")
-LOG_DIR = Path("logs")
+LOG_BASE = Path("logs")
 
 
 def load_questions() -> list[tuple[str, str]]:
@@ -31,7 +31,11 @@ def load_questions() -> list[tuple[str, str]]:
 
 
 def detect_run_number(prompt_version: str) -> int:
-    existing = list(LOG_DIR.glob(f"{prompt_version}_eval_run*.json"))
+    version_dir = LOG_BASE / prompt_version
+    if not version_dir.exists():
+        return 1
+    existing = [f for f in version_dir.glob(f"{prompt_version}_eval_run*.json")
+                if "_forhuman" not in f.name]
     return len(existing) + 1
 
 
@@ -49,8 +53,9 @@ def main():
     questions = load_questions()
     run_num = detect_run_number(prompt_version)
 
-    LOG_DIR.mkdir(exist_ok=True)
-    log_path = LOG_DIR / f"{prompt_version}_eval_run{run_num}.json"
+    log_dir = LOG_BASE / prompt_version
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_path = log_dir / f"{prompt_version}_eval_run{run_num}.json"
 
     print(f"Prompt: {prompt_version} | Model: {args.model} | Run: {run_num}")
     print(f"Cases: {len(questions)}")
@@ -71,7 +76,7 @@ def main():
     log_path.write_text(json.dumps(traces, indent=2, default=str), encoding="utf-8")
     print(f"\nLog written to: {log_path}")
 
-    human_path = LOG_DIR / f"{prompt_version}_eval_run{run_num}_forhuman.json"
+    human_path = log_dir / f"{prompt_version}_eval_run{run_num}_forhuman.json"
     human_records = [
         {
             "prompt_version": t.get("prompt_version", prompt_version),

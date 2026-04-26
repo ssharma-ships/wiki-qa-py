@@ -160,6 +160,7 @@ Attach zero or more tags to any case. Tags are multi-select.
 | `wrong_entity` | The answer is about the wrong subject |
 | `incomplete` | A required part of the question is missing from the answer |
 | `unsupported_answering` | Answers despite insufficient evidence; should have abstained or narrowed |
+| `silent_disambiguation` | Picked one interpretation of an ambiguous question without acknowledging the ambiguity or asking for clarification |
 | `over_abstaining` | Refuses or hedges despite sufficient evidence |
 | `poor_task_match` | Answers a different question than was asked |
 | `verbose_unclear` | Bloat, structure, or readability problem — including unrequested background, bullet breakdowns of simple answers, preamble, or unsolicited follow-up offers |

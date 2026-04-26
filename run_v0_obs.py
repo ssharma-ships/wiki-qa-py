@@ -17,12 +17,12 @@ QUESTIONS = [
 ]
 
 PROMPT_VERSION = "v0"
-LOG_DIR = Path("logs")
-OBS_DIR = Path("observations")
+LOG_DIR = Path("logs") / PROMPT_VERSION
+OBS_DIR = Path("observations") / PROMPT_VERSION
 
 
 def detect_run_number() -> int:
-    existing = list(OBS_DIR.glob(f"{PROMPT_VERSION}_run*.md"))
+    existing = list(OBS_DIR.glob(f"{PROMPT_VERSION}_run*.md")) if OBS_DIR.exists() else []
     return len(existing) + 1
 
 

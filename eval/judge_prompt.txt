@@ -15,7 +15,7 @@ re-query the system. You score one trace and return one JSON object.
 You will be given three sections, each delimited by XML-style tags:
 
 - `<scoring_guide>` — the rubric. Five dimensions, each scored 1–3, plus a
-  defined set of failure tags and an `abstention_appropriate` flag.
+  defined set of failure tags and `abstention_expected` / `epistemic_behavior_correct` flags.
 - `<eval_case>` — one eval case with fields: `case_id`, `question`,
   `case_requirements`, `evidence_condition`
   (`sufficient` | `insufficient` | `ambiguous`), and optionally `gold_facts`.

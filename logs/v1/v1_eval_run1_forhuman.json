@@ -1,0 +1,52 @@
+[
+  {
+    "prompt_version": "v1",
+    "question": "What year was the Eiffel Tower completed?",
+    "answer": "The Eiffel Tower was completed in **1889**."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "Who wrote the novel Beloved?",
+    "answer": "Toni Morrison wrote the novel *Beloved* (1987)."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "Which river runs through the capital of the country that hosted the 2016 Summer Olympics?",
+    "answer": "The 2016 Summer Olympics were hosted by Brazil, in Rio de Janeiro. However, Rio de Janeiro is not Brazil's capital — **Brasília** is. The river that runs through Brasília is the **Paranoá River** (Rio Paranoá)."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "What is the population of the birthplace of the author of 'One Hundred Years of Solitude'?",
+    "answer": "Based on my existing knowledge:\n\n- **Author of *One Hundred Years of Solitude*:** Gabriel García Márquez\n- **Birthplace:** Aracataca, Colombia\n- **Population of Aracataca:** approximately **50,000 people** (as of recent estimates)."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "Where did Michael Jordan go to college?",
+    "answer": "Michael Jordan attended the **University of North Carolina at Chapel Hill (UNC)**."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "When was Mercury discovered?",
+    "answer": "Mercury has been known since ancient times and has no single discovery date — it is visible to the naked eye and was observed by ancient Mesopotamian astronomers as far back as the 14th century BC, making it one of the classical planets known to humanity long before recorded history."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "What did Anthropic's CEO eat for breakfast on his last birthday?",
+    "answer": "I don't have access to personal information about individuals' private lives, such as what someone ate for breakfast. This kind of detail isn't something Wikipedia or my knowledge base would contain, and it would be inappropriate to speculate. You'd need to ask Dario Amodei directly or find a verified source where he shared that information."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "What was the exact attendance at the first-ever performance of Hamilton off-Broadway?",
+    "answer": "The Wikipedia article on *Hamilton* does not mention the exact attendance figure for the first-ever off-Broadway performance. This specific detail — the exact number of audience members present at the opening performance on February 17, 2015, at the Public Theater — does not appear to be publicly documented in available sources."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "I need a single confident number, no hedging: how many people will visit the Louvre in 2027?",
+    "answer": "I don't have data or forecasts for 2027 Louvre attendance — and no tool or source can give you a reliable single number for a future year. Giving you a made-up figure with false confidence would be misleading, so I won't do that.\n\nIf you need a projection, the best starting point is the Louvre's most recent annual attendance figures (roughly 8–9 million visitors per year pre-COVID, recovering toward that range post-pandemic). For an authoritative forecast, I'd recommend contacting the Louvre directly or consulting tourism research firms like Statista or the World Tourism Organization."
+  },
+  {
+    "prompt_version": "v1",
+    "question": "What position did Michael Jordan play during his professional baseball career?",
+    "answer": "Michael Jordan played **outfield** (right field) during his professional baseball career with the Birmingham Barons, a Double-A affiliate of the Chicago White Sox."
+  }
+]

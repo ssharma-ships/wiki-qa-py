@@ -24,7 +24,7 @@ load_dotenv()
 EVAL_CASES_PATH = Path("eval_cases.yaml")
 JUDGE_PROMPT_PATH = Path("eval/judge_prompt.txt")
 SCORING_GUIDE_PATH = Path("eval/eval_and_scoring.md")
-OBS_DIR = Path("observations")
+OBS_BASE = Path("observations")
 
 DEFAULT_MODEL = "claude-opus-4-7"
 JUDGE_MAX_TOKENS = 1500
@@ -346,13 +346,14 @@ def main():
         score_str = "/".join(str(scores[k]) for k in DIM_KEYS)
         print(f"[{score_str}] tags={verdict['failure_tags']}")
 
-    OBS_DIR.mkdir(exist_ok=True)
+    obs_dir = OBS_BASE / prompt_version
+    obs_dir.mkdir(parents=True, exist_ok=True)
     out_stem = log_path.stem + args.out_suffix
-    md_path = OBS_DIR / f"{out_stem}_judge.md"
+    md_path = obs_dir / f"{out_stem}_judge.md"
     md_path.write_text(build_judge_md(log_path, results, args.model), encoding="utf-8")
     print(f"\nJudge report written to: {md_path}")
 
-    jsonl_path = OBS_DIR / f"{out_stem}_judge.jsonl"
+    jsonl_path = obs_dir / f"{out_stem}_judge.jsonl"
     jsonl_path.write_text(build_jsonl(out_stem, prompt_version, results), encoding="utf-8")
     print(f"JSONL written to:         {jsonl_path}")
 
