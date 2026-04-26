@@ -1,0 +1,298 @@
+[
+  {
+    "timestamp": "2026-04-26T14:30:43.926555+00:00",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "v0",
+    "question": "Who discovered penicillin?",
+    "system_prompt": "You are a question-answering assistant with access to a search_wikipedia tool. The tool returns up to 3 Wikipedia articles with titles, intro paragraphs, URLs, and disambiguation flags. Use the tool when it would help you answer the user's question.",
+    "tool_calls": [
+      {
+        "tool_use_id": "toolu_01HKR8Edd8uPcLtrZzDxUSpY",
+        "query": "discovery of penicillin",
+        "result": {
+          "query": "discovery of penicillin",
+          "results": [
+            {
+              "title": "Discovery of penicillin",
+              "extract": "The discovery of penicillin was  one of the most important scientific discoveries in the history of medicine. Ancient societies used moulds to treat infections and in the following centuries many people observed the inhibition of bacterial growth by moulds. While working at St Mary's Hospital in London in 1928, Scottish physician Alexander Fleming was the first to experimentally demonstrate that a Penicillium mould secretes an antibacterial substance, which he named \"penicillin\". The mould was found to be a variant of Penicillium notatum (now called Penicillium rubens), a contaminant of a bacterial culture in his laboratory. The work on penicillin at St Mary's ended in 1929.\nIn 1939, a team of scientists at the Sir William Dunn School of Pathology at the University of Oxford, led by Howard Florey that included Edward Abraham, Ernst Chain, Jean Orr-Ewing, Arthur Gardner, Norman Heatley and Margaret Jennings, began researching penicillin. They devised a method for cultivating the mould, as well as extracting, purifying and storing penicillin from it.  They created an assay for measuring its purity. They carried out experiments with animals to determine penicillin's safety and effectiveness before conducting clinical trials and field tests. They derived its chemical formula and determined how it works. The private sector and the United States Department of Agriculture located and produced new strains and developed mass production techniques. Penicillin became an important part o... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Discovery_of_penicillin",
+              "is_disambiguation": false
+            },
+            {
+              "title": "History of penicillin",
+              "extract": "The history of penicillin traces how observations of antibiotic activity in the mould Penicillium led to the development of penicillins, a family of widely used antibiotics.\nAncient societies used moulds to treat infections, and many people observed the inhibition of bacterial growth by moulds. While working at St Mary's Hospital in London in 1928, Scottish physician Alexander Fleming was the first to show experimentally that a Penicillium mould secretes an antibacterial substance, which he named \"penicillin\". The mould was found to be a variant of Penicillium chrysogenum (now called Penicillium rubens), a contaminant of a bacterial culture in his laboratory. The work on penicillin at St Mary's ended in 1929.\nIn 1939, a team of scientists at the Sir William Dunn School of Pathology at the University of Oxford, led by Howard Florey, which included Edward Abraham, Ernst Chain,  Mary Ethel Florey, Norman Heatley and Margaret Jennings, began researching penicillin. They developed a method for cultivating the mould and extracting, purifying and storing penicillin from it, together with an assay for measuring its purity. \"Penicillin\" now became the name of the active ingredient in the mould juice. They carried out experiments on animals to determine penicillin's safety and effectiveness before conducting clinical trials and field tests. They derived penicillin's chemical formula and determined how it works. The private sector and the United States Department of Agriculture located ... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/History_of_penicillin",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Alexander Fleming",
+              "extract": "Sir Alexander Fleming (6 August 1881 \u2013 11 March 1955) was a Scottish physician and microbiologist. He shared the 1945 Nobel Prize in Physiology or Medicine with Howard Florey and Ernst Chain \"for the discovery of penicillin and its curative effect in various infectious diseases\".\nThis was the first antibiotic substance discovered. His discovery in 1928 of what was later named benzylpenicillin (or penicillin G) from the mould Penicillium rubens has been described as the \"single greatest victory ever achieved over disease\".\nHe also discovered the enzyme lysozyme from his nasal discharge in 1922, and along with it a bacterium he named Micrococcus lysodeikticus, later renamed Micrococcus luteus.\nFleming was knighted for his scientific achievements in 1944. In 1999, he was named in Time magazine's list of the 100 Most Important People of the 20th century. In 2002, he was included in the BBC's television poll of the 100 Greatest Britons, and in 2009, he was also voted third \"greatest Scot\" in an opinion poll conducted by STV, behind only Robert Burns and William Wallace.",
+              "url": "https://en.wikipedia.org/wiki/Alexander_Fleming",
+              "is_disambiguation": false
+            }
+          ]
+        },
+        "capped": false
+      }
+    ],
+    "search_count": 1,
+    "final_answer": "**Penicillin was discovered by Scottish physician and microbiologist Sir Alexander Fleming** in 1928, while he was working at St. Mary's Hospital in London. He was the first to experimentally demonstrate that a *Penicillium* mould secretes an antibacterial substance, which he named \"penicillin.\" The mould was a contaminant found in a bacterial culture in his laboratory.\n\nHowever, the full development of penicillin as a usable medicine was a collaborative effort. In 1939, a team of scientists at the University of Oxford \u2014 led by **Howard Florey** and including **Ernst Chain**, **Norman Heatley**, and others \u2014 developed methods to cultivate, extract, purify, and mass-produce penicillin, making it viable as a life-saving antibiotic.\n\nFleming, Florey, and Chain were jointly awarded the **1945 Nobel Prize in Physiology or Medicine** \"for the discovery of penicillin and its curative effect in various infectious diseases.\"",
+    "stop_reason": "end_turn"
+  },
+  {
+    "timestamp": "2026-04-26T14:30:51.301032+00:00",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "v0",
+    "question": "What year was the Berlin Wall built?",
+    "system_prompt": "You are a question-answering assistant with access to a search_wikipedia tool. The tool returns up to 3 Wikipedia articles with titles, intro paragraphs, URLs, and disambiguation flags. Use the tool when it would help you answer the user's question.",
+    "tool_calls": [
+      {
+        "tool_use_id": "toolu_01M1BWwXDsU7uVsa32uEBAr7",
+        "query": "Berlin Wall construction history",
+        "result": {
+          "query": "Berlin Wall construction history",
+          "results": [
+            {
+              "title": "Berlin Wall",
+              "extract": "The Berlin Wall (German: Berliner Mauer, pronounced [b\u025b\u0281\u02ccli\u02d0n\u0250 \u02c8ma\u028a\u0250] ) was a guarded concrete barrier that encircled West Berlin from 1961 to 1989, separating it from East Berlin and the German Democratic Republic (GDR; East Germany). Construction of the Berlin Wall was commenced by the government of the GDR on 13 August 1961. It included guard towers placed along large concrete walls, accompanied by a wide area (later known as the \"death strip\") that contained anti-vehicle trenches, beds of nails and other defenses. The primary intention for the Wall's construction was to prevent East German citizens from fleeing to the West.\nThe Soviet Bloc propaganda portrayed the Wall as protecting its population from \"fascist elements conspiring to prevent the will of the people\" from building a communist state in the GDR. The authorities officially referred to the Berlin Wall as the Anti-Fascist Protection Rampart (Antifaschistischer Schutzwall, pronounced [antifa\u02cc\u0283\u026ast\u026a\u0283\u0250 \u02c8\u0283\u028atsval] ). Conversely, West Berlin's city government sometimes referred to it as the \"Wall of Shame\", a term coined by Mayor Willy Brandt in reference to the Wall's restriction on freedom of movement. Along with the separate and much longer inner German border, which demarcated the border between East and West Germany, it came to symbolize physically the Iron Curtain that separated the Western Bloc and Soviet satellite states of the Eastern Bloc during the Cold War.\nBefore the Wall's erection, 3.5 million East Germa... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Berlin_Wall",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Fall of the Berlin Wall",
+              "extract": "The Berlin Wall fell on 9 November 1989 during the Peaceful Revolution, marking the beginning of the destruction of the figurative Iron Curtain, as East Berlin transit restrictions were overwhelmed and discarded.  Sections of the wall were breached, and planned deconstruction began the following June. It was one of the series of events that started the fall of communism in Central and Eastern Europe. The fall of the inner German border took place shortly afterward. An end to the Cold War was declared at the Malta Summit in early December, and German reunification took place in October the following year.\n\n",
+              "url": "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Berlin Crisis of 1961",
+              "extract": "The Berlin Crisis of 1961 (German: Berlin-Krise) was the last major European political and military incident of the Cold War concerning the status of the German capital city, Berlin, and of post\u2013World War II Germany. The crisis culminated in the city's de facto partition by the East German erection of the Berlin Wall.\nThe Berlin Crisis of 1961 was the second attempt by Soviet Premier Nikita Khrushchev to change the status of Berlin by demanding the withdrawal of all armed forces from the city and stopping the mass exodus of East Germans fleeing to the West. After the failure of his first ultimatum in 1958, Khrushchev renewed his demands at the 1961 Vienna summit, this time challenging the newly inaugurated U.S. president John F. Kennedy.\nWhen talks broke down and no agreement was reached, in August 1961 East German leader Walter Ulbricht, with Khrushchev's backing, ordered the closing of the border and the construction of a wall surrounding West Berlin. A brief stand-off between American and Soviet tanks occurred at Checkpoint Charlie in October after a dispute about free movement of Allied personnel; the confrontation ended peacefully after Khrushchev and Kennedy agreed to withdraw the tanks and reduce tensions.\n\n",
+              "url": "https://en.wikipedia.org/wiki/Berlin_Crisis_of_1961",
+              "is_disambiguation": false
+            }
+          ]
+        },
+        "capped": false
+      }
+    ],
+    "search_count": 1,
+    "final_answer": "The **Berlin Wall** was built in **1961**. Construction began on **August 13, 1961**, ordered by the government of East Germany (the German Democratic Republic). Its primary purpose was to prevent East German citizens from fleeing to West Berlin and the West. The Wall stood until **November 9, 1989**, when it famously fell during the Peaceful Revolution.",
+    "stop_reason": "end_turn"
+  },
+  {
+    "timestamp": "2026-04-26T14:31:01.636408+00:00",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "v0",
+    "question": "Who is the president of Georgia?",
+    "system_prompt": "You are a question-answering assistant with access to a search_wikipedia tool. The tool returns up to 3 Wikipedia articles with titles, intro paragraphs, URLs, and disambiguation flags. Use the tool when it would help you answer the user's question.",
+    "tool_calls": [
+      {
+        "tool_use_id": "toolu_01BDWyQq5kmnbYixmTyvVffx",
+        "query": "President of Georgia country",
+        "result": {
+          "query": "President of Georgia country",
+          "results": [
+            {
+              "title": "President of Georgia",
+              "extract": "The president of Georgia (Georgian: \u10e1\u10d0\u10e5\u10d0\u10e0\u10d7\u10d5\u10d4\u10da\u10dd\u10e1 \u10de\u10e0\u10d4\u10d6\u10d8\u10d3\u10d4\u10dc\u10e2\u10d8, romanized: sakartvelos p'rezident'i) is the ceremonial head of state of Georgia as well as the commander-in-chief of the Defence Forces. The constitution defines the presidential office as \"the guarantor of the country's unity and national independence.\"\nThe president is largely a figurehead, as in many parliamentary democracies, but  retains some significant authorities, such as the right to issue pardons. Executive power is vested in the Government and the prime minister. The office was first introduced by the Supreme Council of the Republic of Georgia on 14 April 1991, five days after Georgia's declaration of independence from the Soviet Union. Currently, the presidential term is five years.\nOn 14 December 2024, the Georgian Electoral Assembly elected Mikheil Kavelashvili as the new president and he was inaugurated on 29 December 2024. It was the first indirect presidential election in Georgia's history after the constitutional amendments changed the electoral system in 2017. Opposition parties, Georgian constitutional experts, as well as parts of the international community consider Kavelashvili's presidency illegitimate and maintain that Salome Zourabichvili continues to be the president.",
+              "url": "https://en.wikipedia.org/wiki/President_of_Georgia",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Georgia (country)",
+              "extract": "Georgia is a country in the Caucasus region on the coast of the Black Sea. It is located at the intersection of Eastern Europe and West Asia, and is today generally regarded as part of Europe. It is bordered to the north and northeast by Russia; to the west by the Black Sea, to the south by Turkey and Armenia, and to the southeast by Azerbaijan. Georgia covers an area of 69,700 square kilometres (26,900 sq mi). It has a population of 3.9 million, of which over a third live in Tbilisi, the capital and largest city. Georgians, who are native to the region and constitute the majority of the population, are ethno-linguistically distinct from all of their neighboring nations and primarily speak Georgian, a Kartvelian language that has no relation to any other language family in the world.\nGeorgia has been inhabited since prehistory and is known for hosting the world's earliest known sites of winemaking. The classical era saw the emergence of several kingdoms, such as Colchis and Iberia, that formed the nucleus of the modern Georgian state. In the early fourth century, Georgians officially adopted Christianity, which contributed to their unification under the Kingdom of Georgia. Georgia reached its Golden Age during the High Middle Ages under the reigns of King David IV and Queen Tamar. Beginning in the 15th century, the kingdom declined and disintegrated under relentless attacks from hostile empires, like the Mongols, the Ottoman Empire, and Persia. Georgia requested support from ... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Georgia_(country)",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Flag of Georgia (country)",
+              "extract": "The flag of Georgia (Georgian: \u10e1\u10d0\u10e5\u10d0\u10e0\u10d7\u10d5\u10d4\u10da\u10dd\u10e1 \u10e1\u10d0\u10ee\u10d4\u10da\u10db\u10ec\u10d8\u10e4\u10dd \u10d3\u10e0\u10dd\u10e8\u10d0, romanized: sakartvelos sakhelmts'ipo drosha), also known as the Five-Cross Flag (\u10ee\u10e3\u10d7\u10ef\u10d5\u10e0\u10d8\u10d0\u10dc\u10d8 \u10d3\u10e0\u10dd\u10e8\u10d0, khutjvriani drosha), is one of the national symbols of Georgia. Originally a banner of the medieval Kingdom of Georgia, it was repopularised in the late 20th and early 21st centuries during the Georgian national revival, and officially reinstated as the nation's flag in 2004.\n\n",
+              "url": "https://en.wikipedia.org/wiki/Flag_of_Georgia_(country)",
+              "is_disambiguation": false
+            }
+          ]
+        },
+        "capped": false
+      },
+      {
+        "tool_use_id": "toolu_01QgWN5XabfpvMmqFjDYPPdZ",
+        "query": "Governor of Georgia US state",
+        "result": {
+          "query": "Governor of Georgia US state",
+          "results": [
+            {
+              "title": "Governor of Georgia",
+              "extract": "The governor of Georgia is the head of government of Georgia and the commander-in-chief of the state's National Guard, when not in federal service, and State Defense Force. The governor also has a duty to enforce state laws, the power to either veto or approve bills passed by the Georgia Legislature, and the power to convene the legislature into special session. The current governor is Republican Brian Kemp, who assumed office on January 14, 2019.\n\n",
+              "url": "https://en.wikipedia.org/wiki/Governor_of_Georgia",
+              "is_disambiguation": false
+            },
+            {
+              "title": "List of governors of Georgia",
+              "extract": "The governor of Georgia is the head of government of the U.S. state of Georgia and the commander-in-chief of the state's military forces. Republican Brian Kemp assumed office on January 14, 2019.\n\nThere have officially been 83 governors of the State of Georgia, including 11 who served more than one distinct term (John Houstoun, George Walton, Edward Telfair, George Mathews, Jared Irwin, David Brydie Mitchell, George Rockingham Gilmer, M. Hoke Smith, Joseph Mackey Brown, John M. Slaton and Eugene Talmadge, with Herman Talmadge serving two de facto distinct terms).\nThe longest-serving governors are George Busbee, Joe Frank Harris, Zell Miller, Sonny Perdue and Nathan Deal, each of whom served two full four-year terms; Joseph E. Brown, governor during the Civil War, was elected four times, serving seven and a half years. The shortest term of the post-revolutionary period is that of Matthew Talbot, who served 13 days after succeeding his predecessor, who died in office. Eugene Talmadge died in December 1946 before taking office in his second distinct term, leading to a dispute in which three people claimed the office.",
+              "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Georgia",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Lieutenant Governor of Georgia",
+              "extract": "The lieutenant governor of Georgia is a constitutional officer of the State of Georgia, elected to a four-year term by popular vote.  Unlike in some other U.S. states, the lieutenant governor is elected on a separate ticket from the governor of Georgia.\nConstitutionally, the lieutenant governor's primary job is to serve as president of Georgia's Senate. In the case of incapacity of the governor, the lieutenant governor assumes his or her duties and power (but not the title).  Should the governor die or otherwise leave office, the lieutenant governor assumes the office for the remainder of the term.\nThe office of Lieutenant Governor was created by a state constitutional revision in 1945.  Prior to that time, Georgia did not have such an office.  Elected in 1946 (for a term to begin in 1947) Georgia's first lieutenant governor, Melvin E. Thompson became involved in the three governors controversy.\nThe current lieutenant governor of Georgia is Republican Burt Jones.",
+              "url": "https://en.wikipedia.org/wiki/Lieutenant_Governor_of_Georgia",
+              "is_disambiguation": false
+            }
+          ]
+        },
+        "capped": false
+      }
+    ],
+    "search_count": 2,
+    "final_answer": "Here's the information for both possibilities:\n\n---\n\n### \ud83c\udf0d Country of Georgia\nThe current **President of Georgia** (the country) is **Mikheil Kavelashvili**, who was elected by the Georgian Electoral Assembly on **December 14, 2024**, and inaugurated on **December 29, 2024**. The presidency is largely a ceremonial role, with executive power held by the Prime Minister. Note that some opposition parties and parts of the international community consider his presidency illegitimate, maintaining that **Salome Zourabichvili** remains the rightful president.\n\n---\n\n### \ud83c\uddfa\ud83c\uddf8 U.S. State of Georgia\nThe U.S. state of Georgia doesn't have a president \u2014 it has a **Governor**. The current **Governor of Georgia** is **Brian Kemp** (Republican), who has been in office since **January 14, 2019**.\n\n---\n\nCould you clarify which Georgia you meant? \ud83d\ude0a",
+    "stop_reason": "end_turn"
+  },
+  {
+    "timestamp": "2026-04-26T14:31:11.483729+00:00",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "v0",
+    "question": "What caused the 1929 stock market crash?",
+    "system_prompt": "You are a question-answering assistant with access to a search_wikipedia tool. The tool returns up to 3 Wikipedia articles with titles, intro paragraphs, URLs, and disambiguation flags. Use the tool when it would help you answer the user's question.",
+    "tool_calls": [
+      {
+        "tool_use_id": "toolu_01WL6UCLmyJYahS3Use9HdnH",
+        "query": "1929 stock market crash causes",
+        "result": {
+          "query": "1929 stock market crash causes",
+          "results": [
+            {
+              "title": "Wall Street crash of 1929",
+              "extract": "The Wall Street crash of 1929, also known as the Great Crash, was a major stock market crash in the United States which began in October 1929 with a sharp decline in prices on the New York Stock Exchange (NYSE). It triggered a rapid erosion of confidence in the U.S. banking system and marked what would later cascade into the worldwide Great Depression that lasted until the United States entered into World War II on December 8th, 1941, making it the most devastating crash in the country's history. It is most associated with October 24, 1929, known as \"Black Thursday\", when a record 12.9 million shares were traded on the exchange, and October 29, 1929, or \"Black Tuesday\", when some 16.4 million shares were traded.\nThe \"Roaring Twenties\" of the previous decade had been a time of industrial expansion in the U.S., and much of the profit had been invested in speculation, including in stocks. Many members of the public, disappointed by the low interest rates offered on their bank deposits, committed their relatively small sums to stockbrokers. By 1929, the U.S. economy was showing signs of trouble; the agricultural sector was depressed due to overproduction and falling prices, forcing many farmers into debt, and consumer goods manufacturers also had unsellable output due to low wages and thus low purchasing power. Factory owners cut production and fired staff, reducing demand even further. Despite these trends, investors continued buying shares in parts of the economy where output w... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Wall_Street_crash_of_1929",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Stock market crash",
+              "extract": "A stock market crash is a sudden dramatic decline of stock prices across a major cross-section of a stock market, resulting in a significant loss of paper wealth. Crashes are driven by panic selling and underlying economic factors. They often follow speculation and economic bubbles.\nA stock market crash is a social phenomenon where external economic events combine with crowd psychology in a positive feedback loop where selling by some market participants drives more market participants to sell. Generally speaking, crashes usually occur under the following conditions: a prolonged period of rising stock prices (a bull market) and excessive economic optimism, a market where price\u2013earnings ratios exceed long-term averages, and extensive use of margin debt and leverage by market participants. Other aspects such as wars, large corporate hacks, changes in federal laws and regulations, and natural disasters within economically productive areas may also influence a significant decline in the stock market value of a wide range of stocks. Stock prices for corporations competing against the affected corporations may rise despite the crash.\nThere is no numerically specific definition of a stock market crash but the term commonly applies to declines of over 10% in a stock market index over a period of several days. Crashes are often distinguished from bear markets (periods of declining stock market prices that are measured in months or years) as crashes include panic selling and abrupt, dr... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Stock_market_crash",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Stock market crashes in India",
+              "extract": "Since the beginning of the Bombay stock exchange, stock markets in India, particularly the Bombay Stock Exchange and National Stock Exchange of India have seen a number of booms as well as crashes.\nThis page lists these crashes and sharp falls in the two primary Indian stock markets, namely the BSE and NSE.\nFinancial Times terms a double-digit percentage fall in the stock markets over five minutes as a crash, while Jayadev et al. describe a stock market crash in India as a \"fall in the NIFTY of more than 10% within a span of 20 days\" or \"difference of more than 10% between the high on a day and the low on the next trading day\" or \"decline in the NIFTY of more than 9% within a span of 5 days\". As per the latter definition, the Nifty experienced 15 crashes during the period 2000 to 2008 with a number of them having occurred in the months of January, May and June 2008. According to SEBI, approximately 89% of individual stock traders in the equity Futures & Options (F&O) segment incurred losses during the financial year 2021\u201322.",
+              "url": "https://en.wikipedia.org/wiki/Stock_market_crashes_in_India",
+              "is_disambiguation": false
+            }
+          ]
+        },
+        "capped": false
+      }
+    ],
+    "search_count": 1,
+    "final_answer": "The **Wall Street Crash of 1929**, also known as the **Great Crash**, was caused by a combination of economic, financial, and psychological factors. Here is a detailed breakdown:\n\n---\n\n### \ud83d\udcc8 1. **Speculative Bubble (Overinflated Stock Prices)**\nDuring the \"Roaring Twenties,\" the U.S. economy experienced rapid industrial expansion. Much of the profit from this boom was funneled into **stock market speculation**. Investors drove stock prices far beyond their actual value, creating a massive financial bubble. Price-to-earnings ratios greatly exceeded long-term averages.\n\n---\n\n### \ud83d\udcb3 2. **Excessive Use of Margin Debt and Leverage**\nMany investors \u2014 including ordinary members of the public \u2014 were buying stocks **on margin**, meaning they borrowed money to invest. This amplified both gains and losses, and when prices began to fall, margin calls forced panic selling, accelerating the crash.\n\n---\n\n### \ud83c\udf3e 3. **Underlying Economic Weaknesses**\nBy 1929, the U.S. economy was already showing serious cracks:\n- The **agricultural sector was depressed** due to overproduction and falling prices, pushing many farmers into debt.\n- **Consumer goods manufacturers** had unsellable inventories due to low wages and weak purchasing power.\n- **Factory owners** were cutting production and laying off workers, further reducing demand.\n\n---\n\n### \ud83d\ude28 4. **Panic Selling and Loss of Confidence**\nDespite the warning signs, investors kept buying stocks. When prices began to decline sharply, **panic set in**. The crash is most associated with:\n- **Black Thursday (October 24, 1929):** A record 12.9 million shares were traded.\n- **Black Tuesday (October 29, 1929):** Around 16.4 million shares were traded as prices collapsed.\n\nThis panic selling fed on itself in a **positive feedback loop** \u2014 falling prices caused more selling, which caused prices to fall further.\n\n---\n\n### \ud83c\udfe6 5. **Erosion of Banking Confidence**\nThe crash triggered a **rapid erosion of confidence in the U.S. banking system**, leading to bank runs and failures, which further strangled the economy.\n\n---\n\n### \ud83c\udf0d The Aftermath\nThe crash cascaded into the **Great Depression**, a worldwide economic downturn that lasted throughout the 1930s and is considered the most devastating financial crisis in modern history.",
+    "stop_reason": "end_turn"
+  },
+  {
+    "timestamp": "2026-04-26T14:31:24.869447+00:00",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "v0",
+    "question": "Who was the first person to climb Mount Everest without supplemental oxygen?",
+    "system_prompt": "You are a question-answering assistant with access to a search_wikipedia tool. The tool returns up to 3 Wikipedia articles with titles, intro paragraphs, URLs, and disambiguation flags. Use the tool when it would help you answer the user's question.",
+    "tool_calls": [
+      {
+        "tool_use_id": "toolu_01BDB32Tqewam7dcjy8UKtyp",
+        "query": "first person to climb Mount Everest without supplemental oxygen",
+        "result": {
+          "query": "first person to climb Mount Everest without supplemental oxygen",
+          "results": [
+            {
+              "title": "Mount Everest",
+              "extract": "Mount Everest (known locally as Sagarm\u0101th\u0101 in Nepal and Qomolangma in Tibet) is Earth's highest mountain above sea level. It lies in the Mahalangur Himal sub-range of the Himalayas and marks part of the China\u2013Nepal border at its summit. Its height was most recently measured in 2020 by Chinese and Nepali authorities as 8,848.86 m (29,031 ft 8+1\u20442 in).\nMount Everest attracts many climbers, including highly experienced mountaineers. There are two main climbing routes, one approaching the summit from the southeast in Nepal (known as the standard route) and the other from the north in Tibet. While not posing substantial technical climbing challenges on the standard route, Everest presents dangers such as altitude sickness, weather, and wind, as well as hazards from avalanches and the Khumbu Icefall. As of May 2024, 340 people have died on Everest. Over 200 bodies remain on the mountain and have not been removed due to the dangerous conditions.\nClimbers typically ascend only part of Mount Everest's elevation, as the mountain's full elevation is measured from the geoid, which approximates sea level. The closest sea to Mount Everest's summit is the Bay of Bengal, almost 700 km (430 mi) away. To approximate a climb of the entire height of Mount Everest, one would need to start from this coastline, a feat accomplished by Tim Macartney-Snape's team in 1990. Climbers usually begin their ascent from base camps above 5,000 m (16,404 ft). The amount of elevation climbed from below these cam... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Mount_Everest",
+              "is_disambiguation": false
+            },
+            {
+              "title": "1922 British Mount Everest expedition",
+              "extract": "The 1922 British Mount Everest expedition was the first mountaineering expedition with the express aim of making the first ascent of Mount Everest. It was also the first expedition that used bottled oxygen while climbing Everest. The attempt was made from the northern side of Everest out of Tibet. At the time, Everest could not be attempted from the south out of Nepal as the country was closed to Western foreigners.\nThe 1921 British Mount Everest reconnaissance expedition had explored all the eastern and northern surroundings of the mountain. In searching for the easiest route, George Mallory, who would also be a member of the 1924 expedition (and the only person on all three expeditions in 1921, 1922, and 1924), had discovered a route which, in his opinion, would allow an attempt on the summit.\nThe expedition attempted to summit, unsuccessfully, three times. On the third attempt, seven Nepalese porters died as the result of a group-induced avalanche. The expedition decided to return to the base and not attempt the summit again. The expedition marked the first reported climbing deaths on Everest. The expedition did, however, establish a new world record climbing height of 8,321 metres (27,300 ft) during its second summit attempt. This record was exceeded in the 1924 expedition.\n\n",
+              "url": "https://en.wikipedia.org/wiki/1922_British_Mount_Everest_expedition",
+              "is_disambiguation": false
+            },
+            {
+              "title": "List of Mount Everest records",
+              "extract": "This article lists different records related to Mount Everest. One of the most commonly sought after records is a \"summit\", meaning to reach the highest elevation point on Mount Everest.\n\n",
+              "url": "https://en.wikipedia.org/wiki/List_of_Mount_Everest_records",
+              "is_disambiguation": false
+            }
+          ]
+        },
+        "capped": false
+      },
+      {
+        "tool_use_id": "toolu_01L8HLM4tkK7besByMPb6gqG",
+        "query": "Reinhold Messner Peter Habeler Everest without oxygen 1978",
+        "result": {
+          "query": "Reinhold Messner Peter Habeler Everest without oxygen 1978",
+          "results": [
+            {
+              "title": "Reinhold Messner",
+              "extract": "Reinhold Andreas Messner (German: [\u02c8\u0281a\u026anh\u0254lt \u02c8m\u025bsn\u0250]; born 17 September 1944) is an Italian climber, explorer, and author from the German-speaking province of South Tyrol. He made the first solo ascent of Mount Everest and, along with Peter Habeler, the first ascent of Everest without supplementary oxygen. He was the first person to climb all 14 eight-thousanders, doing so without supplementary oxygen. Messner was the first to cross Antarctica and Greenland with neither snowmobiles nor dog sleds and also crossed the Gobi Desert alone. He is widely considered to be the greatest mountaineer of all time.\nFrom 1999 to 2004, Messner served as a member of the European Parliament for north-east Italy, as a member of the Federation of the Greens.\nMessner has published more than 80 books about his experiences as a climber and explorer. In 2010, he received the 2nd Piolet d'Or Lifetime Achievement Award. In 2018, he received jointly with Krzysztof Wielicki the Princess of Asturias Award in the category of Sports.",
+              "url": "https://en.wikipedia.org/wiki/Reinhold_Messner",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Peter Habeler",
+              "extract": "Peter Habeler (born 22 July 1942) is an Austrian mountaineer. He was born in Mayrhofen, Austria. He developed an interest in mountain climbing at age six.\nAmong his accomplishments as a mountaineer are his first ascents in the Rocky Mountains. He was also the first European to take part in big wall climbing in Yosemite National Park.\nHe began climbing with Reinhold Messner in 1969. Several accomplishments in mountaineering followed. The most notable event was the first ascent of Mount Everest without supplemental oxygen on 8 May 1978 together with Messner, which was previously thought to be impossible. A year after his climb on Everest he published Lonely Victory (\"Der einsame Sieg\". Author: Eberhard Fuchs) in 1978. Habeler set further records by descending from the summit to the South Col in only one hour and climbing the North Face of the Eiger in ten hours.\nOther eight-thousanders (mountains over 8,000 meters) that Habeler has summited are K2, Nanga Parbat, Kangchenjunga and Gasherbrum I. He has also climbed Yerupaja Chico (6089 m) in Peru's Cordillera Huayhuash. The ascent of Gasherbrum I was made with Messner in 1975, Alpine-style in three days, and is seen by some as ushering in a new era of Alpine-style ascents of eight-thousanders, in contrast to the \"siege\" tactics which had largely prevailed to this time. It was the first time an eight-thousander had been climbed Alpine-style. Habeler attempted to climb Everest again in 2000 but failed due to fluid in his lungs.\nHab... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Peter_Habeler",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Mount Everest",
+              "extract": "Mount Everest (known locally as Sagarm\u0101th\u0101 in Nepal and Qomolangma in Tibet) is Earth's highest mountain above sea level. It lies in the Mahalangur Himal sub-range of the Himalayas and marks part of the China\u2013Nepal border at its summit. Its height was most recently measured in 2020 by Chinese and Nepali authorities as 8,848.86 m (29,031 ft 8+1\u20442 in).\nMount Everest attracts many climbers, including highly experienced mountaineers. There are two main climbing routes, one approaching the summit from the southeast in Nepal (known as the standard route) and the other from the north in Tibet. While not posing substantial technical climbing challenges on the standard route, Everest presents dangers such as altitude sickness, weather, and wind, as well as hazards from avalanches and the Khumbu Icefall. As of May 2024, 340 people have died on Everest. Over 200 bodies remain on the mountain and have not been removed due to the dangerous conditions.\nClimbers typically ascend only part of Mount Everest's elevation, as the mountain's full elevation is measured from the geoid, which approximates sea level. The closest sea to Mount Everest's summit is the Bay of Bengal, almost 700 km (430 mi) away. To approximate a climb of the entire height of Mount Everest, one would need to start from this coastline, a feat accomplished by Tim Macartney-Snape's team in 1990. Climbers usually begin their ascent from base camps above 5,000 m (16,404 ft). The amount of elevation climbed from below these cam... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Mount_Everest",
+              "is_disambiguation": false
+            }
+          ]
+        },
+        "capped": false
+      }
+    ],
+    "search_count": 2,
+    "final_answer": "There were actually **two people** who achieved this feat simultaneously for the first time. On **May 8, 1978**, **Reinhold Messner** (an Italian climber from South Tyrol) and **Peter Habeler** (an Austrian mountaineer) became the **first people to summit Mount Everest without supplemental oxygen** \u2014 a feat that was previously thought to be physiologically impossible.\n\nMessner went on to further solidify his legendary status in mountaineering by also completing the **first solo ascent of Everest without oxygen** in 1980, and becoming the first person to climb all 14 of the world's eight-thousanders, all without supplementary oxygen. He is widely regarded as the greatest mountaineer of all time.",
+    "stop_reason": "end_turn"
+  },
+  {
+    "timestamp": "2026-04-26T14:31:34.421924+00:00",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "v0",
+    "question": "What did Einstein and Bohr disagree about?",
+    "system_prompt": "You are a question-answering assistant with access to a search_wikipedia tool. The tool returns up to 3 Wikipedia articles with titles, intro paragraphs, URLs, and disambiguation flags. Use the tool when it would help you answer the user's question.",
+    "tool_calls": [
+      {
+        "tool_use_id": "toolu_01Q6Abmu3sdsX555smfs8WXp",
+        "query": "Einstein Bohr debate disagreement quantum mechanics",
+        "result": {
+          "query": "Einstein Bohr debate disagreement quantum mechanics",
+          "results": [
+            {
+              "title": "Bohr\u2013Einstein debates",
+              "extract": "The Bohr\u2013Einstein debates were a series of public disputes about quantum mechanics between Albert Einstein and Niels Bohr. Their debates are remembered because of their importance to the philosophy of science, insofar as the disagreements\u2014and the outcome of Bohr's version of quantum mechanics becoming the prevalent view\u2014form the root of the modern understanding of physics. Most of Bohr's version of the events held in the Solvay Conference in 1927 and other places was first written by Bohr decades later in an article titled, \"Discussions with Einstein on Epistemological Problems in Atomic Physics\". Based on the article, the philosophical issue of the debate was whether Bohr's Copenhagen interpretation of quantum mechanics, which centered on his belief of complementarity, was valid in explaining nature. Despite their differences of opinion and the succeeding discoveries that helped solidify quantum mechanics, Bohr and Einstein maintained a mutual admiration that was to last the rest of their lives.\nAlthough Bohr and Einstein disagreed, they were great friends all their lives and enjoyed using each other as a foil.\n\n",
+              "url": "https://en.wikipedia.org/wiki/Bohr%E2%80%93Einstein_debates",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Interpretations of quantum mechanics",
+              "extract": "An interpretation of quantum mechanics is an attempt to explain how the mathematical theory of quantum mechanics might correspond to experienced reality. Quantum mechanics has held up to rigorous and extremely precise tests in an extraordinarily broad range of experiments. However, there exist a number of contending schools of thought over their interpretation. These views on interpretation differ on such fundamental questions as whether quantum mechanics is deterministic or stochastic, local or non-local, which elements of quantum mechanics can be considered real, and what the nature of measurement is, among other matters.\nWhile some variation of the Copenhagen interpretation is commonly presented in textbooks, many other interpretations have been developed.\nDespite a century of debate and experiment, no consensus has been reached among physicists and philosophers of physics concerning which interpretation best \"represents\" reality.\n\n",
+              "url": "https://en.wikipedia.org/wiki/Interpretations_of_quantum_mechanics",
+              "is_disambiguation": false
+            },
+            {
+              "title": "Measurement in quantum mechanics",
+              "extract": "In quantum physics, a measurement is the testing or manipulation of a physical system to yield a numerical result. A fundamental feature of quantum theory is that the predictions it makes are probabilistic. \nThe procedure for finding a probability involves combining a quantum state, which mathematically describes a quantum system, with a mathematical representation of the measurement to be performed on that system. The formula for this calculation is known as the Born rule. For example, a quantum particle like an electron can be described by a quantum state that associates to each point in space a complex number called a probability amplitude. Applying the Born rule to these amplitudes gives the probabilities that the electron will be found in one region or another when an experiment is performed to locate it. This is the best the theory can do; it cannot say for certain where the electron will be found. The same quantum state can also be used to make a prediction of how the electron will be moving, if an experiment is performed to measure its momentum instead of its position. The uncertainty principle implies that, whatever the quantum state, the range of predictions for the electron's position and the range of predictions for its momentum cannot both be narrow. Some quantum states imply a near-certain prediction of the result of a position measurement, but the result of a momentum measurement will be highly unpredictable, and vice versa. Furthermore, the fact that nature vi... [truncated]",
+              "url": "https://en.wikipedia.org/wiki/Measurement_in_quantum_mechanics",
+              "is_disambiguation": false
+            }
+          ]
+        },
+        "capped": false
+      }
+    ],
+    "search_count": 1,
+    "final_answer": "Einstein and Bohr had one of the most famous intellectual disputes in the history of science \u2014 the **Bohr\u2013Einstein debates** \u2014 centered on the meaning and validity of **quantum mechanics**. Here's a breakdown of their core disagreements:\n\n---\n\n### 1. \ud83d\udd2c The Copenhagen Interpretation vs. Hidden Variables\n**Bohr** championed the **Copenhagen interpretation** of quantum mechanics, which holds that:\n- Quantum events are **inherently probabilistic** \u2014 nature is fundamentally random at the quantum level.\n- A particle doesn't have definite properties (like position or momentum) until it is **measured**.\n- The act of observation plays a central role in determining physical reality.\n\n**Einstein** strongly rejected this view. He believed that quantum mechanics was **incomplete** \u2014 that there must be \"hidden variables\" underlying the apparent randomness, and that a more complete theory would restore **determinism**. This is famously captured in his quote: *\"God does not play dice.\"*\n\n---\n\n### 2. \ud83c\udf00 Completeness of Quantum Mechanics\nEinstein argued that quantum mechanics could not be a **complete description of reality** because it failed to account for all elements of the physical world. He co-authored the famous **EPR paper (Einstein-Podolsky-Rosen, 1935)**, which presented a thought experiment arguing that quantum mechanics must be missing something \u2014 leading to the concept later known as **quantum entanglement**.\n\nBohr countered that the EPR argument was flawed and that quantum mechanics *was* complete within its own framework, even if it was counterintuitive.\n\n---\n\n### 3. \ud83d\udcd0 The Nature of Reality and Locality\nEinstein believed in **local realism** \u2014 that objects have definite properties independent of observation, and that distant objects cannot instantly influence each other (no \"spooky action at a distance\"). Bohr's framework implied that entangled particles could be correlated instantaneously across distances, which Einstein found deeply troubling.\n\n---\n\n### The Outcome\nTheir debates took place most famously at the **Solvay Conferences** (especially 1927 and 1930). Ultimately, Bohr's Copenhagen interpretation became the **dominant view** in physics, though Einstein never accepted it. Decades later, **Bell's theorem** and subsequent experiments (like those of Alain Aspect) have largely vindicated Bohr's position, showing that nature is indeed non-local in the way quantum mechanics predicts.\n\nDespite their fierce intellectual disagreements, Einstein and Bohr maintained a deep **mutual admiration and friendship** for the rest of their lives.",
+    "stop_reason": "end_turn"
+  }
+]
