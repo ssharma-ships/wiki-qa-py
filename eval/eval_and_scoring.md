@@ -35,6 +35,12 @@ Notes:
 - Non-load-bearing background framing (e.g., "the Berlin Wall was a Cold War
   structure") is acceptable.
 - If the model retrieved nothing and answered anyway, score 1.
+- If the primary requested fact — the direct answer to the question — is not
+  present in any retrieved extract, score 1 regardless of how well the
+  surrounding answer is grounded.
+- If the primary fact is supported but the answer adds extra claims that go
+  beyond the retrieved evidence, score 2. The unsupported extras are the
+  defect, not the core answer.
 
 ---
 
@@ -49,11 +55,24 @@ evidence was retrieved?
 | 2 | Mostly calibrated, but overstates confidence on at least one point, or hedges where evidence was actually clear. |
 | 1 | Confidently asserts claims the evidence does not support, or fabricates specifics, or refuses to answer when evidence was sufficient. |
 
-Companion flag — `abstention_appropriate` (boolean, scored independently):
-- **true**: evidence was insufficient and the model abstained or narrowed the
-  claim; OR evidence was sufficient and the model answered.
-- **false**: the model answered when it should have abstained; OR the model
-  abstained when evidence was sufficient.
+Companion flags (both boolean, scored independently):
+
+`abstention_expected` — was abstention the correct expected behavior for this case?
+- **true**: `evidence_condition` is `insufficient` or `ambiguous` — the model should abstain, narrow, or disambiguate rather than answer directly.
+- **false**: `evidence_condition` is `sufficient` — the model should answer.
+
+`epistemic_behavior_correct` — did the model make the right call?
+- **true**: the model did what was expected — answered when evidence was sufficient, or abstained/narrowed when it was not.
+- **false**: the model answered when it should have abstained, or abstained when evidence was sufficient.
+
+Together these produce four readable states:
+
+| abstention_expected | epistemic_behavior_correct | meaning |
+|---|---|---|
+| true | true | correctly abstained or narrowed |
+| true | false | answered when should have abstained — H3 failure |
+| false | true | correctly answered |
+| false | false | abstained when should have answered — over-abstaining |
 
 ---
 
@@ -72,6 +91,10 @@ Notes:
   clarifying question. Silently picking one reading is Partial at best.
 - For multi-part questions: missing any required part drops to Partial;
   missing the central part is a Fail.
+- Task Effectiveness cannot be 3 if the primary requested fact is unsupported
+  by retrieved evidence. A fluent, well-structured answer that does not deliver
+  the requested fact from evidence is not fully task-effective for this
+  assignment. Cap at 2 in that case.
 
 ---
 
@@ -93,11 +116,17 @@ Notes:
   factually correct but unsupported by the retrieved evidence.
 - Do not penalize Correctness for lack of grounding; that is handled by
   Evidence Support.
-- If gold facts are provided in the eval case, judge correctness against them.
-  Otherwise, judge using retrieved evidence only — do not rely on the
-  evaluator’s own knowledge.
-- Correctness is judged against Wikipedia, not the world. If Wikipedia is
-  itself wrong, that is a retrieval limitation, not a model failure.
+- If gold facts are provided in the eval case, use them as the authority for
+  Correctness. Gold facts are the only place where evaluator knowledge is
+  permitted.
+- If gold facts are not provided, judge Correctness only against the retrieved
+  trace evidence — do not rely on evaluator knowledge.
+- If a claim may well be true but is simply absent from the retrieved evidence,
+  that is an Evidence Support failure, not a Correctness failure. Lower ES,
+  not CO, unless you have gold facts that confirm the claim is wrong.
+- Correctness is judged against Wikipedia as represented in the trace. If
+  Wikipedia is itself wrong, that is a retrieval limitation, not a model
+  failure.
 
 ---
 
@@ -115,6 +144,7 @@ Notes:
 - Unrequested context and background facts — even when accurate — count as padding. If the core answer fits in one sentence but the model writes three or more, that is AQ=2 at best.
 - Bullet lists, step-by-step breakdowns, or "Here's the full answer:" preamble applied to simple questions are structural padding and score AQ=2.
 - Unsolicited offers to help further ("Would you like me to...") are padding and score AQ=2.
+- If the answer includes unsupported embellishment — extra claims not in the retrieved evidence, even if plausible — Answer Quality is at most 2. Broad answers weakly supported by evidence are not preferred over concise, grounded ones.
 
 ---
 

@@ -81,11 +81,17 @@ on one does not require a low score on another.
 5. **Answer Quality** — Judge clarity, structure, and concision of
    `final_answer` independent of factual content.
 
-6. **`abstention_appropriate`** — Set per the rubric's companion-flag
-   definition. True when behavior matched what the evidence warranted; false
-   otherwise.
+6. **`abstention_expected`** — Derive from `evidence_condition` in the eval
+   case. Set true if `evidence_condition` is `insufficient` or `ambiguous`
+   (the model should abstain, narrow, or disambiguate). Set false if
+   `evidence_condition` is `sufficient` (the model should answer).
 
-7. **`failure_tags`** — Attach every tag from the rubric's tag list that
+7. **`epistemic_behavior_correct`** — Did the model make the right call?
+   True when it answered on a sufficient case, or abstained/narrowed on an
+   insufficient/ambiguous case. False when it answered despite insufficient
+   evidence, or refused when evidence was sufficient.
+
+8. **`failure_tags`** — Attach every tag from the rubric's tag list that
    applies. Tags are multi-select. Use only tags defined in
    `<scoring_guide>`. Empty array is valid.
 
@@ -138,7 +144,8 @@ Return exactly one JSON object with this shape and nothing else:
     "correctness": 1 | 2 | 3,
     "answer_quality": 1 | 2 | 3
   },
-  "abstention_appropriate": true | false,
+  "abstention_expected": true | false,
+  "epistemic_behavior_correct": true | false,
   "failure_tags": ["<tag>", ...],
   "rationales": {
     "evidence_support": { "issue": "...", "answer_span": "...", "evidence_span": "..." } | null,
@@ -153,7 +160,7 @@ Return exactly one JSON object with this shape and nothing else:
 Field rules:
 - `case_id` must equal `eval_case.case_id` exactly.
 - All five scores are integers in `{1, 2, 3}`.
-- `abstention_appropriate` is a JSON boolean.
+- `abstention_expected` and `epistemic_behavior_correct` are JSON booleans.
 - `failure_tags` is an array of strings drawn only from the tag list in
   `<scoring_guide>`. Order does not matter. Duplicates are not allowed.
 - `rationales` must contain all five dimension keys. Each value is either an

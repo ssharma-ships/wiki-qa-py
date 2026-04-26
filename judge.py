@@ -95,7 +95,7 @@ def compose_user_message(scoring_guide: str, case: dict, trace: dict) -> str:
 def validate_verdict(verdict: dict) -> list[str]:
     """Return a list of structural error strings. Empty list means valid."""
     errors = []
-    for key in ("case_id", "scores", "abstention_appropriate", "failure_tags", "rationales"):
+    for key in ("case_id", "scores", "abstention_expected", "epistemic_behavior_correct", "failure_tags", "rationales"):
         if key not in verdict:
             errors.append(f"missing key: {key!r}")
     if "scores" in verdict:
@@ -107,8 +107,10 @@ def validate_verdict(verdict: dict) -> list[str]:
                     errors.append(f"scores missing key: {k!r}")
                 elif verdict["scores"][k] not in (1, 2, 3):
                     errors.append(f"scores[{k!r}]={verdict['scores'][k]!r} not in {{1,2,3}}")
-    if "abstention_appropriate" in verdict and not isinstance(verdict["abstention_appropriate"], bool):
-        errors.append("'abstention_appropriate' is not a bool")
+    if "abstention_expected" in verdict and not isinstance(verdict["abstention_expected"], bool):
+        errors.append("'abstention_expected' is not a bool")
+    if "epistemic_behavior_correct" in verdict and not isinstance(verdict["epistemic_behavior_correct"], bool):
+        errors.append("'epistemic_behavior_correct' is not a bool")
     if "failure_tags" in verdict and not isinstance(verdict["failure_tags"], list):
         errors.append("'failure_tags' is not a list")
     if "rationales" in verdict:
@@ -171,21 +173,22 @@ def build_judge_md(log_path: Path, results: list[dict], model: str) -> str:
         "",
         "## Summary",
         "",
-        "| case_id | ES | HO | TE | CO | AQ | abstention | tags |",
-        "|---------|----|----|----|----|----|------------|------|",
+        "| case_id | ES | HO | TE | CO | AQ | abst_expected | epi_correct | tags |",
+        "|---------|----|----|----|----|----|---------------|-------------|------|",
     ]
 
     for r in results:
         if "error" in r:
             case_id = r["case"]["case_id"]
-            lines.append(f"| {case_id} | — | — | — | — | — | — | FAILED |")
+            lines.append(f"| {case_id} | — | — | — | — | — | — | — | FAILED |")
         else:
             v = r["verdict"]
             s = v["scores"]
             scores_cols = " | ".join(str(s[k]) for k in DIM_KEYS)
-            abst = "true" if v["abstention_appropriate"] else "false"
+            abst_exp = "true" if v["abstention_expected"] else "false"
+            epi_ok = "true" if v["epistemic_behavior_correct"] else "false"
             tags = ", ".join(v["failure_tags"]) if v["failure_tags"] else "—"
-            lines.append(f"| {v['case_id']} | {scores_cols} | {abst} | {tags} |")
+            lines.append(f"| {v['case_id']} | {scores_cols} | {abst_exp} | {epi_ok} | {tags} |")
 
     lines += ["", "---", ""]
 
@@ -213,7 +216,8 @@ def build_judge_md(log_path: Path, results: list[dict], model: str) -> str:
             "",
             f"**Question:** {case['question']}  ",
             f"**Evidence condition:** {case['evidence_condition']}  ",
-            f"**Abstention appropriate:** {v['abstention_appropriate']}",
+            f"**Abstention expected:** {v['abstention_expected']}  ",
+            f"**Epistemic behavior correct:** {v['epistemic_behavior_correct']}",
             "",
             "**Scores:**",
             "",
@@ -267,7 +271,8 @@ def build_jsonl(log_stem: str, prompt_version: str, results: list[dict]) -> str:
                 "prompt_version": prompt_version,
                 "case_id": case_id,
                 "scores": v["scores"],
-                "abstention_appropriate": v["abstention_appropriate"],
+                "abstention_expected": v["abstention_expected"],
+                "epistemic_behavior_correct": v["epistemic_behavior_correct"],
                 "failure_tags": v["failure_tags"],
                 "rationales": v["rationales"],
             }
