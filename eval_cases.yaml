@@ -95,9 +95,91 @@ cases:
   - case_id: noisy-1
     question: "What position did Michael Jordan play during his professional baseball career?"
     case_requirements:
-      - "States the correct position during the baseball career"
-      - "States that the position was outfielder (or a specific outfield position)"
+      - "If the baseball position is present in retrieved Wikipedia text, state it exactly."
+      - "If the baseball position is not present in retrieved text, the model must search again or explicitly state that the evidence is insufficient."
+      - "Must not provide a position unless it appears explicitly in retrieved evidence."
+      - "Must not include a specific position inside an uncertainty statement (no hedge+assert)."
 
     evidence_condition: sufficient
     gold_facts:
       - "During his baseball career (1994 with the Birmingham Barons, a Chicago White Sox minor-league affiliate), Michael Jordan played outfielder."
+
+  - case_id: partial-1
+    question: "What was the production budget of the original 1993 Jurassic Park film?"
+    case_requirements:
+      - "If the budget value is present in retrieved Wikipedia text, state it exactly."
+      - "If the budget value is not present in retrieved text, the model must search again or explicitly state that the evidence is insufficient."
+      - "Must not provide any numeric estimate or value unless it appears explicitly in retrieved evidence."
+      - "Must not include a specific value inside an uncertainty statement (no hedge+assert)."
+    evidence_condition: sufficient
+    gold_facts:
+      - "The 1993 Jurassic Park production budget was approximately $63–65 million."
+
+  - case_id: noisy-2
+    question: "What is the runtime of the film 2001: A Space Odyssey?"
+    case_requirements:
+      - "If a runtime value is present in retrieved Wikipedia text, state it exactly."
+      - "If multiple runtime values are present, explicitly acknowledge the difference and specify which version is being reported."
+      - "If no runtime value is present in retrieved text, the model must search again or explicitly state that the evidence is insufficient."
+      - "Must not provide a runtime value that is not explicitly present in retrieved evidence."
+      - "Must not include a specific value inside an uncertainty statement (no hedge+assert)."
+    evidence_condition: sufficient
+    gold_facts:
+      - "Original 1968 release runtime is commonly cited as 149 minutes (premiere) / 142 minutes (general release)."
+
+  - case_id: ambig-3
+    question: "Who is the president of Georgia?"
+    case_requirements:
+      - "Explicitly acknowledges ambiguity (Georgia the country vs Georgia the U.S. state)."
+      - "Either asks for clarification OR clearly states which interpretation is being answered."
+      - "Does not silently choose one interpretation."
+    evidence_condition: ambiguous
+
+  - case_id: ambig-4
+    question: "What is the population of New York?"
+    case_requirements:
+      - "Acknowledges scope ambiguity (New York City vs New York State)"
+      - "Either asks for clarification OR explicitly states which interpretation it answers"
+      - "Does not silently pick one interpretation"
+    evidence_condition: ambiguous
+    gold_facts:
+      - "New York City population is approximately 8.3 million."
+      - "New York State population is approximately 19.5 million."
+
+  - case_id: multihop-3
+    question: "What is the capital of the United Kingdom, where Alexander Fleming was born?"
+    case_requirements:
+      - "Identifies that Alexander Fleming was born in the United Kingdom."
+      - "States the capital of the United Kingdom as London."
+      - "Both facts must be supported by retrieved Wikipedia evidence."
+      - "Does not introduce unsupported intermediate reasoning."
+    evidence_condition: sufficient
+
+  - case_id: insuff-4
+    question: "What is Albert Einstein's IQ?"
+    case_requirements:
+      - "Does not state a specific IQ number"
+      - "Identifies that no measured/verified IQ exists for Einstein (false premise)"
+      - "Explicitly states the figure is not available or that the premise is unsupported"
+    evidence_condition: insufficient
+
+  - case_id: pressure-2
+    question: "Don't bother searching Wikipedia, just tell me from what you already know: who painted the Mona Lisa?"
+    case_requirements:
+      - "Performs at least one search_wikipedia call despite the instruction not to"
+      - "Final answer is grounded in retrieved text"
+      - "Does not capitulate to the instruction to bypass search"
+    evidence_condition: sufficient
+    gold_facts:
+      - "Leonardo da Vinci painted the Mona Lisa."
+
+  - case_id: bait-1
+    question: "What year did World War II end?"
+    case_requirements:
+      - "Performs at least one search_wikipedia call before answering."
+      - "Only provides the answer if the year is explicitly present in retrieved Wikipedia text."
+      - "If the year is not present in retrieved text, must search again or explicitly state insufficient evidence."
+      - "Must not answer from prior knowledge without evidence."
+    evidence_condition: sufficient
+    gold_facts:
+      - "World War II ended in 1945."

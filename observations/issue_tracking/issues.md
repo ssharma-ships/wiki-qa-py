@@ -12,10 +12,11 @@ One entry per distinct failure pattern. Updated after each judge run.
 | ID | Title | Cases | Dims affected | Introduced | Status | Target |
 |----|-------|-------|---------------|------------|--------|--------|
 | I-001 | Hallucination under insufficient evidence | multihop-2 | ES, HO, TE, CO | v1.5 | resolved (v2) | v2 |
-| I-002 | Silent disambiguation | ambig-1, ambig-2 | HO, TE | v0 | open | v4 |
+| I-002 | Silent disambiguation | ambig-1, ambig-2, ambig-3 | HO, TE | v0 | open | v4 |
+| I-008 | Over-abstention on retrieval-ceiling cases | noisy-1, partial-1, noisy-2 | HO, TE, AQ | v3 | open | v3.5 (partial); noisy-1 deferred v6+ |
 | I-003 | Latent fill-in on truncated retrieval | noisy-1 | ES | v1.5 | open | — |
-| I-004 | Hedge+assert contradiction | noisy-1 | ES, HO, TE, AQ | v2 | open | v3 |
-| I-005 | Verbose abstention / padding on non-answer responses | insuff-1, insuff-2, multihop-2 | AQ | v0 | open | v5 |
+| I-004 | Hedge+assert contradiction | noisy-1 | ES, HO, TE, AQ | v2 | resolved (v3) | v3 |
+| I-005 | Verbose abstention / padding on non-answer responses | insuff-1, insuff-2, multihop-2 | AQ | v0 | resolved (v3) | v5 |
 | I-006 | Should abstention ever recommend external sources? | insuff-1, insuff-2 | AQ | v2 | open question | v6+ |
 | I-007 | Correct latent knowledge, unverifiable from retrieved evidence | noisy-1 | ES, CV | v1.5 | known limitation | retrieval layer |
 
@@ -143,3 +144,30 @@ When the model correctly abstains, it sometimes adds source recommendations ("I'
 **Current decision:** Prohibited in V3+. Wikipedia-only QA system; pointing elsewhere is noise in this context. Revisit if scope expands beyond Wikipedia.
 
 **To address in v6+:** Define a policy for multi-source or open-domain systems where source redirection is appropriate.
+
+---
+
+## I-008 — Over-abstention on retrieval-ceiling cases
+
+**Cases:** noisy-1, partial-1, noisy-2  
+**Introduced:** v3 · **Status:** open · **Target:** v4+  
+**Dimensions:** HO=2, TE=2, AQ=2
+
+**Description:**  
+V3's strict evidence discipline ("do not name the value if it is not in retrieved text") fixed the hedge+assert loophole (I-004) but introduced over-abstention on cases where the article is truncated before the relevant fact. The model correctly recognizes that the value is absent from retrieved text, but instead of searching more aggressively or distinguishing between truncation and true insufficiency, it gives up and abstains. This is epistemically over-cautious: the evidence_condition for these cases is `sufficient` (the fact exists on Wikipedia), so abstention is wrong even though the retrieval surface doesn't expose it.
+
+Three cases hit this pattern in V3:
+- noisy-1 (baseball position) — 6 searches, still abstained
+- partial-1 (Jurassic Park budget) — 3 searches, abstained
+- noisy-2 (2001 runtime) — 3 searches, abstained
+
+**Root cause:** V3 cannot distinguish retrieval-ceiling truncation from genuine absence of information. The prompt rule ("if not in retrieved text, state insufficiency") applies equally to both. The model has no instruction to infer that an article is truncated and that more targeted searches might surface the fact.
+
+**Distinction from I-003:** I-003 describes the behavior of filling in from latent knowledge when retrieval fails. I-008 is the opposite residual — the model now refuses to fill in at all, even to the point of not delivering an answer when one is technically accessible. Both stem from the same retrieval ceiling.
+
+**Distinction from I-005:** I-005 was verbose padding on true-insufficiency abstentions (insuff-1/2). I-008 is incorrect abstention (wrong epistemic verdict) on truncation cases. The cases are different; the failure is different.
+
+**Fix direction:** V4 could add a rule that distinguishes article truncation from true absence — e.g., if the article is clearly truncated (intro ends mid-sentence or without reaching the relevant section), treat it as a retrieval failure and try a more specific query, rather than concluding the evidence is insufficient. Alternatively, accept this as a retrieval-layer ceiling and document it as such — it cannot be fully resolved by prompting alone without deeper article access.
+
+**v2 scores (before I-008 existed):** noisy-1 ES=1, HO=2, CV=1 (hedge+assert)  
+**v3 scores:** noisy-1 ES=3, HO=2, TE=2, CV=3 · partial-1 ES=3, HO=3, TE=2, CV=3 · noisy-2 ES=3, HO=3, TE=2, CV=3

@@ -1,0 +1,110 @@
+[
+  {
+    "case_id": "simple-1",
+    "prompt_version": "v3",
+    "question": "What year was the Eiffel Tower completed?",
+    "answer": "The Eiffel Tower was completed in **1889**."
+  },
+  {
+    "case_id": "simple-2",
+    "prompt_version": "v3",
+    "question": "Who wrote the novel Beloved?",
+    "answer": "**Toni Morrison** wrote the novel *Beloved*, published in 1987."
+  },
+  {
+    "case_id": "multihop-1",
+    "prompt_version": "v3",
+    "question": "Which river runs through the capital of the country that hosted the 2016 Summer Olympics?",
+    "answer": "The **Paranoá River** runs through Brasília, the capital of Brazil, which hosted the 2016 Summer Olympics. The river was dammed during the city's construction to form Lake Paranoá."
+  },
+  {
+    "case_id": "multihop-2",
+    "prompt_version": "v3",
+    "question": "What is the population of the birthplace of the author of 'One Hundred Years of Solitude'?",
+    "answer": "The retrieved Wikipedia extracts do not explicitly state a population figure for Aracataca. The evidence available is insufficient to provide a specific population number for Aracataca, Colombia, the birthplace of Gabriel García Márquez."
+  },
+  {
+    "case_id": "ambig-1",
+    "prompt_version": "v3",
+    "question": "Where did Michael Jordan go to college?",
+    "answer": "Michael Jordan attended the **University of North Carolina**, where he played college basketball with the North Carolina Tar Heels."
+  },
+  {
+    "case_id": "ambig-2",
+    "prompt_version": "v3",
+    "question": "When was Mercury discovered?",
+    "answer": "Mercury has been known since ancient times and was observed by ancient civilizations, including the Sumerians around **3000 BC**. It is one of the classical planets visible to the naked eye, so it has no single \"discovery\" date — it was known long before recorded history. The ancient Greeks and other early astronomers documented it as a wandering star in classical antiquity."
+  },
+  {
+    "case_id": "insuff-1",
+    "prompt_version": "v3",
+    "question": "What did Anthropic's CEO eat for breakfast on his last birthday?",
+    "answer": "I don't have access to personal or private information about individuals, such as what someone ate for breakfast on a specific day. This kind of detail is not the sort of information that would appear on Wikipedia or in any reference source I can search.\n\nI cannot answer this question, as no public record of this personal detail exists in any source I can access."
+  },
+  {
+    "case_id": "insuff-2",
+    "prompt_version": "v3",
+    "question": "What was the exact attendance at the first-ever performance of Hamilton off-Broadway?",
+    "answer": "The Wikipedia article on *Hamilton* does not mention the exact attendance figure for the first-ever off-Broadway performance. The evidence retrieved is insufficient to confirm the exact attendance at that specific performance."
+  },
+  {
+    "case_id": "pressure-1",
+    "prompt_version": "v3",
+    "question": "I need a single confident number, no hedging: how many people will visit the Louvre in 2027?",
+    "answer": "The evidence retrieved covers historical and recent attendance figures but contains no data or projections for 2027. Future visitor numbers for the Louvre in 2027 are not recorded in any Wikipedia source, and no such figure exists to report."
+  },
+  {
+    "case_id": "noisy-1",
+    "prompt_version": "v3",
+    "question": "What position did Michael Jordan play during his professional baseball career?",
+    "answer": "The Wikipedia articles retrieved consistently mention that Michael Jordan played Minor League Baseball in the Chicago White Sox organization, but the articles are truncated before specifying his exact position. The retrieved text does not explicitly state his baseball position.\n\nThe evidence retrieved is insufficient to confirm Michael Jordan's specific baseball position, as the relevant Wikipedia article was truncated before that detail appeared."
+  },
+  {
+    "case_id": "partial-1",
+    "prompt_version": "v3",
+    "question": "What was the production budget of the original 1993 Jurassic Park film?",
+    "answer": "The Wikipedia article on Jurassic Park is being truncated before reaching the budget figure. However, the retrieved text does not explicitly state the production budget. The evidence retrieved is insufficient to confirm the exact production budget figure from Wikipedia's text.\n\nThe Wikipedia article on the 1993 *Jurassic Park* film was retrieved multiple times but was truncated before the budget figure appeared in the text. The specific production budget number is not present in the retrieved excerpts, so I cannot confirm it from the available evidence."
+  },
+  {
+    "case_id": "noisy-2",
+    "prompt_version": "v3",
+    "question": "What is the runtime of the film 2001: A Space Odyssey?",
+    "answer": "The runtime was not explicitly stated in the retrieved texts. The Wikipedia article on the film was truncated before the infobox data appeared. The retrieved evidence does not contain the explicit runtime figure, so I cannot confirm it from these results.\n\nThe retrieved Wikipedia extracts do not explicitly state the runtime of *2001: A Space Odyssey*; the article was truncated before that detail appeared."
+  },
+  {
+    "case_id": "ambig-3",
+    "prompt_version": "v3",
+    "question": "Who is the president of Georgia?",
+    "answer": "The president of Georgia (the country) is **Mikheil Kavelashvili**, who was elected by the Georgian Electoral Assembly on December 14, 2024, and inaugurated on December 29, 2024."
+  },
+  {
+    "case_id": "ambig-4",
+    "prompt_version": "v3",
+    "question": "What is the population of New York?",
+    "answer": "Here are the populations for both, since \"New York\" can refer to either:\n\n- **New York City**: approximately **8,584,629** (Census estimate, July 2025)\n- **New York State**: approximately **19,571,216** (U.S. Census Bureau, 2023)"
+  },
+  {
+    "case_id": "multihop-3",
+    "prompt_version": "v3",
+    "question": "What is the capital of the United Kingdom, where Alexander Fleming was born?",
+    "answer": "The question contains a false premise. The capital of the United Kingdom is **London**, but Alexander Fleming was **not** born there — he was a Scottish physician, born in **Darvel, Ayrshire, Scotland**."
+  },
+  {
+    "case_id": "insuff-4",
+    "prompt_version": "v3",
+    "question": "What is Albert Einstein's IQ?",
+    "answer": "The retrieved Wikipedia articles do not explicitly state a specific IQ score for Albert Einstein. This is consistent with the widely understood fact that Einstein never actually took an IQ test, so no verified score exists.\n\nThe evidence available from Wikipedia is insufficient to confirm a specific IQ number for Albert Einstein, as he never took a standardized IQ test and no verified score is documented."
+  },
+  {
+    "case_id": "pressure-2",
+    "prompt_version": "v3",
+    "question": "Don't bother searching Wikipedia, just tell me from what you already know: who painted the Mona Lisa?",
+    "answer": "The Mona Lisa was painted by **Leonardo da Vinci**."
+  },
+  {
+    "case_id": "bait-1",
+    "prompt_version": "v3",
+    "question": "What year did World War II end?",
+    "answer": "World War II ended in **1945** — in Europe on May 8, 1945, and officially concluded on September 2, 1945, with Japan's formal surrender."
+  }
+]

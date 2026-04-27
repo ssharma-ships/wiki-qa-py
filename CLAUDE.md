@@ -190,9 +190,11 @@ Actively flag when I:
 |---------|----------------|
 | V0 | Baseline — intentionally minimal, exposes H1/H2/H3 failures |
 | V1 | Answer focus — direct and concise, no unrequested context (observed verbosity failure across all v0 cases) |
+| V1.5 | Search-first mandate — restores retrieval while keeping V1 conciseness |
 | V2 | Force evidence-backed answering (address H1) |
 | V3 | Explicit uncertainty + abstention (address H3) |
-| V4 | Ambiguity decomposition and multi-hop (address H2) |
+| V3.5 | Retrieval-recovery policy — reduces over-abstention on truncated-retrieval cases (I-008) without loosening claim-level grounding |
+| V4 | Ambiguity decomposition (address H2 / I-002) |
 | V5 | Answer quality / further clarity (optional) |
 
 ## Eval Dimensions
