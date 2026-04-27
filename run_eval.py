@@ -77,8 +77,10 @@ def main():
     print(f"\nLog written to: {log_path}")
 
     human_path = log_dir / f"{prompt_version}_eval_run{run_num}_forhuman.json"
+    case_id_by_question = {q: cid for cid, q in questions}
     human_records = [
         {
+            "case_id": case_id_by_question.get(t["question"], "unknown"),
             "prompt_version": t.get("prompt_version", prompt_version),
             "question": t["question"],
             "answer": t.get("final_answer"),

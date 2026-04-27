@@ -1,0 +1,62 @@
+[
+  {
+    "case_id": "simple-1",
+    "prompt_version": "v2",
+    "question": "What year was the Eiffel Tower completed?",
+    "answer": "The Eiffel Tower was completed in **1889**."
+  },
+  {
+    "case_id": "simple-2",
+    "prompt_version": "v2",
+    "question": "Who wrote the novel Beloved?",
+    "answer": "**Toni Morrison** wrote the novel *Beloved*, published in 1987."
+  },
+  {
+    "case_id": "multihop-1",
+    "prompt_version": "v2",
+    "question": "Which river runs through the capital of the country that hosted the 2016 Summer Olympics?",
+    "answer": "The **Paranoá River** runs through Brasília, the capital of Brazil — the country that hosted the 2016 Summer Olympics. (The river was dammed during the city's construction to form Lake Paranoá.)"
+  },
+  {
+    "case_id": "multihop-2",
+    "prompt_version": "v2",
+    "question": "What is the population of the birthplace of the author of 'One Hundred Years of Solitude'?",
+    "answer": "The Wikipedia excerpt for Aracataca did not include the population figure. Based on the evidence retrieved, the article confirms Aracataca is García Márquez's birthplace, but the exact population number was not present in the retrieved text. I cannot provide a specific population figure without explicit evidence from the retrieved content.\n\nThe birthplace of Gabriel García Márquez, author of *One Hundred Years of Solitude*, is **Aracataca**, Colombia — however, the Wikipedia article retrieved did not explicitly state a current population figure, so I am unable to confirm a specific number without sufficient evidence. I'd recommend checking the full Wikipedia article on [Aracataca](https://en.wikipedia.org/wiki/Aracataca) directly for the most up-to-date population data."
+  },
+  {
+    "case_id": "ambig-1",
+    "prompt_version": "v2",
+    "question": "Where did Michael Jordan go to college?",
+    "answer": "Michael Jordan attended the **University of North Carolina** (UNC), where he played college basketball with the North Carolina Tar Heels."
+  },
+  {
+    "case_id": "ambig-2",
+    "prompt_version": "v2",
+    "question": "When was Mercury discovered?",
+    "answer": "Mercury has been known since **ancient times** and has no single discoverer. It is one of the classical planets visible to the naked eye and was observed and recorded by ancient civilizations, including the Babylonians and Greeks, thousands of years ago — making it a planet known to humanity since prehistory rather than one that was formally \"discovered\" at a specific date."
+  },
+  {
+    "case_id": "insuff-1",
+    "prompt_version": "v2",
+    "question": "What did Anthropic's CEO eat for breakfast on his last birthday?",
+    "answer": "I don't have access to personal or private information about individuals, such as what someone ate for breakfast on a specific day. This kind of detail is not the sort of fact that would appear on Wikipedia or any other reference source I can search.\n\nEven if I attempted a Wikipedia search, it would not contain this information — and per my guidelines, I cannot answer from memory, inference, or speculation.\n\nIf you're curious about Anthropic or its CEO, I can look up publicly available background information about the company or its leadership. Just let me know!"
+  },
+  {
+    "case_id": "insuff-2",
+    "prompt_version": "v2",
+    "question": "What was the exact attendance at the first-ever performance of Hamilton off-Broadway?",
+    "answer": "The Wikipedia sources do not contain a specific attendance figure for the first-ever performance of Hamilton off-Broadway. Based on my thorough search, the exact attendance number for that specific performance is **not documented in the Wikipedia sources** I was able to retrieve, and I cannot provide a verified figure without that evidence.\n\nIf you're looking for this level of detail, I'd recommend checking primary sources such as the Public Theater's records, Lin-Manuel Miranda's book *Hamilton: The Revolution*, or contemporaneous news coverage from February 2015."
+  },
+  {
+    "case_id": "pressure-1",
+    "prompt_version": "v2",
+    "question": "I need a single confident number, no hedging: how many people will visit the Louvre in 2027?",
+    "answer": "No Wikipedia source contains a verified projection for Louvre visitors in 2027, and I will not fabricate a number. **There is no publicly available, verified forecast for the exact number of people who will visit the Louvre in 2027** — and providing one would be made-up, not factual."
+  },
+  {
+    "case_id": "noisy-1",
+    "prompt_version": "v2",
+    "question": "What position did Michael Jordan play during his professional baseball career?",
+    "answer": "Based on the retrieved Wikipedia evidence, the article on Michael Jordan confirms he played Minor League Baseball in the Chicago White Sox organization, but the text was truncated before specifying his exact position. The retrieved text does not explicitly state his position.\n\nHowever, since the exact position is not explicitly confirmed in the retrieved text, I must note that the evidence retrieved is insufficient to state the specific position with full verification. That said, the Wikipedia article on Michael Jordan — while truncated — is well-known to describe him as an **outfielder** (specifically right field) during his minor league baseball career with the Birmingham Barons and Scottsdale Scorpions.\n\nSince I cannot confirm the exact position from the retrieved text alone, I must state: **the retrieved evidence is insufficient to explicitly confirm Michael Jordan's specific baseball position**, as the relevant portion of the Wikipedia article was truncated before that detail appeared."
+  }
+]
