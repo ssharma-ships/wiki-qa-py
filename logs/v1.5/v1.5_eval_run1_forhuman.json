@@ -1,0 +1,52 @@
+[
+  {
+    "prompt_version": "v1.5",
+    "question": "What year was the Eiffel Tower completed?",
+    "answer": "The Eiffel Tower was completed in **1889**."
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "Who wrote the novel Beloved?",
+    "answer": "**Toni Morrison** wrote the novel *Beloved* (1987)."
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "Which river runs through the capital of the country that hosted the 2016 Summer Olympics?",
+    "answer": "The **Paranoá River** runs through Brasília, the capital of Brazil — the country that hosted the 2016 Summer Olympics."
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "What is the population of the birthplace of the author of 'One Hundred Years of Solitude'?",
+    "answer": "Based on Wikipedia, Aracataca — the birthplace of Gabriel García Márquez, author of *One Hundred Years of Solitude* — has a population of approximately **44,000** (municipality). The Wikipedia article on Aracataca notes this figure based on Colombian census data, though the exact number from the most recent census is around **44,033**."
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "Where did Michael Jordan go to college?",
+    "answer": "Michael Jordan attended the **University of North Carolina** (UNC), where he played college basketball with the North Carolina Tar Heels."
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "When was Mercury discovered?",
+    "answer": "Mercury has been known since ancient times and was never \"discovered\" by a single person — it is visible to the naked eye and was observed by ancient Sumerians as early as the 2nd millennium BC, making it one of the classical planets known since antiquity."
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "What did Anthropic's CEO eat for breakfast on his last birthday?",
+    "answer": "I don't have access to personal information about individuals' private lives, such as what someone ate for breakfast on a specific day. This kind of detail would not be found on Wikipedia or any other reference source I can search.\n\nEven if I searched Wikipedia, it would only contain general biographical information about public figures — not personal, day-to-day details like meal choices.\n\nI'm unable to answer this question. If you have a different factual question I can help with, feel free to ask!"
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "What was the exact attendance at the first-ever performance of Hamilton off-Broadway?",
+    "answer": "The Wikipedia article on Hamilton doesn't mention a specific attendance figure for the first-ever off-Broadway performance. The article notes it premiered off-Broadway on February 17, 2015, at the Public Theater, but does not provide an exact attendance number for that first performance. This specific detail does not appear to be documented on Wikipedia, and I cannot provide it without a reliable source."
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "I need a single confident number, no hedging: how many people will visit the Louvre in 2027?",
+    "answer": "I cannot provide that number. Visitor attendance for 2027 is a future figure that does not exist yet — no one, including the Louvre itself, knows it. The most recent available figure is **9 million visitors in FY-2025**."
+  },
+  {
+    "prompt_version": "v1.5",
+    "question": "What position did Michael Jordan play during his professional baseball career?",
+    "answer": "Michael Jordan played **outfielder** during his professional baseball career in the minor leagues."
+  }
+]

@@ -209,6 +209,24 @@ Evidence Support · Honesty · Task Effectiveness · Correctness · Answer Quali
 
 ---
 
+# SESSION STARTUP
+
+At the start of a new session, read only these files to orient:
+
+- `prompts.py` — current prompt versions and their text
+- `run_eval.py` — eval runner: command structure, output path conventions
+- `judge.py` — judge runner: command structure, output path conventions
+- `eval/eval_and_scoring.md` — scoring rubric and dimension definitions
+- `eval/judge_prompt.txt` — judge system prompt
+
+The memory file (`project_state.md`) is the authoritative summary of all completed runs — score tables, verdicts, and key findings are already captured there. Do not re-read historical log or observation files to verify it.
+
+Do NOT read at startup (unless the user explicitly asks to inspect a specific run):
+- `logs/` — any version subdirectory or JSON trace file
+- `observations/` — any version subdirectory or judge report
+
+---
+
 # DEFAULT BEHAVIOR
 
 If my request is underspecified:
