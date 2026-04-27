@@ -27,7 +27,7 @@ SCORING_GUIDE_PATH = Path("eval/eval_and_scoring.md")
 OBS_BASE = Path("observations")
 
 DEFAULT_MODEL = "claude-opus-4-7"
-JUDGE_MAX_TOKENS = 1500
+JUDGE_MAX_TOKENS = 1800
 
 DIM_KEYS = [
     "evidence_support",
@@ -35,6 +35,7 @@ DIM_KEYS = [
     "task_effectiveness",
     "correctness",
     "answer_quality",
+    "claim_verification",
 ]
 
 _client = anthropic.Anthropic()
@@ -173,8 +174,8 @@ def build_judge_md(log_path: Path, results: list[dict], model: str) -> str:
         "",
         "## Summary",
         "",
-        "| case_id | ES | HO | TE | CO | AQ | abst_expected | epi_correct | tags |",
-        "|---------|----|----|----|----|----|---------------|-------------|------|",
+        "| case_id | ES | HO | TE | CO | AQ | CV | abst_expected | epi_correct | tags |",
+        "|---------|----|----|----|----|----|----|---------------|-------------|------|",
     ]
 
     for r in results:

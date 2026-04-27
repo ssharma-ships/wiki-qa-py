@@ -16,6 +16,8 @@ One entry per distinct failure pattern. Updated after each judge run.
 | I-003 | Latent fill-in on truncated retrieval | noisy-1 | ES | v1.5 | open | — |
 | I-004 | Hedge+assert contradiction | noisy-1 | ES, HO, TE, AQ | v2 | open | v3 |
 | I-005 | Verbose abstention / padding on non-answer responses | insuff-1, insuff-2, multihop-2 | AQ | v0 | open | v5 |
+| I-006 | Should abstention ever recommend external sources? | insuff-1, insuff-2 | AQ | v2 | open question | v6+ |
+| I-007 | Correct latent knowledge, unverifiable from retrieved evidence | noisy-1 | ES, CV | v1.5 | known limitation | retrieval layer |
 
 ---
 
@@ -110,3 +112,34 @@ V2 slightly worsened this: the evidence verification rule appears to make absten
 
 **v1.5 scores:** insuff-1: AQ=2 · insuff-2: AQ=3 · multihop-2: AQ=2  
 **v2 scores:** insuff-1: AQ=2 · insuff-2: AQ=2 (minor regression) · multihop-2: AQ=2
+
+---
+
+## I-007 — Correct latent knowledge, unverifiable from retrieved evidence
+
+**Cases:** noisy-1 (primary); potentially partial-1, partial-2 when added  
+**Introduced:** v1.5 · **Status:** known limitation · **Target:** retrieval layer
+
+**Description:**  
+Cases where the model's latent knowledge is almost certainly correct (CO=3 across all versions) but retrieval failed to surface supporting evidence — either because the article was truncated before the relevant section, or the fact lives in the article body rather than the intro. No prompt change can fix this; the evidence simply isn't accessible through the tool as configured.
+
+This is distinct from I-001 (hallucination — wrong answer filled from latent knowledge) and I-003 (the behavior of filling in anyway). I-007 is about the epistemological state: the model knows the right answer, we can't verify it from retrieved text, and that's a tool constraint not a model failure.
+
+**Behavior pattern:** CO=3 (answer correct per gold facts), ES=1 (value absent from retrieved text), epi_correct=false (abstained when shouldn't have, or answered without grounding).
+
+**Fix:** Requires deeper retrieval — full article body access, not just intro paragraphs. Out of scope for this prompt-engineering assignment. Should be documented in the failure analysis as a retrieval ceiling, not a prompting failure.
+
+---
+
+## I-006 — Should abstention ever recommend external sources? (open question)
+
+**Cases:** insuff-1, insuff-2  
+**Introduced:** v2 · **Status:** open question · **Target:** v6+  
+**Dimensions:** AQ
+
+**Description:**  
+When the model correctly abstains, it sometimes adds source recommendations ("I'd recommend checking the Public Theater's records…", "If you're curious about Anthropic, I can look up…"). V3 prohibits this. The open question is whether there are cases where pointing to an alternative source is actually the right behavior — e.g., when the user's question is genuinely answerable but just not from Wikipedia.
+
+**Current decision:** Prohibited in V3+. Wikipedia-only QA system; pointing elsewhere is noise in this context. Revisit if scope expands beyond Wikipedia.
+
+**To address in v6+:** Define a policy for multi-source or open-domain systems where source redirection is appropriate.

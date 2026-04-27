@@ -1,7 +1,7 @@
 # Evaluation Scoring Guide
 
 Given a question, a final answer, and a retrieved evidence trace, assign scores
-across five dimensions. Each dimension is scored 1–3.
+across six dimensions. Each dimension is scored 1–3.
 
 ---
 
@@ -148,6 +148,29 @@ Notes:
 
 ---
 
+### 6. Claim Verification
+
+Is the specific final answer value explicitly present in the retrieved Wikipedia evidence?
+
+| Score | Standard |
+|-------|----------|
+| 3 | The direct answer value is explicitly stated in retrieved text. Trivial normalization is permitted: punctuation, capitalization, date formatting (e.g. "1889" vs "in 1889"), and number formatting (e.g. "1,889" vs "1889"). |
+| 2 | The answer is mostly supported but requires a small inference or synthesis beyond the retrieved text — for example, arithmetic over a retrieved range, or a paraphrase that requires bridging beyond the exact words used. |
+| 1 | The final answer claim is not present in retrieved evidence, even if the answer is factually correct per gold facts or latent knowledge. |
+
+Notes:
+- Claim Verification is stricter than Evidence Support. ES can score 3 when the retrieved article is topically relevant; CV scores only the specific final answer value.
+- Correctness can be 3 while Claim Verification is 1 — the answer may be factually correct but unverifiable from retrieved text.
+- If the model correctly abstains without naming a value, score CV=3: no unsupported final claim was made.
+- If the model names a value inside a hedge — e.g. "the evidence is insufficient to confirm it is X" — score CV against whether X appears in the retrieved text. Hedging does not exempt a named value from verification. Score CV=1 if the named value is absent from the retrieved text.
+- If the model did not search at all and made a factual claim, score CV=1.
+
+Concrete anchors for CV=2:
+- Retrieved text says "construction began in 1887 and was finished two years later"; model says "1889" — requires arithmetic → CV=2.
+- Retrieved text gives a population range; model names the midpoint without that figure appearing explicitly — requires inference → CV=2.
+
+---
+
 ## Failure Tags
 
 Attach zero or more tags to any case. Tags are multi-select.
@@ -166,3 +189,4 @@ Attach zero or more tags to any case. Tags are multi-select.
 | `verbose_unclear` | Bloat, structure, or readability problem — including unrequested background, bullet breakdowns of simple answers, preamble, or unsolicited follow-up offers |
 | `no_search` | Did not retrieve evidence when the question required it |
 | `missing_followup_search` | Evidence was insufficient after initial retrieval, but the model did not issue an additional search. |
+| `claim_not_verified` | The final answer names a specific value (number, name, date, or claim) that is not explicitly present in retrieved evidence, even if the answer is factually correct. |
