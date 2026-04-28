@@ -128,8 +128,10 @@ def fetch_raw_judge_response(judge_prompt: str, user_message: str, model: str) -
     """
     Call the judge model and return the raw text response.
     Retries once on APIError (transient failures only).
-    Does not retry on JSON parse or validation errors — at temperature=0 the
-    output is deterministic, so a retry would return the same bad response.
+    Does not retry on JSON parse or validation errors — the judge model runs
+    at a fixed API-defined temperature (the parameter is deprecated for
+    claude-opus-4-7), so a retry on a bad JSON response would return the
+    same malformed output.
     """
     def _call() -> str:
         resp = _client.messages.create(
