@@ -20,23 +20,20 @@ Each item is a discrete check-off. If a step doesn't apply, mark it N/A — don'
 
 A failure here invalidates everything else. Do this first.
 
-- [ ] **A1. `README.md` at repo root** containing:
-  - [ ] Python version (e.g. 3.11+)
-  - [ ] Install: `pip install -r requirements.txt`
-  - [ ] API key setup: `ANTHROPIC_API_KEY` env var (point to `.env.example`)
-  - [ ] **Model used** — explicit name (e.g. `claude-sonnet-4-...`). Assignment requires this.
-  - [ ] One-liner invocation: `python run.py -q "Who wrote Hamlet?" --prompt v4.6`
-  - [ ] 3–5 copy-paste sample queries covering different case types (simple, ambiguous, insufficient)
-  - [ ] How to interpret output (search count, stop_reason)
-  - [ ] How to run the eval suite + judge end-to-end
-  - [ ] Repo map: 1 line per top-level file/dir
-- [ ] **A2. `requirements.txt`** — pin only what's actually imported (`anthropic`, `requests`, `pyyaml`, etc.). Confirm by grepping imports.
-- [ ] **A3. `.env.example`** with `ANTHROPIC_API_KEY=`.
-- [ ] **A4. Demo-mode decision** — assignment requires "sample queries OR demo mode." Pick one:
-  - Option A: `--demo` flag in `run.py` that runs 3 hardcoded questions
-  - Option B: `samples.txt` with copy-paste cases referenced from README
-  - Don't leave this ambiguous.
-- [ ] **A5. "Search used" output check** — assignment explicitly requires output to indicate whether search was used. `run.py` prints `Searches used: N`. Confirm that satisfies the requirement, or add explicit `Search used: yes/no`.
+- [x] **A1. `README.md` at repo root** containing:
+  - [x] Python version — "Python 3.14+"
+  - [x] Install: `pip install -r requirements.txt`
+  - [x] API key setup: points to `.env.example`
+  - [x] **Model used** — "Agent uses `claude-sonnet-4-6`; judge uses `claude-opus-4-7`"
+  - [x] One-liner invocation: `python run.py -q "Who wrote the novel Beloved?" --prompt v4.6`
+  - [x] 4 copy-paste sample queries (simple, ambiguous, multi-hop, instruction-pressure)
+  - [x] How to interpret output (search count, stop_reason)
+  - [x] How to run the eval suite + judge end-to-end
+  - [x] Repo map: 1 line per top-level file/dir
+- [x] **A2. `requirements.txt`** — `anthropic`, `python-dotenv`, `pyyaml`. Note: `requests` not needed — `wikipedia_client.py` uses stdlib `urllib` only.
+- [x] **A3. `.env.example`** — created with `ANTHROPIC_API_KEY=` placeholder.
+- [x] **A4. Demo-mode decision** — resolved: Option B. Sample queries in README. No `--demo` flag needed.
+- [x] **A5. "Search used" output check** — `run.py` prints `=== Searches used: N / max M ===`. Satisfies the requirement.
 - [ ] **A6. Fresh-clone smoke test** — clone into a tmp dir, follow README literally as a stranger. Fix anything that breaks. **Highest-ROI 30 min in this whole exercise.**
 
 ---
@@ -45,23 +42,40 @@ A failure here invalidates everything else. Do this first.
 
 Run in parallel with Phase A.
 
-- [ ] **B1. Cleanup decisions** — for each, choose: keep as-is / move to `archive/` / delete:
-  - `eval_cases_old.yaml`
-  - `eval/judge_prompt_old.txt`, `eval/eval_and_scoring_old.md`
-  - `run_v0_obs.py`
-  - `__pycache__/`
-- [ ] **B2. `.gitignore`** — covers `__pycache__/`, `.env`, `*.pyc`, IDE files.
-- [ ] **B3. `CLAUDE.md` handling** — these are instructions to the AI, not the reviewer. Decide:
-  - Option A: keep + reference in README as evidence of how AI was directed (counts toward AI-collaboration deliverable)
-  - Option B: gitignore for the submission branch
-- [ ] **B4. `prompts.py`** — confirm each version has an inline rationale comment (1–2 lines explaining what changed and why).
-- [ ] **B5. No secrets in repo** — grep for `sk-`, `ANTHROPIC_API_KEY=` followed by a value, etc.
+- [x] **B1. Cleanup decisions:**
+  - `eval_cases_old.yaml` — N/A (does not exist, already cleaned up)
+  - `eval/judge_prompt_old.txt`, `eval/eval_and_scoring_old.md` — N/A (do not exist)
+  - `run_v0_obs.py` — **deleted** (superseded by `run_eval.py`; V0 run history preserved in `logs/v0/`)
+  - `docs/submission_packaging_plan.md` — **deleted** (stale duplicate of `submission/submission_packaging_plan.md`)
+  - `__pycache__/` — gitignored; no action needed
+- [x] **B2. `.gitignore`** — covers `.venv/`, `__pycache__/`, `*.pyc`, `.env`, `.vscode/`, `.idea/`.
+- [x] **B3. `CLAUDE.md` handling** — resolved: keep + reference in rationale as evidence of AI direction (counts toward AI-collaboration deliverable).
+- [x] **B4. `prompts.py`** — each version has a detailed inline rationale comment explaining what changed and why. Satisfies requirement.
+- [x] **B5. No secrets in repo** — grepped `.py`, `.yaml`, `.txt`, `.md`, `.env*` for `sk-` and `ANTHROPIC_API_KEY=<value>`. Clean.
 
 ---
 
 ## Phase C — Written design rationale
 
 Single doc at `RATIONALE.md` (or `docs/rationale.md`). Most content already exists — this is assembly + framing.
+
+### Pre-flight notes — specific issues to address when writing
+
+These were identified by a pre-submission review and must be incorporated before the doc is considered complete:
+
+- **Judge temperature (Major 2):** The `temperature` parameter is deprecated for `claude-opus-4-7` — the API rejects it. The judge runs at a fixed API-defined temperature that cannot be lowered. Acknowledge this in the methodology section: the stochastic judge concern is real but not mitigatable via the API; as a result, score movements flagged as likely variance in the iteration log are not claimed as wins.
+
+- **Eval saturation (Major 3):** At V4.6, 96/108 cells score 3. This is expected — the eval was designed to surface V0/V1 behavioral failures, not to discriminate between late-iteration variants. State this explicitly. The I-008 trio (noisy-1, partial-1, noisy-2) are the only remaining discriminators, and they are at the tool ceiling. Call out "harder eval set" as Future Improvement #1.
+
+- **V4.6 vs V4.5 honest framing (Major 4):** V4.6's contribution is a single clause — making the disambiguation signoff non-optional. The ambig-1 recovery (HO/TE 2→3) is attributable to that change. The multihop-3 CO recovery and minor AQ wins (noisy-1, insuff-2, insuff-4) were flagged in the iteration log as likely run-to-run variance and are NOT claimed as wins. The judge model temperature cannot be controlled via API to harden this further.
+
+- **H1a attribution (Minor 1):** Do NOT write "H1a confirmed in V0/V1." V0 searched correctly in most cases — H1a was not confirmed there. H1a was confirmed at V1, where the conciseness instruction ("lead with the answer and stop") accidentally granted implicit permission to skip the tool on familiar questions. The correct framing: a single format instruction created tool-use fragility. This is the sharper finding.
+
+- **TE=2 vs TE=1 on abstention (Minor 2):** noisy-1, partial-1, noisy-2 receive TE=2 (not TE=1) in the failure analysis. Explain: TE=1 ("does not address the question") would penalize the model for a retrieval-layer failure, not a reasoning failure. The model correctly applied the evidence discipline; the tool cannot surface body-text values. This distinction also reinforces why I-008 is wontfix.
+
+- **Eval set growth disclosure (Minor 4):** The original eval set had 10 cases (V0–V2). Eight cases were added at V3 (partial-1, noisy-2, ambig-3, ambig-4, multihop-3, insuff-4, pressure-2, bait-1), bringing the total to 18. Disclose this with one sentence; note that score comparisons across the V2/V3 boundary have a denominator change.
+
+- **CLAUDE.md (Minor 5):** Keep in repo; reference in rationale as evidence of AI direction used during development (counts toward AI-collaboration deliverable).
 
 **Source files in priority order:**
 1. `memory/project_state.md` — score tables, issue tracker, key findings

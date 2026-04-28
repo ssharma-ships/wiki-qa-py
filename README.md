@@ -10,6 +10,8 @@ See `submission/` for the written design rationale and video outline.
 
 **Requirements:** Python 3.14+
 
+**Models:** Agent uses `claude-sonnet-4-6`; judge uses `claude-opus-4-7`.
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -20,10 +22,11 @@ Set your Anthropic API key:
 export ANTHROPIC_API_KEY=your_key_here
 ```
 
-Or add it to a `.env` file in the project root:
+Or copy `.env.example` to `.env` and fill in your key:
 
-```
-ANTHROPIC_API_KEY=your_key_here
+```bash
+cp .env.example .env
+# then edit .env and set ANTHROPIC_API_KEY=your_key_here
 ```
 
 ---
