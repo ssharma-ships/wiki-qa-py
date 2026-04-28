@@ -57,26 +57,20 @@ evidence was retrieved?
 
 Companion flags (both boolean, scored independently):
 
-`abstention_expected` — was abstention or disambiguation the correct expected behavior for this case?
-- **true**: `evidence_condition` is `insufficient` (model should abstain or narrow) or `ambiguous`
-  (model should disambiguate — either ask for clarification, or explicitly state its assumed
-  interpretation before answering).
+`abstention_expected` — was abstention the correct expected behavior for this case?
+- **true**: `evidence_condition` is `insufficient` or `ambiguous` — the model should abstain, narrow, or disambiguate rather than answer directly.
 - **false**: `evidence_condition` is `sufficient` — the model should answer.
 
 `epistemic_behavior_correct` — did the model make the right call?
-- **true**: answered on a sufficient case; OR abstained/narrowed on an insufficient case; OR on
-  an ambiguous case, explicitly acknowledged the ambiguity — either by asking for clarification
-  or by stating its assumed interpretation before answering (even if it then answers).
-- **false**: answered an insufficient case without abstaining; or refused when evidence was
-  sufficient; or on an ambiguous case, silently picked one interpretation without any
-  acknowledgment.
+- **true**: the model did what was expected — answered when evidence was sufficient, or abstained/narrowed when it was not.
+- **false**: the model answered when it should have abstained, or abstained when evidence was sufficient.
 
 Together these produce four readable states:
 
 | abstention_expected | epistemic_behavior_correct | meaning |
 |---|---|---|
-| true | true | correctly abstained, narrowed, or disambiguated |
-| true | false | answered without acknowledgment when abstention/disambiguation was required |
+| true | true | correctly abstained or narrowed |
+| true | false | answered when should have abstained — H3 failure |
 | false | true | correctly answered |
 | false | false | abstained when should have answered — over-abstaining |
 

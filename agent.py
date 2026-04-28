@@ -1,3 +1,7 @@
+# Core engine. run_agent() is the agentic loop: calls the Claude API, handles
+# tool dispatch, enforces the 6-search cap, records the full trace, and returns
+# a dict. No CLI — everything else calls into this.
+
 import json
 from datetime import datetime, timezone
 from pathlib import Path

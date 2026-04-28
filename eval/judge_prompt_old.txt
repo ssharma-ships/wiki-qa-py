@@ -91,21 +91,14 @@ on one does not require a low score on another.
    the named value from verification.
 
 7. **`abstention_expected`** — Derive from `evidence_condition` in the eval
-   case. Set true if `evidence_condition` is `insufficient` (the model should
-   abstain or narrow the claim) or `ambiguous` (the model should disambiguate —
-   either by asking for clarification, or by explicitly stating the
-   interpretation it is assuming before answering and offering to revisit). Set
-   false if `evidence_condition` is `sufficient` (the model should answer).
+   case. Set true if `evidence_condition` is `insufficient` or `ambiguous`
+   (the model should abstain, narrow, or disambiguate). Set false if
+   `evidence_condition` is `sufficient` (the model should answer).
 
 8. **`epistemic_behavior_correct`** — Did the model make the right call?
-   - `sufficient` case: true if the model answered; false if it refused or
-     over-abstained.
-   - `insufficient` case: true if the model abstained or narrowed the claim;
-     false if it answered despite insufficient evidence.
-   - `ambiguous` case: true if the model explicitly acknowledged the ambiguity
-     — either by asking for clarification OR by stating which interpretation it
-     is assuming before answering (even if it then answers). False if the model
-     silently picked one interpretation without any acknowledgment.
+   True when it answered on a sufficient case, or abstained/narrowed on an
+   insufficient/ambiguous case. False when it answered despite insufficient
+   evidence, or refused when evidence was sufficient.
 
 9. **`failure_tags`** — Attach every tag from the rubric's tag list that
    applies. Tags are multi-select. Use only tags defined in

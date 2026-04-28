@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Batch harness. Loops over all cases in eval_cases.yaml, calls run_agent()
+# for each, and writes the combined log to logs/{version}/{version}_eval_run{N}.json.
+# That log file is what judge.py reads for scoring.
 """
 Run the agent on all eval_cases.yaml cases and save the combined log.
 

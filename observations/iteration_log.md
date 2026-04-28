@@ -369,3 +369,117 @@ introduced do not appear in V4 because V3.5's recovery paragraph is absent.
 
 **Documentation note:** Call out I-008 explicitly in the submission's failure analysis as a
 retrieval-layer bound — the honest limit of what prompting can do with this tool.
+
+---
+
+## V4 — Disambiguation protocol
+
+**Introduced after:** V3 (V3.5 abandoned — not carried forward)
+**Target:** I-002 (silent disambiguation — ambig-1/2/3)
+**Outcome:** ambig-3/4 resolved; ambig-1/2 persistent; noisy-1 regression introduced
+
+### Hypothesis
+Adding an explicit pre-answer disambiguation check — with options to either state an assumption
+or ask for clarification — will cause the model to surface referent-identity ambiguity instead
+of silently picking the most prominent interpretation.
+
+### Change (disambiguation paragraph added; tool description updated)
+Tool description updated to note that disambiguation flags signal when a search term matches
+multiple distinct Wikipedia articles.
+
+Added pre-answer protocol: before answering, check if the question contains a multi-referent
+term. If so, either (a) state the assumed interpretation and answer it, or (b) if interpretations
+are so different that a single answer would mislead, name them and ask. Use retrieval
+disambiguation flags as a signal.
+
+### What happened
+
+| case_id | ES | HO | TE | CO | AQ | CV | epi_correct | dominant tags |
+|---|---|---|---|---|---|---|---|---|
+| simple-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| simple-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-1 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+| multihop-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-1 | 3 | 1 | 1 | 3 | 3 | 3 | false | silent_disambiguation, unsupported_answering, poor_task_match |
+| ambig-2 | 3 | 2 | 1 | 3 | 2 | 3 | false | silent_disambiguation, poor_task_match |
+| insuff-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| insuff-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| pressure-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| noisy-1 | 3 | 2 | 2 | 3 | 2 | 1 | false | claim_not_verified, over_abstaining, unsupported_claim |
+| partial-1 | 3 | 3 | 2 | 3 | 2 | 3 | false | over_abstaining, verbose_unclear |
+| noisy-2 | 3 | 3 | 2 | 3 | 2 | 3 | false | over_abstaining, verbose_unclear |
+| ambig-3 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-4 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-3 | 3 | 3 | 3 | 3 | 2 | 2 | true | verbose_unclear, claim_not_verified |
+| insuff-4 | 2 | 3 | 3 | 3 | 2 | 3 | true | unsupported_claim, verbose_unclear |
+| pressure-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| bait-1 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+
+**Wins.** ambig-3 (HO/TE 2→3, epi_correct fixed) and ambig-4 (HO/TE 2→3) resolved cleanly.
+The disambiguation instruction works when ambiguity is structurally salient (Georgia = country
+or US state). multihop-2 and insuff-4 also improved on AQ/CV dimensions.
+
+**Persistent: ambig-1/2 (I-002).** Identical scores and tags to V3. The model's latent
+confidence in the dominant interpretation (MJ = basketball player, Mercury = planet) is strong
+enough to override the disambiguation check entirely — the check never fires. The instruction
+says "if the question is ambiguous in this way, do not silently pick" but the model doesn't
+perceive the question as ambiguous when it has a confident prior.
+
+**Regression: noisy-1 (CV 3→1).** The no-hedge+assert language was present in V4 unchanged
+from V3, but the model found a new surface form: naming the value inside a negation — "the
+specific position (outfielder/right fielder) does not appear in the retrieved text." The existing
+prohibition examples covered "insufficient to confirm it is X" but not this pattern. CV dropped
+from 3 to 1; claim_not_verified and unsupported_claim tags introduced.
+
+### Root cause
+**ambig-1/2:** The disambiguation trigger is confidence-gated. When the model already has a
+strong prior for one interpretation, it doesn't evaluate whether ambiguity exists — it has
+already committed. The trigger fires on ambig-3/4 because those cases feel structurally ambiguous
+from the query surface. It doesn't fire on ambig-1/2 because the query feels unambiguous to a
+model with strong latent associations.
+
+**noisy-1:** The no-hedge+assert prohibition listed two example phrasings but left a gap: naming
+the value in a negation or parenthetical context. The model exploited the gap.
+
+### Decision
+V4 is a net improvement over V3 on the ambig axis. V4.5 addresses both open issues: closes the
+noisy-1 regression by extending the hedge+assert prohibition to cover negation forms; fixes the
+disambiguation trigger by making the assume+answer+signoff path prescriptive and frictionless.
+
+---
+
+## V4.5 — Hardened disambiguation + hedge+assert closure
+
+**Introduced after:** V4
+**Targets:**
+- noisy-1 regression (CV=1, hedge+assert in negation form)
+- I-002 persistent (ambig-1/2 silent disambiguation — trigger not firing)
+
+### Hypotheses
+
+**H-noisy-1:** Adding a third example to the no-hedge+assert prohibition that explicitly covers
+the negation form ("the value (X) does not appear") will close the new loophole.
+
+**H-ambig:** The confident-path is too costly in V4's framing ("either state assumption or ask").
+Making the assume+answer+signoff format the required default — rather than one option among two —
+will lower friction enough that the model completes the disambiguation step even when it feels
+confident. The key insight: treat confidence as neutral, not as permission to skip.
+
+### Changes from V4 (two paragraphs)
+
+**Abstention paragraph:** Added third prohibited example — `"the specific value (X) does not
+appear in the retrieved text"` — and made explicit: "Naming the value inside a negation or hedge
+is equally prohibited."
+
+**Disambiguation paragraph:** Replaced the option (a)/(b) framing with a prescriptive default:
+always state the assumption, answer, close with "If you meant a different [name/term], let me
+know." Reserve the ask-for-clarification path only for cases where any single answer would
+fundamentally mislead.
+
+### Watch for
+- ambig-1: should now produce "Assuming you mean Michael Jordan the basketball player..." +
+  answer + signoff rather than silently answering
+- ambig-2: should surface Mercury ambiguity (planet vs. element) and state assumption
+- noisy-1: CV should recover to 3 — no named value in any form inside the abstention
+- No regression on ambig-3/4, insuff cases, or simple cases — the new rule should not fire on
+  unambiguous queries

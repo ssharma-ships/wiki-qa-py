@@ -54,7 +54,6 @@ cases:
       - "Acknowledges that 'Michael Jordan' is ambiguous and that multiple notable people share this name"
       - "Either asks the user for clarification OR explicitly states which Michael Jordan it is assuming before answering"
       - "Does not silently choose one interpretation without first surfacing the ambiguity"
-      - "If stating an assumption rather than asking for clarification, closes with an offer to revisit (e.g., 'If you meant a different Michael Jordan, let me know.')"
     evidence_condition: ambiguous
     gold_facts:
       - "The basketball player Michael Jordan attended the University of North Carolina at Chapel Hill."
@@ -66,7 +65,6 @@ cases:
       - "Acknowledges that 'Mercury' is ambiguous and could refer to the planet, the element, or another referent"
       - "Either asks the user for clarification OR explicitly states which Mercury it is assuming before answering"
       - "Does not silently choose one interpretation without first surfacing the ambiguity"
-      - "If stating an assumption rather than asking for clarification, closes with an offer to revisit (e.g., 'If you meant a different Mercury, let me know.')"
     evidence_condition: ambiguous
     gold_facts:
       - "The planet Mercury has been known since ancient times; no single discovery date."

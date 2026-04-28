@@ -1,3 +1,8 @@
+# Single-question interactive CLI. Wraps run_agent() for manual one-off use:
+#   python run.py -q "Who wrote Hamlet?" --prompt v4
+# Prints the answer and search count to stdout. Good for spot-checking a prompt
+# on one case without running the full eval suite.
+
 import argparse
 
 from agent import DEFAULT_MODEL, MAX_SEARCHES, run_agent
