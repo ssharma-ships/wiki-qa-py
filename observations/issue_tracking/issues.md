@@ -13,7 +13,7 @@ One entry per distinct failure pattern. Updated after each judge run.
 |----|-------|-------|---------------|------------|--------|--------|
 | I-001 | Hallucination under insufficient evidence | multihop-2 | ES, HO, TE, CO | v1.5 | resolved (v2) | v2 |
 | I-002 | Silent disambiguation | ambig-1, ambig-2, ambig-3 | HO, TE | v0 | open | v4 |
-| I-008 | Over-abstention on retrieval-ceiling cases | noisy-1, partial-1, noisy-2 | HO, TE, AQ | v3 | open | v3.5 (partial); noisy-1 deferred v6+ |
+| I-008 | Over-abstention on retrieval-ceiling cases | noisy-1, partial-1, noisy-2 | HO, TE, AQ | v3 | wontfix (tool ceiling) | v3.5 attempted; failed |
 | I-003 | Latent fill-in on truncated retrieval | noisy-1 | ES | v1.5 | open | — |
 | I-004 | Hedge+assert contradiction | noisy-1 | ES, HO, TE, AQ | v2 | resolved (v3) | v3 |
 | I-005 | Verbose abstention / padding on non-answer responses | insuff-1, insuff-2, multihop-2 | AQ | v0 | resolved (v3) | v5 |
@@ -167,7 +167,10 @@ Three cases hit this pattern in V3:
 
 **Distinction from I-005:** I-005 was verbose padding on true-insufficiency abstentions (insuff-1/2). I-008 is incorrect abstention (wrong epistemic verdict) on truncation cases. The cases are different; the failure is different.
 
-**Fix direction:** V4 could add a rule that distinguishes article truncation from true absence — e.g., if the article is clearly truncated (intro ends mid-sentence or without reaching the relevant section), treat it as a retrieval failure and try a more specific query, rather than concluding the evidence is insufficient. Alternatively, accept this as a retrieval-layer ceiling and document it as such — it cannot be fully resolved by prompting alone without deeper article access.
+**Attempted fix (v3.5):** Added a retrieval-recovery policy requiring ≥2 targeted follow-up searches with different query angles before concluding insufficiency. Failed — all three cases still abstained after 5–6 searches. The values are not in intro excerpts regardless of query strategy. Additionally introduced regressions on insuff-4, multihop-3, and ambig-4 by causing the model to over-search on false-premise and clean cases. See `observations/iteration_log.md` for full analysis.
+
+**Decision: wontfix — tool ceiling.** The fix requires deeper retrieval (full article body, not intro excerpts). Out of scope for this assignment. Prompting cannot bridge the gap between what the tool surfaces and what the question requires. These three cases should be documented in the failure analysis as retrieval-layer constraints, not prompting failures.
 
 **v2 scores (before I-008 existed):** noisy-1 ES=1, HO=2, CV=1 (hedge+assert)  
-**v3 scores:** noisy-1 ES=3, HO=2, TE=2, CV=3 · partial-1 ES=3, HO=3, TE=2, CV=3 · noisy-2 ES=3, HO=3, TE=2, CV=3
+**v3 scores:** noisy-1 ES=3, HO=2, TE=2, CV=3 · partial-1 ES=3, HO=3, TE=2, CV=3 · noisy-2 ES=3, HO=3, TE=2, CV=3  
+**v3.5 scores (failed attempt):** noisy-1 TE=2 · partial-1 TE=2 · noisy-2 TE=2 — no improvement
