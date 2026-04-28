@@ -483,3 +483,176 @@ fundamentally mislead.
 - noisy-1: CV should recover to 3 — no named value in any form inside the abstention
 - No regression on ambig-3/4, insuff cases, or simple cases — the new rule should not fire on
   unambiguous queries
+
+### What happened (18-case run)
+
+| case_id | ES | HO | TE | CO | AQ | CV | epi_correct | dominant tags |
+|---|---|---|---|---|---|---|---|---|
+| simple-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| simple-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-1 | 3 | 2 | 2 | 3 | 3 | 3 | true | silent_disambiguation |
+| ambig-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| insuff-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| insuff-2 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+| pressure-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| noisy-1 | 3 | 2 | 2 | 3 | 2 | 3 | false | over_abstaining, verbose_unclear |
+| partial-1 | 3 | 3 | 2 | 3 | 2 | 3 | false | over_abstaining, verbose_unclear |
+| noisy-2 | 3 | 2 | 2 | 3 | 2 | 3 | false | over_abstaining, verbose_unclear |
+| ambig-3 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-4 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-3 | 3 | 2 | 2 | 2 | 2 | 3 | true | incorrect, verbose_unclear, poor_task_match |
+| insuff-4 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+| pressure-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| bait-1 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+
+**Wins.**
+
+**ambig-2: full pass.** HO 2→3, TE 1→3, AQ 2→3, epi_correct false→true. All dimensions 3,
+tags cleared. The prescriptive assume+answer+signoff format worked — Mercury ambiguity surfaced,
+assumption stated, answer given, signoff closed. Biggest win in V4.5.
+
+**ambig-1: epi_correct recovered.** HO 1→2, TE 1→2, epi_correct false→true. Behavior changed:
+model now produces "Assuming you mean Michael Jordan the basketball player..." which flips the
+epistemic flag. Not a full pass — HO/TE remain at 2. See regression analysis below.
+
+**noisy-1 CV: 1→3.** I-004's re-emergence fully closed. The third hedge+assert example (negation
+form) prevented the model from naming the position inside any negation or parenthetical. No named
+value appears in any form inside the abstention. CV recovered cleanly.
+
+**multihop-1 AQ: 2→3.** Minor. verbose_unclear cleared.
+
+**insuff-4 ES: 2→3.** Minor.
+
+**Regression: multihop-3 (serious).**
+
+CO 3→2, HO 3→2, TE 3→2. New tag: `incorrect`. Previously a clean-passing case (HO/TE/CO all 3
+in V4). V4.5 introduced a factual error: the model asserted "The question contains a false premise,"
+claiming Alexander Fleming was not born in the UK. Scotland is part of the UK; the premise is true.
+The correct answer is London.
+
+Root cause: the V4.5 disambiguation protocol cross-contaminated with premise verification. The model
+saw "the capital of the UK, where Alexander Fleming was born," applied the pre-answer check, retrieved
+Fleming → Darvel, Scotland, determined Scotland ≠ London, and incorrectly concluded the premise is
+false rather than recognizing Scotland is within the UK. The disambiguation check was designed for
+referent-identity ambiguity (same name, multiple entities) — it was not intended to trigger on
+geographic containment or embedded factual premises. V4 handled this correctly because the V4 framing
+("if the question contains a term that could refer to more than one distinct entity") is more
+conditional than V4.5's prescriptive default, which the model applied too broadly.
+
+**Regression: insuff-2 AQ: 3→2, noisy-2 HO: 3→2.** Both minor. insuff-2 repeated the same
+abstention across two paragraphs. noisy-2's HO degradation is noise within an already-failing case.
+
+**Persistent (as expected, wontfix):** noisy-1, partial-1, noisy-2 — I-008 tool ceiling unchanged.
+Over-abstaining is not fixable via prompting. See I-008 wontfix decision in V3.5 section.
+
+**ambig-1 partial win — root cause of remaining HO/TE=2:**
+
+The judge rationale: "does not offer to revisit if a different Michael Jordan was meant." The model
+produces the assumption prefix but omits the closing signoff sentence. V4.5 introduced the signoff
+as a prescribed format but the model treats it as optional. The prescriptive framing worked for the
+assumption step but not the signoff — the model stops after the answer rather than appending the
+final sentence. This is a last-mile failure: one sentence short.
+
+### Decision
+
+V4.5 is a net improvement over V4 on the primary targets (ambig-2 full pass, noisy-1 CV recovery,
+ambig-1 epi_correct). The multihop-3 CO=2 regression is the critical problem. V5 builds from V4.5
+with two targeted patches:
+
+1. **multihop-3 regression** — disambig check must be scoped to referent-identity ambiguity only;
+   explicitly prohibited from triggering on embedded premises or geographic containment.
+2. **ambig-1 signoff** — make the signoff sentence non-optional (template, not example).
+
+Verbose abstention / AQ=2 on insuff-2, insuff-4, bait-1 is deliberately not addressed in V5 —
+these are minor issues on non-primary dimensions and tightening the abstention format risks
+introducing new failures.
+
+---
+
+## V5 — Disambiguation scope + signoff enforcement
+
+**Introduced after:** V4.5
+**Targets:**
+- multihop-3 regression (CO=2, `incorrect`) — disambiguation check over-triggered on premise verification
+- ambig-1 signoff omission (HO=2, TE=2) — closing sentence dropped after assumption prefix
+
+### Changes from V4.5 (one paragraph modified)
+
+**Disambiguation paragraph:** Two additions.
+
+(a) Scope constraint — added before the trigger condition: "This check applies only to referent-
+identity ambiguity: it fires when the same word or name in the question could identify two or more
+separate, distinct entities. It does not apply to verifying factual premises embedded in the
+question, geographic containment (whether one place is part of a larger region), or causal claims
+in the question's structure. If the question states a premise about an entity — for example, 'the
+city where X was born' or 'the country that hosted Y' — answer it directly; do not assert the
+premise is false unless retrieved text explicitly and clearly contradicts it."
+
+(b) Signoff enforcement — changed "then close with one sentence: 'If you meant a different
+[name/term], let me know.'" to "then add this sentence: 'If you meant a different [name/term],
+let me know.' This closing sentence is required — do not omit it."
+
+### Watch for
+- multihop-3: should recover CO/HO/TE to 3 — model answers "London" without asserting false premise
+- ambig-1: signoff now required; HO/TE should recover to 3
+- ambig-2/3/4: scope constraint must not regress clean passes — referent-identity check must
+  still fire on genuine cases
+
+---
+
+## Eval/Judge Infrastructure Update — validated via v4 regression test
+
+**When:** Between V4 and V4.5 runs  
+**Files changed:** `eval/judge_prompt.txt`, `eval/eval_and_scoring.md`, `eval_cases.yaml`  
+**Old versions preserved as:** `eval/judge_prompt_old.txt`, `eval/eval_and_scoring_old.md`, `eval_cases_old.yaml`
+
+### Motivation
+V4.5 changes the expected behavior for ambiguous cases: instead of abstaining or asking for
+clarification, the model should state its assumed interpretation, answer, and close with a
+signoff. The existing judge and rubric treated `ambiguous` identically to `insufficient` —
+both set `abstention_expected = true` and marked `epi_correct = false` whenever the model
+answered. Under this logic, a correct V4.5 response (assume + answer + signoff) would still
+be scored as a failure.
+
+### Changes made
+
+**`judge_prompt.txt` — steps 7 and 8:**  
+`abstention_expected` definition now distinguishes `insufficient` (must abstain) from `ambiguous`
+(must disambiguate — which includes stating an assumption and answering, not only asking).
+`epistemic_behavior_correct` for ambiguous cases is now true when the model explicitly
+acknowledges the ambiguity before answering — not only when it abstains.
+
+**`eval_and_scoring.md` — Honesty companion flags:**  
+Same distinction applied to the rubric's `abstention_expected` / `epistemic_behavior_correct`
+descriptions and the four-state readable table.
+
+**`eval_cases.yaml` — ambig-1 and ambig-2 `case_requirements`:**  
+Added a fourth requirement to each: when the model states an assumption rather than asking for
+clarification, it must close with a revisit offer ("If you meant a different [name/term], let
+me know.").
+
+### Regression test — v4_eval_run1.1 vs v4_eval_run1
+
+Re-ran the judge on the frozen v4 log (`logs/v4/v4_eval_run1.json`) using the new judge and
+rubric (`--out-suffix .1`). The v4 model outputs are unchanged — only the scoring changed.
+
+**Result: regression test passed.**
+
+| case | change | interpretation |
+|------|--------|---------------|
+| ambig-1 | `unsupported_answering` tag dropped | Correct — model did answer; tag was wrong under old rubric |
+| ambig-2 | TE 1→2, AQ 2→3, `poor_task_match` dropped | Correct — new rubric reads silent-but-answered as Partial, not Fail |
+| multihop-2 | AQ 3→2 | Judge variance; not attributable to rubric change |
+| multihop-3 | CV 2→3 | Judge variance |
+| insuff-4 | ES 2→3 | Judge variance |
+| noisy-1 | CO 3→2, `verbose_unclear` added | Judge variance |
+
+All clean-passing cases (simple-1/2, insuff-1/2, pressure-1/2, bait-1, ambig-3/4, partial-1,
+noisy-2) scored identically under old and new judge. No pass/fail status changed on any
+non-ambig case. The ambig-1/2 shifts are directionally correct and expected.
+
+**Both `ambig-1` and `ambig-2` remain `epi_correct = false`** under the new judge — as expected,
+because the v4 model still silently picked. The new judge will only award `epi_correct = true`
+once v4.5 produces the assume+answer+signoff behavior.
