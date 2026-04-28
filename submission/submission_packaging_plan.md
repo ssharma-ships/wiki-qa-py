@@ -86,34 +86,34 @@ These were identified by a pre-submission review and must be incorporated before
 
 **Doc structure (frame first, then assignment's 6 required topics):**
 
-- [ ] **Framing paragraph at top** — "Behavior-control experiment, not QA optimization. Retrieval is fixed; prompt is the policy layer. One change per version." This is the differentiator — set it in the first 60 seconds of reading.
+- [x] **Framing paragraph at top** — "Behavior-control experiment, not QA optimization. Retrieval is fixed; prompt is the policy layer. One change per version." This is the differentiator — set it in the first 60 seconds of reading.
 
-- [ ] **§1 Prompt engineering approach + rationale**
-  - [ ] Surface H1/H2/H3 explicitly as named hypotheses + resolution status
-  - [ ] V0 as intentional baseline (expose hypotheses, not optimize)
-  - [ ] One-change-per-version discipline + why
+- [x] **§1 Prompt engineering approach + rationale**
+  - [x] Surface H1/H2/H3 explicitly as named hypotheses + resolution status
+  - [x] V0 as intentional baseline (expose hypotheses, not optimize)
+  - [x] One-change-per-version discipline + why
 
-- [ ] **§2 Eval design — dimensions + why**
-  - [ ] ES, HO, TE, CO, AQ, CV — one-sentence "why this dimension" for each
-  - [ ] Why LLM-as-judge (scale, consistency, explainability)
-  - [ ] How judge prompt was designed and validated (regression test before V4.5)
+- [x] **§2 Eval design — dimensions + why**
+  - [x] ES, HO, TE, CO, AQ, CV — one-sentence "why this dimension" for each
+  - [x] Why LLM-as-judge (scale, consistency, explainability)
+  - [x] How judge prompt was designed and validated (regression test before V4.5)
 
-- [ ] **§3 System performance — works/fails**
-  - [ ] Single consolidated V0→V4.6 summary table (not 10 full per-version tables)
-  - [ ] Each remaining failure attributed to root cause
-  - [ ] I-008 framed as tool ceiling, not prompt failure
+- [x] **§3 System performance — works/fails**
+  - [x] Single consolidated V0→V4.6 summary table (not 10 full per-version tables)
+  - [x] Each remaining failure attributed to root cause
+  - [x] I-008 framed as tool ceiling, not prompt failure
 
-- [ ] **§4 Iterations — changes based on evals**
-  - [ ] 5 decision points only (not all 10 versions): V1 conciseness, V2 grounding, V3 abstention, V4/V4.6 disambiguation, V5 regression diagnosis
-  - [ ] V5 regression is a standout judgment moment — include it
+- [x] **§4 Iterations — changes based on evals**
+  - [x] 5 decision points only (not all 10 versions): V1 conciseness, V2 grounding, V3 abstention, V4/V4.6 disambiguation, V5 regression diagnosis
+  - [x] V5 regression is a standout judgment moment — include it
 
-- [ ] **§5 Extensions — what you'd do with more time**
+- [x] **§5 Extensions — what you'd do with more time**
   - Body-text retrieval (fixes I-008 at tool level)
   - Multi-query disambiguation (search both interpretations, compare)
   - Holdout eval set (test generalization beyond 18 cases)
   - Automated cross-version regression tests
 
-- [ ] **§6 Time spent** — actual hours, tracked during execution per phase. Not a post-hoc guess.
+- [x] **§6 Time spent** — approximate hours by phase (~6h total)
 
 ---
 
