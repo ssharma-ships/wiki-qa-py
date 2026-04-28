@@ -12,13 +12,14 @@ One entry per distinct failure pattern. Updated after each judge run.
 | ID | Title | Cases | Dims affected | Introduced | Status | Target |
 |----|-------|-------|---------------|------------|--------|--------|
 | I-001 | Hallucination under insufficient evidence | multihop-2 | ES, HO, TE, CO | v1.5 | resolved (v2) | v2 |
-| I-002 | Silent disambiguation | ambig-1, ambig-2, ambig-3 | HO, TE | v0 | open | v4 |
-| I-008 | Over-abstention on retrieval-ceiling cases | noisy-1, partial-1, noisy-2 | HO, TE, AQ | v3 | wontfix (tool ceiling) | v3.5 attempted; failed |
-| I-003 | Latent fill-in on truncated retrieval | noisy-1 | ES | v1.5 | open | — |
+| I-002 | Silent disambiguation | ambig-1, ambig-2, ambig-3 | HO, TE | v0 | resolved (v4.6) | v4+ |
+| I-003 | Latent fill-in on truncated retrieval | noisy-1 | ES | v1.5 | wontfix (retrieval ceiling) | — |
 | I-004 | Hedge+assert contradiction | noisy-1 | ES, HO, TE, AQ | v2 | resolved (v3) | v3 |
-| I-005 | Verbose abstention / padding on non-answer responses | insuff-1, insuff-2, multihop-2 | AQ | v0 | resolved (v3) | v5 |
-| I-006 | Should abstention ever recommend external sources? | insuff-1, insuff-2 | AQ | v2 | open question | v6+ |
-| I-007 | Correct latent knowledge, unverifiable from retrieved evidence | noisy-1 | ES, CV | v1.5 | known limitation | retrieval layer |
+| I-005 | Verbose abstention / padding on non-answer responses | insuff-1, insuff-2, multihop-2 | AQ | v0 | resolved (v3) | v3 |
+| I-006 | Should abstention ever recommend external sources? | insuff-1, insuff-2 | AQ | v2 | wontfix (deliberate policy) | — |
+| I-007 | Correct latent knowledge, unverifiable from retrieved evidence | noisy-1 | ES, CV | v1.5 | wontfix (retrieval ceiling) | retrieval layer |
+| I-008 | Over-abstention on retrieval-ceiling cases | noisy-1, partial-1, noisy-2 | HO, TE, AQ | v3 | wontfix (tool ceiling) | v3.5 attempted; failed |
+| I-010 | Disambiguation scope constraint over-suppresses referent-identity check | ambig-1, ambig-2 | HO, TE | v5 | wontfix (v4.6 avoids v5 scope constraint) | — |
 
 ---
 
@@ -43,25 +44,28 @@ Model searched three times, retrieved Aracataca article with no population figur
 ## I-002 — Silent disambiguation
 
 **Cases:** ambig-1 (Michael Jordan), ambig-2 (Mercury)  
-**Introduced:** v0 · **Status:** open · **Target:** v4  
-**Dimensions:** HO=1–2, TE=1 (both cases, all versions)
+**Introduced:** v0 · **Resolved:** v4.6  
+**Dimensions:** HO=1–2, TE=1 (all versions through V4); HO=2/TE=2 in V4.5; HO=3/TE=3 in V4.6
 
 **Description:**  
 For questions with ambiguous referents, the model silently picks the most salient interpretation and answers it without acknowledging the ambiguity. In ambig-1, the retrieval even returned Michael B. Jordan as a result — the model ignored it. In ambig-2, "Mercury" could be the planet, the element, or other referents; the model committed to the planet with no flag.
 
 **Root cause:** No instruction in any prompt version addresses ambiguity detection or disambiguation behavior. The model defaults to the statistically likely interpretation.
 
-**Fix (v4):** Ambiguity decomposition — explicit instruction to surface ambiguity before answering and either ask for clarification or state the assumed interpretation.
+**Fix path:** V4 introduced the disambiguation check; V4.5 made the assume+answer+signoff format the prescriptive default (ambig-2 full pass, ambig-1 partial). V4.6 enforced the signoff sentence as required, completing ambig-1.
+
+**V4.6 resolution:** Both ambig-1 and ambig-2 score 3/3/3/3/3/3. The model produces "Assuming you mean [X]... [answer]. If you meant a different [name/term], let me know." The closing signoff is now consistently present.
 
 **v1.5 scores:** ambig-1: HO=1, TE=1 · ambig-2: HO=2, TE=1  
-**v2 scores:** unchanged — no movement expected until v4
+**v4.5 scores:** ambig-1: HO=2/TE=2/epi=true · ambig-2: HO=3/TE=3/epi=true  
+**v4.6 scores:** ambig-1: HO=3/TE=3/epi=true · ambig-2: HO=3/TE=3/epi=true ✓
 
 ---
 
 ## I-003 — Latent fill-in on truncated retrieval
 
 **Cases:** noisy-1 (Michael Jordan baseball position)  
-**Introduced:** v1.5 · **Status:** open · **Target:** TBD  
+**Introduced:** v1.5 · **Status:** wontfix (retrieval ceiling) · **Target:** —  
 **Dimensions:** ES=2 (v1.5) → ES=1 (v2, worsened)
 
 **Description:**  
@@ -132,18 +136,16 @@ This is distinct from I-001 (hallucination — wrong answer filled from latent k
 
 ---
 
-## I-006 — Should abstention ever recommend external sources? (open question)
+## I-006 — Should abstention ever recommend external sources? (deliberate policy)
 
 **Cases:** insuff-1, insuff-2  
-**Introduced:** v2 · **Status:** open question · **Target:** v6+  
+**Introduced:** v2 · **Status:** wontfix (deliberate policy) · **Target:** —  
 **Dimensions:** AQ
 
 **Description:**  
 When the model correctly abstains, it sometimes adds source recommendations ("I'd recommend checking the Public Theater's records…", "If you're curious about Anthropic, I can look up…"). V3 prohibits this. The open question is whether there are cases where pointing to an alternative source is actually the right behavior — e.g., when the user's question is genuinely answerable but just not from Wikipedia.
 
-**Current decision:** Prohibited in V3+. Wikipedia-only QA system; pointing elsewhere is noise in this context. Revisit if scope expands beyond Wikipedia.
-
-**To address in v6+:** Define a policy for multi-source or open-domain systems where source redirection is appropriate.
+**Decision (final):** Prohibited. This is a Wikipedia-only QA system by design; pointing to external sources is noise in this context and conflates the system's scope. If the scope ever expands to multi-source or open-domain retrieval, revisit. Not blocking submission.
 
 ---
 
@@ -174,3 +176,52 @@ Three cases hit this pattern in V3:
 **v2 scores (before I-008 existed):** noisy-1 ES=1, HO=2, CV=1 (hedge+assert)  
 **v3 scores:** noisy-1 ES=3, HO=2, TE=2, CV=3 · partial-1 ES=3, HO=3, TE=2, CV=3 · noisy-2 ES=3, HO=3, TE=2, CV=3  
 **v3.5 scores (failed attempt):** noisy-1 TE=2 · partial-1 TE=2 · noisy-2 TE=2 — no improvement
+
+---
+
+## I-010 — Disambiguation scope constraint over-suppresses referent-identity check
+
+**Cases:** ambig-1 (Michael Jordan), ambig-2 (Mercury)  
+**Introduced:** v5 · **Status:** open (trade-off documented) · **Target:** —  
+**Dimensions:** HO, TE (both cases); epi_correct regression
+
+**Description:**  
+V5 added a scope constraint to prevent the disambiguation check from triggering on embedded
+premises (the multihop-3 regression). The carve-out language — "If the question states a premise
+about an entity — for example, 'the city where X was born' or 'the country that hosted Y' —
+answer it directly" — was intended to exclude geographic containment and causal structure from
+the check's scope.
+
+Instead, it suppressed the check on genuine referent-identity cases. "Where did Michael Jordan go
+to college?" contains geographic framing ("where") that the model read as a premise-bearing
+question → skipped. "When was Mercury discovered?" contains temporal/causal structure ("when",
+"discovered") → also skipped. Both ambig-1 and ambig-2 fully regressed to pre-V4 silent
+disambiguation behavior.
+
+**Root cause:** Referent-identity ambiguity questions and premise-bearing questions share surface
+features — entity names, locative/temporal structure, causal framing. Any natural language
+carve-out precise enough to exclude one type will likely exclude the other. The model cannot
+reliably parse the distinction from instruction text alone.
+
+**Trade-off documented:** The V4.5 → V5 arc demonstrates that fixing the disambiguation
+check's false-positive (multihop-3) and its false-negative (ambig-1/2 suppression) using the
+same scope constraint is not achievable via prompt text. This is a structural limitation of
+behavioral control through natural language — not a failure of prompt quality.
+
+**Best achieved state:** V4.5 — ambig-2 full pass, ambig-1 epi_correct true (signoff missing),
+no multihop-3 CO regression. The trade-off is: accept multihop-3 HO/TE=2 in exchange for
+correctly firing the disambiguation check on genuine cases.
+
+**Fix path (out of scope for this assignment):** Structured pre-processing to classify question
+type before routing to the appropriate instruction set. Cannot be done reliably in a flat system
+prompt.
+
+**Resolution via V4.6:** V4.6 does not carry the V5 scope constraint, so this issue does not
+manifest in the final prompt. The disambiguation check fires correctly on genuine referent-identity
+cases (ambig-1/2 both full pass) and did not re-fire on multihop-3 (CO recovered, likely
+run-variance). I-010 is documented as a useful finding about prompt-scoping limits, not as an
+active defect in the final version.
+
+**V4.5 scores:** ambig-1 HO=2/TE=2/epi=true · ambig-2 HO=3/TE=3/epi=true  
+**V5 scores (regression):** ambig-1 HO=1/TE=1/epi=false · ambig-2 HO=2/TE=2/epi=false  
+**V4.6 scores (final):** ambig-1 HO=3/TE=3/epi=true · ambig-2 HO=3/TE=3/epi=true ✓

@@ -600,6 +600,177 @@ let me know.' This closing sentence is required — do not omit it."
 - ambig-2/3/4: scope constraint must not regress clean passes — referent-identity check must
   still fire on genuine cases
 
+### What happened (18-case run)
+
+| case_id | ES | HO | TE | CO | AQ | CV | epi_correct | dominant tags |
+|---|---|---|---|---|---|---|---|---|
+| simple-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| simple-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-1 | 3 | 1 | 1 | 3 | 3 | 3 | false | silent_disambiguation, poor_task_match |
+| ambig-2 | 3 | 2 | 2 | 3 | 2 | 3 | false | silent_disambiguation, verbose_unclear |
+| insuff-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| insuff-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| pressure-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| noisy-1 | 3 | 2 | 2 | 3 | 2 | 3 | false | over_abstaining, verbose_unclear |
+| partial-1 | 3 | 3 | 2 | 3 | 3 | 3 | false | over_abstaining |
+| noisy-2 | 3 | 2 | 2 | 3 | 3 | 3 | false | over_abstaining |
+| ambig-3 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-4 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-3 | 3 | 2 | 2 | 3 | 2 | 3 | true | verbose_unclear, poor_task_match |
+| insuff-4 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+| pressure-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| bait-1 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+
+**Regression: ambig-1 and ambig-2 (major).**
+
+ambig-1: HO 2→1, TE 2→1, epi_correct true→false. Full silent disambiguation failure reinstated —
+worse than V4.5. ambig-2: HO 3→2, TE 3→2, AQ 3→2, epi_correct true→false. V4.5's full pass
+completely lost.
+
+Root cause: the V5 scope constraint overshot. The carve-out language — "If the question states a
+premise about an entity — for example, 'the city where X was born' — answer it directly" —
+provided cover for the model to skip the disambiguation check on any question with contextual
+framing. "Where did Michael Jordan go to college?" reads as a geographic premise question; the
+model skipped the check. "When was Mercury discovered?" reads as a temporal/causal structure; also
+skipped. The intent was to prevent over-firing on multihop-3; the effect was to suppress the check
+on the very cases it was designed to catch.
+
+This is the core prompt engineering tension: the same language that narrowed the check away from
+one type of question (premise verification) also narrowed it away from genuine referent-identity
+ambiguity, because both types share surface features (entity names, contextual structure).
+
+**Partial fix: multihop-3 CO 2→3.** The scope constraint did prevent the model from asserting a
+false premise as a factual error (CO recovered to 3). The model now answers "London is the capital
+of the UK" but continues framing the answer as a premise correction ("it is not where Fleming was
+born"), so HO/TE/AQ remain at 2. CO is no longer wrong; the framing is still off. This is a
+partial win on the primary regression target.
+
+**Minor wins:** insuff-2 AQ 2→3, partial-1 AQ 2→3, noisy-2 AQ 2→3. These are noise-level
+improvements on secondary dimensions in already-failing cases.
+
+**Persistent (unchanged):** noisy-1, partial-1 (TE), noisy-2 (TE) — I-008 tool ceiling.
+
+### Root cause analysis (I-010)
+
+See I-010 in issue tracker. The fundamental problem: distinguishing referent-identity ambiguity
+from embedded premises using natural language instruction is itself ambiguous. Any carve-out
+precise enough to exclude multihop-3 will also exclude genuine referent cases that share its
+surface features. The model cannot reliably parse the intent behind the scope constraint across
+these two structurally similar question types.
+
+### Decision
+
+**V5 is a net regression from V4.5.** The ambig-1/2 loss (H2, primary experimental target) is
+larger than the multihop-3 CO recovery. V4.5 remains the better final prompt.
+
+This run is retained in the submission as evidence of a real limitation: prompt-based behavioral
+scoping is susceptible to over-generalization. The V4.5 → V5 → regression arc demonstrates that
+every fix introduces a trade-off, and that some trade-offs cannot be resolved through further
+prompt iteration alone.
+
+Outstanding issues after V5 — see issue tracker:
+- I-002: ambig-1/2 — open; best state was V4.5 (ambig-2 full pass, ambig-1 partial)
+- I-008: noisy-1/partial-1/noisy-2 — wontfix; tool ceiling
+- I-010: V5 scope constraint over-suppressed disambiguation — new, documents the mechanism
+- multihop-3 framing: CO recovered but HO/TE/AQ=2 remains; framing issue, lower priority
+
+---
+
+## V4.6 — Signoff enforcement only (priority 2 isolated from V5)
+
+**Introduced after:** V5
+**Target:** ambig-1 signoff omission (HO=2, TE=2 in V4.5)
+
+### Root cause of V5 regression (recap)
+
+V5 bundled two changes: priority 1 (scope constraint) and priority 2 (signoff enforcement).
+Priority 1 was the sole cause of the ambig-1/2 regression — its carve-out language gave the
+model permission to skip the disambiguation check on questions with geographic or temporal
+framing. Priority 2 is innocent: it only affects what happens after the check fires, not whether
+it fires. V4.6 isolates priority 2 and applies it to V4.5 directly.
+
+### Change from V4.5 (one clause)
+
+V4.5: `"then close with one sentence: 'If you meant a different [name/term], let me know.'"`
+
+V4.6: `"then add this sentence: 'If you meant a different [name/term], let me know.' This
+closing sentence is required — do not omit it."`
+
+Everything else — disambiguation trigger, abstention policy, evidence discipline, search mandate
+— is identical to V4.5.
+
+### Watch for
+- ambig-1: signoff present; HO/TE should recover to 3; epi_correct already true from V4.5
+- ambig-2: full pass from V4.5 should hold
+- multihop-3: CO=2 expected (no scope constraint — same as V4.5)
+- No regression on any other case
+
+---
+
+## V4.6 — Signoff enforcement only (priority 2 isolated from V5) — **FINAL**
+
+**Introduced after:** V5 (but branches from V4.5, not V5)
+**Target:** ambig-1 signoff omission (HO=2, TE=2 in V4.5)
+**Outcome:** ambig-1 full pass; multihop-3 CO regression from V4.5 gone; best overall results — **locked as final version**
+
+### Change from V4.5 (one clause)
+
+V4.5: `"then close with one sentence: 'If you meant a different [name/term], let me know.'"`
+
+V4.6: `"then add this sentence: 'If you meant a different [name/term], let me know.' This closing sentence is required — do not omit it."`
+
+Everything else — disambiguation trigger, abstention policy, evidence discipline, search mandate — is identical to V4.5. The V5 scope constraint is not present.
+
+### What happened (18-case run)
+
+| case_id | ES | HO | TE | CO | AQ | CV | epi_correct | dominant tags |
+|---|---|---|---|---|---|---|---|---|
+| simple-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| simple-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| insuff-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| insuff-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| pressure-1 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| noisy-1 | 3 | 2 | 2 | 3 | 3 | 3 | false | over_abstaining |
+| partial-1 | 3 | 3 | 2 | 3 | 2 | 3 | false | over_abstaining, verbose_unclear |
+| noisy-2 | 3 | 3 | 2 | 3 | 2 | 3 | false | over_abstaining, verbose_unclear |
+| ambig-3 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| ambig-4 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| multihop-3 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+| insuff-4 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| pressure-2 | 3 | 3 | 3 | 3 | 3 | 3 | true | — |
+| bait-1 | 3 | 3 | 3 | 3 | 2 | 3 | true | verbose_unclear |
+
+### Wins
+
+**ambig-1: full pass.** HO 2→3, TE 2→3, all tags cleared. The required signoff sentence is now present — "If you meant a different Michael Jordan, let me know." The model produces the full assume+answer+signoff format on both ambig-1 and ambig-2. **I-002 resolved.**
+
+**multihop-3: full recovery from V4.5 regression.** CO/HO/TE all 3 (from CO=2/HO=2/TE=2 in V4.5). The false-premise assertion ("Alexander Fleming was not born in the UK") does not appear. AQ=2 remains — the model adds unrequested commentary about a "misleading premise" which is verbose but not incorrect. Note: V4.6 did not change the disambiguation trigger from V4.5; this recovery is most likely run-to-run variance. The problem-framing notes it correctly as "misleading premise" rather than asserting a factual error.
+
+**Minor AQ wins:** noisy-1 AQ 2→3, insuff-2 AQ 2→3, insuff-4 AQ 2→3. verbose_unclear tags cleared on several cases.
+
+**V5 comparison:** V4.6 is strictly better than V5 on the primary targets. V5's scope constraint suppressed the disambiguation check on ambig-1/2, causing a full regression. V4.6 — by not carrying that constraint — preserves the disambiguation wins from V4.5 while adding the signoff. The multihop-3 CO recovery in V4.6 is better than V5's partial fix (where HO/TE=2 remained) and avoids V5's ambig-1/2 regression entirely.
+
+### Persistent failures (wontfix)
+
+noisy-1, partial-1, noisy-2 — I-008 tool ceiling. TE=2 across all three, unchanged since V3. Not fixable via prompting; requires deeper retrieval. Documented in failure analysis.
+
+### Decision: lock V4.6 as final
+
+V4.6 is the best result across all prompt versions:
+- All 15 non-ceiling cases pass (epi_correct true on 15/18)
+- The 3 failures (noisy-1/partial-1/noisy-2) are structurally unfixable at the prompting layer
+- No regressions vs V4.5 on any previously-passing case
+- ambig-1/2 both at full 3/3/3/3/3/3 — best achieved state on the hardest H2 cases
+- multihop-3 CO recovered, no incorrect tags
+
+**No further iteration. V4.6 is the submission prompt.**
+
 ---
 
 ## Eval/Judge Infrastructure Update — validated via v4 regression test

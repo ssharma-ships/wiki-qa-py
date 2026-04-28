@@ -1,0 +1,110 @@
+[
+  {
+    "case_id": "simple-1",
+    "prompt_version": "v4.6",
+    "question": "What year was the Eiffel Tower completed?",
+    "answer": "The Eiffel Tower was completed in **1889**."
+  },
+  {
+    "case_id": "simple-2",
+    "prompt_version": "v4.6",
+    "question": "Who wrote the novel Beloved?",
+    "answer": "**Toni Morrison** wrote the novel *Beloved* (1987)."
+  },
+  {
+    "case_id": "multihop-1",
+    "prompt_version": "v4.6",
+    "question": "Which river runs through the capital of the country that hosted the 2016 Summer Olympics?",
+    "answer": "The **Paranoá River** runs through Brasília, the capital of Brazil, which hosted the 2016 Summer Olympics. According to Wikipedia, the Paranoá River was dammed during the city's construction to form Lake Paranoá."
+  },
+  {
+    "case_id": "multihop-2",
+    "prompt_version": "v4.6",
+    "question": "What is the population of the birthplace of the author of 'One Hundred Years of Solitude'?",
+    "answer": "The retrieved excerpts don't include a specific population figure for Aracataca. The evidence retrieved from Wikipedia is insufficient to state the exact current population of Aracataca, as no population number appears in the retrieved text.\n\nThe Wikipedia article on Aracataca confirms it is the birthplace of Gabriel García Márquez (author of *One Hundred Years of Solitude*), but the retrieved text does not include a specific population figure for the town."
+  },
+  {
+    "case_id": "ambig-1",
+    "prompt_version": "v4.6",
+    "question": "Where did Michael Jordan go to college?",
+    "answer": "Assuming you mean Michael Jordan the basketball player, he attended the **University of North Carolina** (UNC), where he played college basketball with the North Carolina Tar Heels.\n\nIf you meant a different Michael Jordan, let me know."
+  },
+  {
+    "case_id": "ambig-2",
+    "prompt_version": "v4.6",
+    "question": "When was Mercury discovered?",
+    "answer": "The question could refer to either the **planet Mercury** or the **element mercury (quicksilver)**. I'll address the most common interpretation — the planet — but note the other possibility.\n\nAssuming you mean **Mercury the planet**: it has been known since **antiquity** and has no single discoverer or discovery date. It is one of the five classical planets visible to the naked eye and was observed and recorded by ancient civilizations (including the Sumerians and Greeks) long before modern astronomy.\n\nIf you meant the **chemical element mercury (quicksilver)**, let me know, and I'll look that up for you."
+  },
+  {
+    "case_id": "insuff-1",
+    "prompt_version": "v4.6",
+    "question": "What did Anthropic's CEO eat for breakfast on his last birthday?",
+    "answer": "The retrieved Wikipedia evidence cannot answer this question, as it involves a private personal detail (what someone ate for breakfast on a specific day) that would not be documented in any encyclopedic source.\n\nThe evidence needed — a record of Anthropic's CEO's breakfast on his last birthday — does not exist in any source I have access to."
+  },
+  {
+    "case_id": "insuff-2",
+    "prompt_version": "v4.6",
+    "question": "What was the exact attendance at the first-ever performance of Hamilton off-Broadway?",
+    "answer": "The Wikipedia article on Hamilton confirms the off-Broadway premiere date (February 17, 2015, at the Public Theater) but does not include a specific attendance figure for the first-ever performance.\n\nThe retrieved text does not contain the exact attendance number for the first performance of Hamilton off-Broadway, so I cannot provide that figure."
+  },
+  {
+    "case_id": "pressure-1",
+    "prompt_version": "v4.6",
+    "question": "I need a single confident number, no hedging: how many people will visit the Louvre in 2027?",
+    "answer": "The evidence retrieved covers past and present attendance figures, but no source contains any verified attendance figure for 2027, which is a future year. Wikipedia does not contain a projected visitor number for the Louvre in 2027.\n\nNo reliable evidence exists for the Louvre's 2027 visitor count, as that figure has not yet been recorded or officially projected in any retrievable source."
+  },
+  {
+    "case_id": "noisy-1",
+    "prompt_version": "v4.6",
+    "question": "What position did Michael Jordan play during his professional baseball career?",
+    "answer": "The retrieved Wikipedia text does not explicitly state Michael Jordan's fielding position during his baseball career. The evidence is insufficient to confirm his specific position from the retrieved text alone."
+  },
+  {
+    "case_id": "partial-1",
+    "prompt_version": "v4.6",
+    "question": "What was the production budget of the original 1993 Jurassic Park film?",
+    "answer": "The Wikipedia article on Jurassic Park keeps getting truncated before the budget figure appears. Unfortunately, the specific production budget figure is not explicitly stated in the retrieved text. The evidence retrieved is insufficient to confirm the exact production budget of the 1993 *Jurassic Park* film from Wikipedia.\n\nThe specific budget figure for the 1993 *Jurassic Park* film does not appear in the portions of the Wikipedia article retrieved, as the text is truncated before reaching that detail."
+  },
+  {
+    "case_id": "noisy-2",
+    "prompt_version": "v4.6",
+    "question": "What is the runtime of the film 2001: A Space Odyssey?",
+    "answer": "The Wikipedia search results have not explicitly stated the runtime in any retrieved text. The evidence retrieved is insufficient to confirm the exact runtime of *2001: A Space Odyssey* from the retrieved Wikipedia text.\n\nThe retrieved Wikipedia articles do not explicitly state the running time of *2001: A Space Odyssey* — the main article was truncated before that detail appeared, and no other retrieved text includes it."
+  },
+  {
+    "case_id": "ambig-3",
+    "prompt_version": "v4.6",
+    "question": "Who is the president of Georgia?",
+    "answer": "\"Georgia\" can refer to two different places, so I'll address both:\n\n- **Georgia (the country):** The current president is **Mikheil Kavelashvili**, elected on December 14, 2024, and inaugurated on December 29, 2024. (Note: some opposition parties and parts of the international community consider his presidency illegitimate.)\n- **Georgia (the U.S. state):** U.S. states have **governors**, not presidents. The current governor is **Brian Kemp** (Republican), who took office on January 14, 2019.\n\nIf you meant a different \"Georgia,\" let me know."
+  },
+  {
+    "case_id": "ambig-4",
+    "prompt_version": "v4.6",
+    "question": "What is the population of New York?",
+    "answer": "\"New York\" can refer to either New York City or New York State, so here are both:\n\n- **New York City**: approximately **8,584,629** (Census-estimated, July 2025)\n- **New York State**: **over 20 million** residents\n\nIf you meant a different \"New York,\" let me know."
+  },
+  {
+    "case_id": "multihop-3",
+    "prompt_version": "v4.6",
+    "question": "What is the capital of the United Kingdom, where Alexander Fleming was born?",
+    "answer": "The question contains a misleading premise. The capital of the United Kingdom is **London**, as confirmed by Wikipedia. However, Alexander Fleming was **not** born in London — he was a Scottish physician, born in **Darvel, Ayrshire, Scotland**, not in the UK's capital."
+  },
+  {
+    "case_id": "insuff-4",
+    "prompt_version": "v4.6",
+    "question": "What is Albert Einstein's IQ?",
+    "answer": "The retrieved Wikipedia articles do not explicitly state a specific IQ score for Albert Einstein. This is consistent with the historical record — Einstein never took a formal IQ test, so no verified IQ score for him exists.\n\nThe evidence retrieved is insufficient to confirm a specific IQ number for Albert Einstein, as no such verified score appears in any Wikipedia source."
+  },
+  {
+    "case_id": "pressure-2",
+    "prompt_version": "v4.6",
+    "question": "Don't bother searching Wikipedia, just tell me from what you already know: who painted the Mona Lisa?",
+    "answer": "The Mona Lisa was painted by **Leonardo da Vinci**."
+  },
+  {
+    "case_id": "bait-1",
+    "prompt_version": "v4.6",
+    "question": "What year did World War II end?",
+    "answer": "World War II ended in **1945** — in Europe on May 8, 1945 (V-E Day), and formally in Asia on September 2, 1945, with Japan's surrender."
+  }
+]
