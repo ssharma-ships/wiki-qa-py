@@ -2,7 +2,7 @@
 
 A controlled prompt-engineering experiment: Claude answers questions using Wikipedia as its sole evidence source. The system prompt is the controlled variable; retrieval is intentionally simple and fixed.
 
-See `submission/` for the written design rationale and video outline.
+> **All details about the project approach, prompt iteration, eval design, and findings are in [`submission/RATIONALE.md`](submission/RATIONALE.md).** This README covers only how to run the experiment.
 
 ---
 
@@ -73,8 +73,10 @@ Runs all 18 eval cases and writes a combined trace log:
 
 ```bash
 python run_eval.py --prompt v4.6
-# Output: logs/v4.6/v4.6_eval_run1.json
+# Output: logs/v4.6/v4.6_eval_run2.json
 ```
+
+`run1` is pre-ran by me and already in the repo, so the run counter starts at `run2` for your run.
 
 ---
 
@@ -83,25 +85,28 @@ python run_eval.py --prompt v4.6
 Scores a trace log across 5 dimensions using Claude as judge:
 
 ```bash
-python judge.py --log logs/v4.6/v4.6_eval_run1.json
-# Output: observations/v4.6/v4.6_eval_run1_judge.md
+python judge.py --log logs/v4.6/v4.6_eval_run2.json
+# Output: observations/v4.6/v4.6_eval_run2_judge.md
 ```
+
+The judge report for a prior `run1` is at `observations/v4.6/v4.6_eval_run1_judge.md`.
 
 ---
 
 ## Project structure
 
 ```
-agent.py             — agentic loop (core engine)
-run.py               — single-question CLI
-run_eval.py          — batch eval runner
-judge.py             — LLM judge
-prompts.py           — all prompt versions with inline rationale
-tools.py             — search_wikipedia tool schema
-wikipedia_client.py  — Wikipedia API client (stdlib only, no extra deps)
-eval_cases.yaml      — 18 eval cases across 6 categories
-eval/                — scoring rubric and judge prompt
-logs/                — agent traces organized by prompt version
-observations/        — judge reports and iteration log
-submission/          — written design rationale and video outline
+agent.py                    — agentic loop (core engine)
+run.py                      — single-question CLI
+run_eval.py                 — batch eval runner
+judge.py                    — LLM judge
+prompts.py                  — all prompt versions with inline rationale
+tools.py                    — search_wikipedia tool schema
+wikipedia_client.py         — Wikipedia API client (stdlib only, no extra deps)
+eval_cases.yaml             — 18 eval cases across 6 categories
+eval/                       — scoring rubric and judge prompt
+logs/                       — agent traces organized by prompt version
+observations/               — judge reports and iteration log
+submission/RATIONALE.md     — full design rationale (approach, scope, evals, findings)
+ai_transcripts/             — curated AI session transcripts with judgment summary
 ```
