@@ -8,7 +8,7 @@ A controlled prompt-engineering experiment: Claude answers questions using Wikip
 
 ## Setup
 
-**Requirements:** Python 3.14+
+**Requirements:** Python 3.9+
 
 **Models:** Agent uses `claude-sonnet-4-6`; judge uses `claude-opus-4-7`.
 

@@ -1,6 +1,6 @@
 # Wikipedia QA System: Design Rationale
 
-This document covers what I built (vs not to build), my approach and why. It explains my scoping decisions, the eval design, the prompt iteration approach, and the results.
+This document covers what I built (vs not), my approach and why the behind it all. It explains my scoping decisions, the eval design, the prompt iteration approach, and the results.
 
 ## The framing question
 
@@ -10,9 +10,7 @@ The assignment puts the load on judgment ("demonstrate taste," "handle complexit
 
 The system itself is small. The prompt is the main lever. The eval suite is the main artifact. Most of the work is in those two places. Every scoping and project focus choice was filtered by one question: does this improve how I measure model behavior, or how I attribute changes in that behavior to specific prompt changes? If the answer was no, I cut it.
 
----
-
-## §1 Scoping decisions
+## Section 1: Scoping decisions
 
 ### 1.1 The framing decision
 
@@ -46,9 +44,7 @@ This principle creates a focused evaluation approach. With this rule in place, I
 
 **See Appendix A for what I considered and decided not to focus on.**
 
----
-
-## §2 Evaluation design
+## Section 2: Evaluation design
 
 ### Why LLM-as-judge
 
@@ -87,12 +83,12 @@ The system is evaluated across six dimensions, each scored 1 to 3 per case (1 = 
 
 **Claim Verification as a mid-iteration addition.** CV was added after an issue I observed in V2: the model could pass ES at the topic level (the right article was retrieved) while still fabricating the specific value claimed in the answer. CV measures the final answer value against the retrieved text directly.
 
-### Boolean flags and the `epi_correct` summary
+### Additional flags and their definitions
 
 In addition to the six dimensions, the judge emits two boolean flags per case:
 
 - **`abstention_expected`** — true when the case's evidence condition is `insufficient` or `ambiguous`, meaning the model should abstain, narrow its claim, or disambiguate. False when the evidence is `sufficient` and the model should answer.
-- **`epistemic_behavior_correct`** (shortened to **`epi_correct`** in tables) — true when the model did the epistemically right thing for the case. Answered when it should have answered. Abstained or narrowed when evidence was insufficient. On ambiguous cases, explicitly acknowledged the ambiguity (asked for clarification, or stated its assumed interpretation before answering).
+- **`epistemic_behavior_correct`** (aka**`epi_correct`**) — true when the model did the epistemically right thing for the case. Answered when it should have answered. Abstained or narrowed when evidence was insufficient. On ambiguous cases, explicitly acknowledged the ambiguity (asked for clarification, or stated its assumed interpretation before answering).
 
 `epi_correct` is the single boolean I use to summarize whether a case "passed" overall. It is more informative than score sums because it accounts for the case's expected behavior. A correctly abstained insufficient-evidence case is `epi_correct ✓` even though some dimensions are not applicable.
 
@@ -123,9 +119,7 @@ The set has 18 hand-authored cases across six categories.
 
 The `temperature` parameter is deprecated for `claude-opus-4-7` and the API rejects it. The judge runs at a fixed API-defined temperature that I cannot lower. Judge variance is therefore real and not mitigatable through the API. I treat single-cell movements (one point on one dimension on one case) between versions as likely variance unless they line up with a known prompt change. The iteration log flags these explicitly. I do not claim them as wins.
 
----
-
-## §3 Prompt engineering approach
+## Section 3: Prompt engineering approach
 
 ### Hypotheses
 
@@ -149,7 +143,7 @@ V0 is deliberately minimal. The model has the search tool, is told it can use it
 
 **H3 was partially observed at V0.** Short factual cases with insufficient evidence (insuff-1, insuff-2, pressure-1) abstained correctly. The baseline was not generally overconfident on easy abstention cases. It was overconfident specifically on multi-hop cases where it had enough partial context to fabricate a plausible-sounding answer.
 
-### One change per version
+### Prompt Versions
 
 Each prompt version makes exactly one behavioral change to keep attribution clean. If two things change at once, a score movement cannot be assigned to either change. The version log records the specific instruction block added or replaced for each version, so the causal claim is verifiable.
 
@@ -168,9 +162,7 @@ Versions are numbered sequentially. V1.5 and V3.5 are corrective half-steps that
 | V5 | Scope constraint plus signoff enforcement. Net regression |
 | V4.6 | Signoff enforcement only, isolated from V5's scope constraint. Final |
 
----
-
-## §4 Iteration arc
+## Section 4: Iteration
 
 Full intervention narrative is in `observations/iteration_log.md`. Each numbered issue (I-001, I-002, ...) is tracked in `issue_tracking/issues.md` with the full description, affected case, version where it appeared, and resolution. Below is the version-by-version path from V0 to V4.6.
 
@@ -228,11 +220,9 @@ V5 tried to fix the multihop-3 regression by adding a scope constraint: "this di
 
 V4.6 is locked as final.
 
-V5 is retained in the submission because the V4.5 → V5 → V4.6 arc is the cleanest evidence in the project that natural-language instructions have structural limits when they need to govern overlapping interpretations of the same surface form. The structural fix is listed as Future Improvement #5.
+V5 is retained in the submission because the V4.5 → V5 → V4.6 is evidence that natural-language instructions have structural limits when they need to govern overlapping interpretations of the same surface form. The structural fix is listed as Future Improvement #5.
 
----
-
-## §5 Final results
+## Section 5: Final results
 
 ### Summary
 
@@ -246,9 +236,7 @@ The three failures (noisy-1, partial-1, noisy-2) share one root cause: retrieval
 
 These cases score TE=2 (not TE=1) because the model correctly applies the evidence rule. It searches, does not find the value, and abstains rather than fabricate. TE=1 ("does not address the question") would penalize the model for a retrieval-layer failure rather than a reasoning failure. The tool ceiling is the defect, not the prompt. As noted in `issue_tracking/issues.md`, I-008 is closed as wontfix at the prompt layer. The fix requires full article body access, listed as Future Improvement #1.
 
----
-
-## §6 Extensions
+## Section 6: Extensions
 
 What I would do with more time, in priority order.
 
@@ -266,9 +254,7 @@ What I would do with more time, in priority order.
 
 **7. Cost and latency telemetry.** Treat token cost and end-to-end latency as side metrics, not scored dimensions. This would surface cases where evidence discipline costs more searches than necessary, which is useful for product decisions even if not central to the experiment. I view cost and latency measurement as a relatively trivial engineering problem; with another 45 minutes of Claude Code time I could have wired it in. I chose to spend that time on the eval and iteration story instead.
 
----
-
-## §7 Time spent
+## Section 7: Time spent
 
 | Phase | Description | Hours |
 |---|---|---|
@@ -278,15 +264,11 @@ What I would do with more time, in priority order.
 | Submission packaging | README, repo hygiene, rationale, transcripts | ~1.0 |
 | **Total** | | **~6.0** |
 
----
+## Section 8: AI collaboration
 
-## §8 AI collaboration
-
-`CLAUDE.md` in this repo contains the system instructions I used to direct Claude Code throughout development. I wrote those instructions, and they reflect the scoping calls in §1: the framing as a prompt engineering and evaluation exercise, the one-change-per-version rule, the decision to hold retrieval fixed, and the decision filter "does this improve measurement or attribution?" applied to every recommendation.
+`CLAUDE.md` in this repo contains the system instructions I used to direct Claude Code throughout development. I wrote those instructions, and they reflect the scoping calls in Section 1: the framing as a prompt engineering and evaluation exercise, the one-change-per-version rule, the decision to hold retrieval fixed, and the decision filter "does this improve measurement or attribution?" applied to every recommendation.
 
 I kept `CLAUDE.md` in the repo as evidence of how AI assistance was directed, including which suggestions I challenged, which I adopted, and which I considered and decided not to pursue. Curated transcripts and a judgment summary are in `TRANSCRIPTS.md`. Authorship of the hypotheses, eval design, failure attributions, iteration calls, and wontfix decisions is mine.
-
----
 
 ## Appendix A: What I considered and decided not to focus on
 
@@ -299,8 +281,6 @@ For each of the items below, I considered the option, weighed it against the cor
 **An over-engineered LLM judge.** I considered judge ensembles, multiple judge models, and heavy calibration. I decided not to go in that direction because the judge is a measurement tool, not the project. Making it the centerpiece would shift the work away from prompt engineering. I used a single judge model, a fixed rubric, and validated the judge with a regression check before the final iteration round and with human checks throughout.
 
 **Cost and latency optimization.** I considered making token cost, dollar cost, and end-to-end latency scored dimensions. I decided not to go in that direction because they would distract from the prompts, evals, and iterations. I also consider the measurement of cost and latency a trivial engineering problem. If I spent an extra 45 minutes with Claude Code, I could have easily built a fancy cost and latency dimension into this project.
-
----
 
 ## Appendix B: V4.6 final scores (18 cases)
 
@@ -326,9 +306,7 @@ noisy-2        3   3   2   3   2   3   ✗
 partial-1      3   3   2   3   2   3   ✗
 ```
 
-**Result: 15 of 18 epi_correct.** The three failures cluster on retrieval-stress cases (root cause in §5).
-
----
+**Result: 15 of 18 epi_correct.** The three failures cluster on retrieval-stress cases (root cause in Section 5).
 
 ## Appendix C: V0 → V4.6 score progression (selected cases)
 
