@@ -6,8 +6,11 @@ traces/
 .claude/
 .vscode/
 .idea/
-docs/Project Scoping, Decisions & Judgement notes.txt
+docs/
+CLAUDE.md
 submission/video_transcript.md
 submission/slides.html
 submission/submission_packaging_plan.md
-docs/claude_wikipedia_qa_experiment_plan.md.txt
+logs/setup_test_run.json
+logs/v0/v0_run1.json
+logs/v0/v0_run2.json

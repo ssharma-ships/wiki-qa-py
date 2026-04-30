@@ -39,7 +39,7 @@ python3 run.py -q "Who wrote the novel Beloved?" --prompt v4.6
 
 Output shows the answer and how many Wikipedia searches were used.
 
-**Available prompts:** `v0` `v1` `v1.5` `v2` `v3` `v4` `v4.5` `v5` `v4.6` (final)
+**Available prompts:** `v0` `v1` `v1.5` `v2` `v3` `v3.5` `v4` `v4.5` `v5` `v4.6` (final)
 
 ---
 
@@ -85,7 +85,7 @@ The `_forhuman.json` file contains the same run in a readable question-and-answe
 
 ## Score with the judge
 
-Scores a trace log across 5 dimensions using Claude as judge:
+Scores a trace log across 6 dimensions using Claude as judge:
 
 ```bash
 python3 judge.py --log logs/v4.6/v4.6_eval_run2.json

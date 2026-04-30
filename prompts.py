@@ -5,8 +5,11 @@
 # V1.5 Search-first mandate — restores retrieval while keeping V1 conciseness
 # V2   Force evidence-backed answering (address H1)
 # V3   Explicit uncertainty + abstention (address H3)
+# V3.5 Retrieval-recovery policy — reduces over-abstention (corrective half-step)
 # V4   Ambiguity decomposition and multi-hop (address H2)
-# V5   Answer quality / further clarity (optional)
+# V4.5 Prescriptive disambiguation with assume + answer + signoff format
+# V5   Scope constraint plus signoff enforcement — net regression, retained for record
+# V4.6 Signoff enforcement only, isolated from V5's scope constraint (final)
 
 
 # --- V0 ---

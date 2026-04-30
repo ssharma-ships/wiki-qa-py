@@ -14,7 +14,7 @@ The system itself is small. The prompt is the main lever. The eval suite is the 
 
 ### 1.1 The framing decision
 
-I committed to the above framing before writing any code or running any tests. The `CLAUDE.md` file in this repo, which directed AI assistance through development, was also written against this framing. It is included as evidence.
+I committed to the above framing before writing any code or running any tests. The system prompt I used to direct Claude Code throughout development was written against this framing from the start.
 
 Concretely, this meant:
 - Focus on the prompt engineering and evaluation exercise.
@@ -98,7 +98,7 @@ The judge also attaches multi-select **failure tags** (`unsupported_claim`, `sil
 
 When iteration surfaces a non-trivial failure mode that needs a prompt fix, I track it as a numbered issue (I-001, I-002, ...). The issues file holds the full description, the affected case, the version where it appeared, and the resolution. This keeps the eval results, the iteration log, and this rationale all referencing the same artifact.
 
-Full issue descriptions in `issue_tracking/issues.md`.
+Full issue descriptions in `observations/issue_tracking/issues.md`.
 
 ### Eval set composition
 
@@ -234,7 +234,7 @@ The three failures (noisy-1, partial-1, noisy-2) share one root cause: retrieval
 
 `search_wikipedia` returns up to three intro-paragraph excerpts per query. The values asked for in these cases (a baseball player's fielding position, a film's production budget, a film's runtime) live in body sections of the article that the tool does not expose. No prompt change can make the model produce a value that is not in the returned text.
 
-These cases score TE=2 (not TE=1) because the model correctly applies the evidence rule. It searches, does not find the value, and abstains rather than fabricate. TE=1 ("does not address the question") would penalize the model for a retrieval-layer failure rather than a reasoning failure. The tool ceiling is the defect, not the prompt. As noted in `issue_tracking/issues.md`, I-008 is closed as wontfix at the prompt layer. The fix requires full article body access, listed as Future Improvement #1.
+These cases score TE=2 (not TE=1) because the model correctly applies the evidence rule. It searches, does not find the value, and abstains rather than fabricate. TE=1 ("does not address the question") would penalize the model for a retrieval-layer failure rather than a reasoning failure. The tool ceiling is the defect, not the prompt. As noted in `observations/issue_tracking/issues.md`, I-008 is closed as wontfix at the prompt layer. The fix requires full article body access, listed as Future Improvement #1.
 
 ## Section 6: Extensions
 
@@ -268,9 +268,9 @@ What I would do with more time, in priority order.
 
 ## Section 8: AI collaboration
 
-`CLAUDE.md` in this repo contains the system instructions I used to direct Claude Code throughout development. I wrote those instructions, and they reflect the scoping calls in Section 1: the framing as a prompt engineering and evaluation exercise, the one-change-per-version rule, the decision to hold retrieval fixed, and the decision filter "does this improve measurement or attribution?" applied to every recommendation.
+I directed Claude Code throughout development using a detailed system prompt that I wrote. It reflected the scoping calls in Section 1: the framing as a prompt engineering and evaluation exercise, the one-change-per-version rule, the decision to hold retrieval fixed, and the decision filter "does this improve measurement or attribution?" applied to every recommendation.
 
-I kept `CLAUDE.md` in the repo as evidence of how AI assistance was directed, including which suggestions I challenged, which I adopted, and which I considered and decided not to pursue. Curated transcripts and a judgment summary are in `TRANSCRIPTS.md`. Authorship of the hypotheses, eval design, failure attributions, iteration calls, and wontfix decisions is mine.
+Curated transcripts and a judgment summary of how that assistance was directed — including which suggestions I challenged, which I adopted, and which I considered and decided not to pursue — are in `ai_transcripts/TRANSCRIPTS_GUIDE.md`. Authorship of the hypotheses, eval design, failure attributions, iteration calls, and wontfix decisions is mine.
 
 ## Appendix A: What I considered and decided not to focus on
 

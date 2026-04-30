@@ -5,7 +5,7 @@ import urllib.parse
 import urllib.error
 
 MEDIAWIKI_API = "https://en.wikipedia.org/w/api.php"
-USER_AGENT = "ClaudeWikiQA/0.1 (prompt-eng-takehome; contact@example.com)"
+USER_AGENT = "ClaudeWikiQA/0.1 (prompt-eng-takehome)"
 EXTRACT_LIMIT = 1500
 RATE_LIMIT_SLEEP = 1.0
 RETRY_SLEEP = 1.0
@@ -37,6 +37,7 @@ def search_wikipedia(query: str, k: int = 3) -> dict:
     for attempt in range(2):
         try:
             raw = fetch()
+            break
         except Exception as exc:
             if attempt == 0:
                 time.sleep(RETRY_SLEEP)
