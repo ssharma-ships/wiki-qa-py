@@ -23,17 +23,23 @@ cd wiki-qa-py
 pip install -r requirements.txt
 ```
 
-Set your Anthropic API key:
-
-```bash
-export ANTHROPIC_API_KEY=your_key_here
-```
-
-Or copy `.env.example` to `.env` and fill in your key:
+Set your Anthropic API key. The recommended way is a `.env` file — it persists across terminal sessions:
 
 ```bash
 cp .env.example .env
-# then edit .env and set ANTHROPIC_API_KEY=your_key_here
+```
+
+Then open `.env` and fill in your key:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Alternatively, export it for the current terminal session only:
+
+```bash
+export ANTHROPIC_API_KEY=your_key_here   # Linux / Mac
+set ANTHROPIC_API_KEY=your_key_here      # Windows cmd
 ```
 
 ---
