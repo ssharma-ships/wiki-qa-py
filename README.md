@@ -74,9 +74,12 @@ Runs all 18 eval cases and writes a combined trace log:
 ```bash
 python3 run_eval.py --prompt v4.6
 # Output: logs/v4.6/v4.6_eval_run2.json
+#         logs/v4.6/v4.6_eval_run2_forhuman.json
 ```
 
 `run1` is pre-ran by me and already in the repo, so the run counter starts at `run2` for your run.
+
+The `_forhuman.json` file contains the same run in a readable question-and-answer format. Use it to review individual answers, search queries, and retrieved evidence without parsing the raw trace.
 
 ---
 
@@ -108,5 +111,5 @@ eval/                       — scoring rubric and judge prompt
 logs/                       — agent traces organized by prompt version
 observations/               — judge reports and iteration log
 submission/RATIONALE.md     — full design rationale (approach, scope, evals, findings)
-ai_transcripts/             — curated AI session transcripts with judgment summary
+ai_transcripts/             — AI collaboration transcripts; see ai_transcripts/TRANSCRIPTS_GUIDE.md
 ```
