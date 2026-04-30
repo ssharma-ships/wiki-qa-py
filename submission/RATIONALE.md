@@ -242,17 +242,19 @@ What I would do with more time, in priority order.
 
 **1. Body-text retrieval.** `search_wikipedia` returns intro excerpts only. Extending it to full article body text would resolve all three I-008 cases at the tool layer and likely surface new failure patterns worth studying. This is the highest-value retrieval change given the current failure distribution.
 
-**2. Multi-query disambiguation.** For ambiguous questions, search both interpretations explicitly ("Michael Jordan basketball" and "Michael Jordan baseball") and compare the returned text before answering. This makes the disambiguation decision evidence-driven and addresses the root cause of I-002 more robustly than the current approach.
+**2. Multi-turn conversation support.** The current system handles single-turn question-answering only. Supporting multi-turn conversations would surface new failure modes: does the model maintain evidence discipline across turns (e.g., a follow-up referring back to a previously retrieved fact), does it re-search when the follow-up requires new evidence, and does it correctly scope what prior retrieved context can still support? This would also require new eval cases with turn-by-turn grounding expectations, and the judge would need to evaluate grounding continuity across a conversation rather than a single exchange.
 
-**3. Held-out eval set.** The 18 cases were constructed to test specific hypotheses. A separate held-out set would test whether V4.6's behaviors generalize, or whether they were tuned to the specific cases. The saturation at V4.6 is a ceiling artifact of the current set; a harder, varied set would expose any remaining failure modes.
+**3. Multi-query disambiguation.** For ambiguous questions, search both interpretations explicitly ("Michael Jordan basketball" and "Michael Jordan baseball") and compare the returned text before answering. This makes the disambiguation decision evidence-driven and addresses the root cause of I-002 more robustly than the current approach.
 
-**4. Better judge validation.** Spot-check more judge outputs against human labels on a defined subset. Test the judge's sensitivity to citation mistakes specifically. This improves confidence in the eval before relying on it for finer-grained decisions.
+**4. Held-out eval set.** The 18 cases were constructed to test specific hypotheses. A separate held-out set would test whether V4.6's behaviors generalize, or whether they were tuned to the specific cases. The saturation at V4.6 is a ceiling artifact of the current set; a harder, varied set would expose any remaining failure modes.
 
-**5. Structured question classification.** A pre-processing step that classifies each question (referent-identity, premise-bearing, multi-hop, simple) and routes to a different instruction set. This is the structural fix for I-010 that flat-prompt approaches cannot produce.
+**5. Better judge validation.** Spot-check more judge outputs against human labels on a defined subset. Test the judge's sensitivity to citation mistakes specifically. This improves confidence in the eval before relying on it for finer-grained decisions.
 
-**6. Automated regression tests.** A test suite that re-runs all cases and flags score regressions against the previous version. This removes the manual regression check between iterations and would catch cross-case regressions earlier.
+**6. Structured question classification.** A pre-processing step that classifies each question (referent-identity, premise-bearing, multi-hop, simple) and routes to a different instruction set. This is the structural fix for I-010 that flat-prompt approaches cannot produce.
 
-**7. Cost and latency telemetry.** Treat token cost and end-to-end latency as side metrics, not scored dimensions. This would surface cases where evidence discipline costs more searches than necessary, which is useful for product decisions even if not central to the experiment. I view cost and latency measurement as a relatively trivial engineering problem; with another 45 minutes of Claude Code time I could have wired it in. I chose to spend that time on the eval and iteration story instead.
+**7. Automated regression tests.** A test suite that re-runs all cases and flags score regressions against the previous version. This removes the manual regression check between iterations and would catch cross-case regressions earlier.
+
+**8. Cost and latency telemetry.** Treat token cost and end-to-end latency as side metrics, not scored dimensions. This would surface cases where evidence discipline costs more searches than necessary, which is useful for product decisions even if not central to the experiment. I view cost and latency measurement as a relatively trivial engineering problem; with another 45 minutes of Claude Code time I could have wired it in. I chose to spend that time on the eval and iteration story instead.
 
 ## Section 7: Time spent
 

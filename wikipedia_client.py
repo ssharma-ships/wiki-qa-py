@@ -7,7 +7,7 @@ import urllib.error
 MEDIAWIKI_API = "https://en.wikipedia.org/w/api.php"
 USER_AGENT = "ClaudeWikiQA/0.1 (prompt-eng-takehome; contact@example.com)"
 EXTRACT_LIMIT = 1500
-RATE_LIMIT_SLEEP = 0.1
+RATE_LIMIT_SLEEP = 1.0
 RETRY_SLEEP = 1.0
 
 
