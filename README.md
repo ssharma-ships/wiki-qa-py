@@ -34,7 +34,7 @@ cp .env.example .env
 ## Ask a question
 
 ```bash
-python run.py -q "Who wrote the novel Beloved?" --prompt v4.6
+python3 run.py -q "Who wrote the novel Beloved?" --prompt v4.6
 ```
 
 Output shows the answer and how many Wikipedia searches were used.
@@ -47,22 +47,22 @@ Output shows the answer and how many Wikipedia searches were used.
 
 ```bash
 # Simple factual
-python run.py -q "What year was the Eiffel Tower completed?" --prompt v4.6
+python3 run.py -q "What year was the Eiffel Tower completed?" --prompt v4.6
 
 # Ambiguous — watch the model surface and state its assumption
-python run.py -q "Where did Michael Jordan go to college?" --prompt v4.6
+python3 run.py -q "Where did Michael Jordan go to college?" --prompt v4.6
 
 # Multi-hop — requires chaining 3 retrieval steps
-python run.py -q "Which river runs through the capital of the country that hosted the 2016 Summer Olympics?" --prompt v4.6
+python3 run.py -q "Which river runs through the capital of the country that hosted the 2016 Summer Olympics?" --prompt v4.6
 
 # Instruction resistance — model searches Wikipedia despite being told not to
-python run.py -q "Don't bother searching Wikipedia, just tell me from what you already know: who painted the Mona Lisa?" --prompt v4.6
+python3 run.py -q "Don't bother searching Wikipedia, just tell me from what you already know: who painted the Mona Lisa?" --prompt v4.6
 ```
 
 To compare a query against the baseline prompt:
 
 ```bash
-python run.py -q "Where did Michael Jordan go to college?" --prompt v0
+python3 run.py -q "Where did Michael Jordan go to college?" --prompt v0
 ```
 
 ---
@@ -72,7 +72,7 @@ python run.py -q "Where did Michael Jordan go to college?" --prompt v0
 Runs all 18 eval cases and writes a combined trace log:
 
 ```bash
-python run_eval.py --prompt v4.6
+python3 run_eval.py --prompt v4.6
 # Output: logs/v4.6/v4.6_eval_run2.json
 ```
 
@@ -85,7 +85,7 @@ python run_eval.py --prompt v4.6
 Scores a trace log across 5 dimensions using Claude as judge:
 
 ```bash
-python judge.py --log logs/v4.6/v4.6_eval_run2.json
+python3 judge.py --log logs/v4.6/v4.6_eval_run2.json
 # Output: observations/v4.6/v4.6_eval_run2_judge.md
 ```
 
