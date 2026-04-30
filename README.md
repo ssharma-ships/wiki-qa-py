@@ -2,6 +2,8 @@
 
 A controlled prompt-engineering experiment: Claude answers questions using Wikipedia as its sole evidence source. The system prompt is the controlled variable; retrieval is intentionally simple and fixed.
 
+> **Project walkthrough video:** https://drive.google.com/file/d/1q9AHPrOPCEVyoeJRd2uHtWaHIfaDdAqm/view?usp=drive_link
+
 > **All details about the project approach, prompt iteration, eval design, and findings are in [`submission/RATIONALE.md`](submission/RATIONALE.md).** This README covers only how to run the experiment.
 
 ---
