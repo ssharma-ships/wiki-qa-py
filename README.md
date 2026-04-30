@@ -12,6 +12,11 @@ A controlled prompt-engineering experiment: Claude answers questions using Wikip
 
 **Requirements:** Python 3.9+
 
+```bash
+git clone https://github.com/ssharma-ships/wiki-qa-py.git
+cd wiki-qa-py
+```
+
 **Models:** Agent uses `claude-sonnet-4-6`; judge uses `claude-opus-4-7`.
 
 ```bash
